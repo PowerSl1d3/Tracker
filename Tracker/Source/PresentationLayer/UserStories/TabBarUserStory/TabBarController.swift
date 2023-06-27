@@ -21,7 +21,6 @@ final class TabBarController: UITabBarController {
 
 private extension TabBarController {
     func configureAppearance() {
-        view.backgroundColor = .ypWhite
         tabBar.backgroundColor = .ypWhite
     }
 
@@ -34,6 +33,9 @@ private extension TabBarController {
         )
         trackersViewController.tabBarItem = trackersTabBarItem
 
+        let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
+        trackersNavigationController.navigationBar.prefersLargeTitles = true
+
         let statisticsViewController = StatisticsViewController()
         let statisticsTabBarItem = UITabBarItem(
             title: "Статистика",
@@ -42,6 +44,6 @@ private extension TabBarController {
         )
         statisticsViewController.tabBarItem = statisticsTabBarItem
 
-        viewControllers = [trackersViewController, statisticsViewController]
+        viewControllers = [trackersNavigationController, statisticsViewController]
     }
 }
