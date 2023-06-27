@@ -35,7 +35,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 3
         label.font = .ypMediumFont(ofSize: 12)
-        label.textColor = .ypWhite
+        label.textColor = UIColor { _ in .ypWhite.resolvedColor(with: UITraitCollection(userInterfaceStyle: .light)) }
 
         return label
     }()
@@ -43,7 +43,6 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
     let cardContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .ypBlue
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
 
@@ -65,7 +64,6 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "plusButton"), for: .normal)
-        button.tintColor = .ypBlue
         button.layer.cornerRadius = 34 / 2
         button.clipsToBounds = true
 
@@ -78,6 +76,8 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
 
         return view
     }()
+
+    var cellModel: Tracker?
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -97,6 +97,15 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(cellModel: Tracker) {
+        self.cellModel = cellModel
+
+        cardContainerView.backgroundColor = cellModel.color
+        completeButton.tintColor = cellModel.color
+        emojiLabel.text = String(cellModel.emoji)
+        cardDescriptionLabel.text = cellModel.title
     }
 }
 

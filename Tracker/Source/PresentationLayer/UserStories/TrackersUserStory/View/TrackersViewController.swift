@@ -27,7 +27,7 @@ final class TrackersViewController: UIViewController {
         return button
     }()
 
-    private var defaultModeConstraint = [NSLayoutConstraint]()
+    private var defaultModeConstraints = [NSLayoutConstraint]()
     private var searchModeConstraints = [NSLayoutConstraint]()
 
     private let datePicker: UIDatePicker = {
@@ -36,6 +36,7 @@ final class TrackersViewController: UIViewController {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         datePicker.tintColor = .ypBlue
+        datePicker.locale = Locale(identifier: "ru-RU")
 
         return datePicker
     }()
@@ -46,22 +47,75 @@ final class TrackersViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .ypWhite
 
         return collectionView
     }()
 
-    let emojiArray = ["❤️", "😻", "🌺", "❤️", "😻", "🌺", "❤️", "😻", "🌺", "❤️", "😻", "🌺", "❤️", "😻", "🌺", "❤️", "😻", "🌺"]
-    let trackersLabel = [
-        "Купить продукты", "Выполнить домашнее задание", "Доделать работу",
-        "Купить продукты", "Выполнить домашнее задание", "Доделать работу",
-        "Купить продукты", "Выполнить домашнее задание", "Доделать работу",
-        "Купить продукты", "Выполнить домашнее задание", "Доделать работу",
-        "Купить продукты", "Выполнить домашнее задание", "Доделать работу",
-        "Купить продукты", "Выполнить домашнее задание", "Доделать работу"
-    ]
+    var categories = [TrackerCategory]()
+    var completedTrackers = [TrackerRecord]()
+
+    var visibleCategories = [TrackerCategory]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // FIXME: Удалить дебажную категорию
+        let homeCategory = TrackerCategory(
+            trackers: [
+                Tracker(
+                    id: UUID(),
+                    title: "Сделать уборку",
+                    color: .systemRed,
+                    emoji: "⛹️‍♂️",
+                    schedule: [.everyDay]
+                ),
+                Tracker(
+                    id: UUID(),
+                    title: "Сходить в магазин",
+                    color: .systemBlue,
+                    emoji: "🥦",
+                    schedule: [.everyDay]
+                ),
+                Tracker(
+                    id: UUID(),
+                    title: "Купить продукты",
+                    color: .systemBrown,
+                    emoji: "🍇",
+                    schedule: [.everyDay]
+                )
+            ],
+            title: "Домашний уют"
+        )
+
+        let workCategory = TrackerCategory(
+            trackers: [
+                Tracker(
+                    id: UUID(),
+                    title: "Доделать 14 спринт",
+                    color: .systemTeal,
+                    emoji: "😊",
+                    schedule: [.everyDay]
+                ),
+                Tracker(
+                    id: UUID(),
+                    title: "Сходить на дейли",
+                    color: .systemIndigo,
+                    emoji: "🍉",
+                    schedule: [.everyDay]
+                ),
+                Tracker(
+                    id: UUID(),
+                    title: "Подготовиться к планированию",
+                    color: .systemTeal,
+                    emoji: "🏖️",
+                    schedule: [.everyDay]
+                )
+            ],
+            title: "Работа"
+        )
+
+        categories = [homeCategory, workCategory]
 
         view.backgroundColor = .ypWhite
 
@@ -95,13 +149,13 @@ final class TrackersViewController: UIViewController {
 extension TrackersViewController: UISearchTextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         view.addSubview(cancelSearchButton)
-        defaultModeConstraint.forEach { $0.isActive = false }
+        defaultModeConstraints.forEach { $0.isActive = false }
         searchModeConstraints.forEach { $0.isActive = true }
     }
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         cancelSearchButton.removeFromSuperview()
-        defaultModeConstraint.forEach { $0.isActive = true }
+        defaultModeConstraints.forEach { $0.isActive = true }
         searchModeConstraints.forEach { $0.isActive = false }
         return true
     }
@@ -112,8 +166,14 @@ extension TrackersViewController: UISearchTextFieldDelegate {
 }
 
 extension TrackersViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return categories.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        emojiArray.count
+        guard let category = categories[safe: section] else { return .zero }
+
+        return category.trackers.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -122,11 +182,13 @@ extension TrackersViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? TrackerCardCollectionViewCell
 
-        guard let cell else { return UICollectionViewCell() }
+        guard let cell,
+              let category = categories[safe: indexPath.section],
+              let cellModel = category.trackers[safe: indexPath.row] else {
+            return UICollectionViewCell()
+        }
 
-        cell.emojiLabel.text = emojiArray[indexPath.row]
-        cell.cardDescriptionLabel.text = trackersLabel[indexPath.row]
-        cell.quantityLabel.text = "1 день"
+        cell.configure(cellModel: cellModel)
 
         return cell
     }
@@ -142,9 +204,12 @@ extension TrackersViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? TrackerCardsSupplementaryView
 
-        guard let headerView else { return UICollectionReusableView() }
+        guard let headerView,
+              let category = categories[safe: indexPath.section] else {
+            return UICollectionReusableView()
+        }
 
-        headerView.textLabel.text = "Домашний уют"
+        headerView.titleLabel.text = category.title
 
         return headerView
     }
@@ -235,14 +300,14 @@ private extension TrackersViewController {
     }
 
     func setupConstraints() {
-        defaultModeConstraint = [
+        defaultModeConstraints = [
             searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             searchTextField.heightAnchor.constraint(equalToConstant: 36)
         ]
 
-        defaultModeConstraint.forEach { $0.isActive = true }
+        defaultModeConstraints.forEach { $0.isActive = true }
 
         searchModeConstraints = [
             searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
