@@ -77,10 +77,15 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
+    let daysFormatter = WeekDayFormatter()
+
     var cellModel: Tracker?
+    var completeButtonHandler: ((Tracker?) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
+
+        completeButton.addTarget(self, action: #selector(didTapCompleteButton), for: .touchUpInside)
 
         emojiLabelContainer.addSubview(emojiLabel)
         cardContainerView.addSubview(emojiLabelContainer)
@@ -99,13 +104,26 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(cellModel: Tracker) {
+    func configure(
+        cellModel: Tracker,
+        completedDays: Int,
+        isCurrentDateCompleted: Bool,
+        isFutureDate: Bool,
+        completeButtonHandler: @escaping (Tracker?) -> Void
+    ) {
         self.cellModel = cellModel
+        self.completeButtonHandler = completeButtonHandler
+
+        let completeButtonColor = isCurrentDateCompleted || isFutureDate ? cellModel.color.withAlphaComponent(0.5) : cellModel.color
+        let completeButtonIconImage = isFutureDate ? ("plusButton") : (isCurrentDateCompleted ? "doneButton" : "plusButton")
 
         cardContainerView.backgroundColor = cellModel.color
-        completeButton.tintColor = cellModel.color
+        completeButton.tintColor = completeButtonColor
+        completeButton.setImage(UIImage(named: completeButtonIconImage), for: .normal)
+        completeButton.isEnabled = !isFutureDate
         emojiLabel.text = String(cellModel.emoji)
         cardDescriptionLabel.text = cellModel.title
+        quantityLabel.text = daysFormatter.formattedDaysCount(completedDays)
     }
 }
 
@@ -148,5 +166,9 @@ private extension TrackerCardCollectionViewCell {
             quantityContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             quantityContainerView.heightAnchor.constraint(equalToConstant: 58)
         ])
+    }
+
+    @objc func didTapCompleteButton() {
+        completeButtonHandler?(cellModel)
     }
 }

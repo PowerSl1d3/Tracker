@@ -1,5 +1,5 @@
 //
-//  TrackerCardsSupplementaryView.swift
+//  TrackerCardsCategoryHeaderView.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 26.06.2023.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class TrackerCardsSupplementaryView: UICollectionReusableView {
-    static let reuseIdentifier = String(describing: TrackerCardsSupplementaryView.self)
+final class TrackerCardsCategoryHeaderView: UICollectionReusableView {
+    static let reuseIdentifier = String(describing: TrackerCardsCategoryHeaderView.self)
 
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -23,7 +23,7 @@ final class TrackerCardsSupplementaryView: UICollectionReusableView {
 
         addSubview(titleLabel)
 
-        setupConstraint()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -31,12 +31,12 @@ final class TrackerCardsSupplementaryView: UICollectionReusableView {
     }
 }
 
-private extension TrackerCardsSupplementaryView {
-    func setupConstraint() {
+private extension TrackerCardsCategoryHeaderView {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28),
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -28),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -28),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])
     }

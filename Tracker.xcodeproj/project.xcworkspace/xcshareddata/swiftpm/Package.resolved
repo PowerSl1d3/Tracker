@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "multicastdelegate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jonasman/MulticastDelegate",
+      "state" : {
+        "revision" : "8826c0979f950acbee92738848de5e8defd59d17",
+        "version" : "2.1.5"
+      }
+    }
+  ],
+  "version" : 2
+}
