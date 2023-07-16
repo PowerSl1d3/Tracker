@@ -20,27 +20,21 @@ final class TrackerFormViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var textFieldSecton: [TrackerBaseCellModelProtocol]!
-    private var categorySection: [TrackerBaseCellModelProtocol]!
+    private var textFieldSecton: [TrackerBaseCellModelProtocol] = []
+    private var categorySection: [TrackerBaseCellModelProtocol] = []
 
     let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
 
     private var trackerTitle: String? {
-        didSet {
-            notificationCenter.post(name: trackerFormNotificationName, object: nil)
-        }
+        didSet { checkFormState() }
     }
 
     private var selectedCategory: TrackerCategory? {
-        didSet {
-            notificationCenter.post(name: trackerFormNotificationName, object: nil)
-        }
+        didSet { checkFormState() }
     }
 
     private var selectedSchedule: [WeekDay]? {
-        didSet {
-            notificationCenter.post(name: trackerFormNotificationName, object: nil)
-        }
+        didSet { checkFormState() }
     }
 
     private let trackerFormNotificationName = Notification.Name(rawValue: "TrackerFormDidChangedNotification")
@@ -78,7 +72,7 @@ final class TrackerFormViewController: UIViewController {
     }()
 
     private let createButton: UIButton = {
-        let button = EnabledButton(type: .system)
+        let button = StateButton(type: .system)
         button.setTitle("Создать", for: .normal)
         button.setTitle("Создать", for: .disabled)
         button.isEnabled = false
@@ -311,6 +305,14 @@ extension TrackerFormViewController: TrackerCategoryPickerDelegate {
 }
 
 private extension TrackerFormViewController {
+    // MARK: Business Logic
+
+    func checkFormState() {
+        
+    }
+
+    // MARK: - Layout
+
     func setupNavBar() {
         navigationItem.title = trackerType == .event ? "Новое нерегулярное событие" : "Новая привычка"
         navigationItem.hidesBackButton = true
@@ -339,6 +341,8 @@ private extension TrackerFormViewController {
             buttonsContainerView.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
+
+    // MARK: - Actions
 
     func didTapCategoryPickerCell() {
         let viewController = TrackerCategoryPickerViewController()

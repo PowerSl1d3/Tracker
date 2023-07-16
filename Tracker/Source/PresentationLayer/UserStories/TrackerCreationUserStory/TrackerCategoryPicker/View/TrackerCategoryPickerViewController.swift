@@ -179,6 +179,7 @@ private extension TrackerCategoryPickerViewController {
     @objc func didTapAddCategoryButton() {
         let viewController = CategoryCreationViewController()
         viewController.modalPresentationStyle = .pageSheet
+        viewController.trackersStorageService = trackersStorageService
 
         present(viewController, animated: true)
     }

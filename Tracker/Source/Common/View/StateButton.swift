@@ -1,5 +1,5 @@
 //
-//  EnabledButton.swift
+//  StateButton.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 03.07.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EnabledButton: UIButton {
+final class StateButton: UIButton {
     override var isEnabled: Bool {
         didSet {
             backgroundColor = isEnabled ? .ypBlack : .ypGray

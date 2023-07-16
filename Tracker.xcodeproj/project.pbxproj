@@ -55,7 +55,7 @@
 		90F53F5F2A4A6A800062B877 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F53F5E2A4A6A800062B877 /* TrackerRecord.swift */; };
 		90F53F612A4A6A900062B877 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F53F602A4A6A900062B877 /* TrackerCategory.swift */; };
 		90F53F632A4A799E0062B877 /* Array+Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F53F622A4A799E0062B877 /* Array+Tracker.swift */; };
-		90F54ED92A52F9430060F8DF /* EnabledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F54ED82A52F9430060F8DF /* EnabledButton.swift */; };
+		90F54ED92A52F9430060F8DF /* StateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F54ED82A52F9430060F8DF /* StateButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,7 +108,7 @@
 		90F53F5E2A4A6A800062B877 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
 		90F53F602A4A6A900062B877 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		90F53F622A4A799E0062B877 /* Array+Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Tracker.swift"; sourceTree = "<group>"; };
-		90F54ED82A52F9430060F8DF /* EnabledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnabledButton.swift; sourceTree = "<group>"; };
+		90F54ED82A52F9430060F8DF /* StateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,7 +477,7 @@
 		90F54ED72A52F91E0060F8DF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				90F54ED82A52F9430060F8DF /* EnabledButton.swift */,
+				90F54ED82A52F9430060F8DF /* StateButton.swift */,
 				900086712A54173100010CDC /* TrackersPlaceholderStarView.swift */,
 			);
 			path = View;
@@ -571,7 +571,7 @@
 				90F53F5F2A4A6A800062B877 /* TrackerRecord.swift in Sources */,
 				909D07512A2311C70082F768 /* TrackersViewController.swift in Sources */,
 				905876042A4E89E60035E50A /* WeekDaySwitchCellModel.swift in Sources */,
-				90F54ED92A52F9430060F8DF /* EnabledButton.swift in Sources */,
+				90F54ED92A52F9430060F8DF /* StateButton.swift in Sources */,
 				90F53F632A4A799E0062B877 /* Array+Tracker.swift in Sources */,
 				90F182A72A4EFA85007F99CD /* TrackerCategoryPickerViewController.swift in Sources */,
 				90954FED2A4FD9E300D4CB9A /* TrackerSchedulePickerCellModel.swift in Sources */,

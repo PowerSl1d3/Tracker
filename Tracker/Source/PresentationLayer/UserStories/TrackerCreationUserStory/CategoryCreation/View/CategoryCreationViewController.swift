@@ -8,7 +8,7 @@
 import UIKit
 
 final class CategoryCreationViewController: UIViewController {
-    let categoryTextFieldTableView: UITableView = {
+    private let categoryTextFieldTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .ypWhite
@@ -18,8 +18,8 @@ final class CategoryCreationViewController: UIViewController {
         return tableView
     }()
 
-    let doneButton: UIButton = {
-        let button = EnabledButton(type: .system)
+    private let doneButton: UIButton = {
+        let button = StateButton(type: .system)
         button.setTitle("Готово", for: .normal)
         button.setTitle("Готово", for: .disabled)
         button.isEnabled = false
@@ -27,11 +27,10 @@ final class CategoryCreationViewController: UIViewController {
         return button
     }()
 
-    let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
+    private var section: [TrackerBaseCellModelProtocol] = []
+    private var categoryTitle: String?
 
-    var section: [TrackerBaseCellModelProtocol] = []
-
-    var categoryTitle: String?
+    var trackersStorageService: TrackersStorageService!
 
     override func viewDidLoad() {
         super.viewDidLoad()

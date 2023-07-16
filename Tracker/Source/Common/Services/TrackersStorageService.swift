@@ -88,6 +88,8 @@ final class TrackersStorageServiceImpl {
 
         return [homeCategory, workCategory]
     }()
+
+    private init() {}
 }
 
 extension TrackersStorageServiceImpl: TrackersStorageService {
