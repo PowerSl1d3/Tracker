@@ -14,11 +14,15 @@ class TrackerBaseCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         backgroundColor = .ypWhite
+        selectionStyle = .none
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // Необходимо для того чтобы убрать разделить между ячейкой и секцией
+    override func layoutSubviews() {}
 
     func configure(from cellModel: TrackerBaseCellModelProtocol) {
         if cellModel.height > 0 {

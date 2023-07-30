@@ -10,20 +10,11 @@ import UIKit
 final class TrackerFormViewController: UIViewController {
     var trackerType: TrackerType
 
-    init(trackerType: TrackerType) {
-        self.trackerType = trackerType
-
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     private var textFieldSecton: [TrackerBaseCellModelProtocol] = []
     private var categorySection: [TrackerBaseCellModelProtocol] = []
+    private var emojiesSection: [TrackerBaseCellModelProtocol] = []
 
-    let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
+    private let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
 
     private var trackerTitle: String? {
         didSet { checkFormState() }
@@ -37,15 +28,14 @@ final class TrackerFormViewController: UIViewController {
         didSet { checkFormState() }
     }
 
-    private let trackerFormNotificationName = Notification.Name(rawValue: "TrackerFormDidChangedNotification")
-    private let notificationCenter = NotificationCenter.default
-    private var trackerFormObserver: NSObjectProtocol?
+    private var selectedEmoji: Character? {
+        didSet { checkFormState() }
+    }
 
     private let trackerParametersTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.showsVerticalScrollIndicator = false
-        tableView.isScrollEnabled = false
         tableView.backgroundColor = .ypWhite
         tableView.separatorColor = .ypGray
 
@@ -87,23 +77,18 @@ final class TrackerFormViewController: UIViewController {
         return view
     }()
 
+    init(trackerType: TrackerType) {
+        self.trackerType = trackerType
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        notificationCenter.addObserver(
-            forName: trackerFormNotificationName,
-            object: nil,
-            queue: .main) { [weak self] _ in
-                guard let self else { return }
-
-                if let trackerTitle, !trackerTitle.isEmpty, textFieldSecton.count == 1,
-                   selectedCategory != nil,
-                   (selectedSchedule != nil && !(selectedSchedule?.isEmpty ?? false)) || trackerType == .event {
-                    createButton.isEnabled = true
-                } else {
-                    createButton.isEnabled = false
-                }
-            }
 
         textFieldSecton = [
             TrackerTitleTextFieldCellModel(title: nil, placeholder: "Введите название трекера") { [weak self] cellModel, didShowError in
@@ -137,6 +122,18 @@ final class TrackerFormViewController: UIViewController {
             }))
         }
 
+        let emojiPickerCellModel = TrackerEmojiPickerCellModel()
+        emojiPickerCellModel.selectionHandler = { [weak self] selectedEmoji in
+            guard let self else { return }
+
+            self.selectedEmoji = Character(selectedEmoji)
+        }
+
+        emojiesSection = [
+            TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+            emojiPickerCellModel
+        ]
+
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
 
@@ -162,6 +159,14 @@ final class TrackerFormViewController: UIViewController {
             TrackerSchedulePickerCell.self,
             forCellReuseIdentifier: String(describing: TrackerSchedulePickerCell.self)
         )
+        trackerParametersTableView.register(
+            TrackerEmojiPickerCell.self,
+            forCellReuseIdentifier: String(describing: TrackerEmojiPickerCell.self)
+        )
+        trackerParametersTableView.register(
+            TrackerFormHeaderView.self,
+            forHeaderFooterViewReuseIdentifier: TrackerFormHeaderView.reuseIdentifier
+        )
 
         view.backgroundColor = .ypWhite
         view.addSubview(trackerParametersTableView)
@@ -177,7 +182,7 @@ final class TrackerFormViewController: UIViewController {
 
 extension TrackerFormViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        4
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -186,13 +191,16 @@ extension TrackerFormViewController: UITableViewDataSource {
             return textFieldSecton.count
         case 1:
             return categorySection.count
+        case 2:
+            return emojiesSection.count
         default:
             return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 && indexPath.row == 0 {
+        switch indexPath {
+        case IndexPath(row: 0, section: 0):
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: TrackerTitleTextFieldCell.self),
                 for: indexPath
@@ -205,7 +213,7 @@ extension TrackerFormViewController: UITableViewDataSource {
             cell.configure(from: cellModel)
 
             return cell
-        } else if indexPath.section == 0 && indexPath.row == 1 {
+        case IndexPath(row: 1, section: 0):
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: TrackerErrorCell.self),
                 for: indexPath
@@ -218,20 +226,7 @@ extension TrackerFormViewController: UITableViewDataSource {
             cell.configure(from: cellModel)
 
             return cell
-        } else if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerBaseCell.self),
-                for: indexPath
-            ) as? TrackerBaseCell
-
-            let cellModel = categorySection[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        } else if indexPath.row == 1 {
+        case IndexPath(row: 1, section: 1):
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: TrackerCategoryPickerCell.self),
                 for: indexPath
@@ -244,7 +239,7 @@ extension TrackerFormViewController: UITableViewDataSource {
             cell.configure(from: cellModel)
 
             return cell
-        } else {
+        case IndexPath(row: 2, section: 1):
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: TrackerSchedulePickerCell.self),
                 for: indexPath
@@ -257,7 +252,64 @@ extension TrackerFormViewController: UITableViewDataSource {
             cell.configure(from: cellModel)
 
             return cell
+        case IndexPath(row: 1, section: 2):
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: TrackerEmojiPickerCell.self),
+                for: indexPath
+            ) as? TrackerEmojiPickerCell
+
+            let cellModel = emojiesSection[safe: indexPath.row]
+
+            guard let cell, let cellModel else { return UITableViewCell() }
+
+            cell.configure(from: cellModel)
+
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: TrackerBaseCell.self),
+                for: indexPath
+            ) as? TrackerBaseCell
+
+            let cellModel = categorySection[safe: indexPath.row]
+
+            guard let cell, let cellModel else { return UITableViewCell() }
+
+            cell.configure(from: cellModel)
+
+            return cell
         }
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard section > 1 else { return .zero }
+
+        let headerView = self.tableView(tableView, viewForHeaderInSection: section)
+
+        return headerView?.systemLayoutSizeFitting(
+            CGSize(
+                width: tableView.frame.width,
+                height: UIView.layoutFittingExpandedSize.height
+            ),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        ).height ?? .zero
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: TrackerFormHeaderView.reuseIdentifier
+        ) as? TrackerFormHeaderView
+
+        guard section > 1, let headerView else { return UIView(frame: .zero) }
+
+        if section == 2 {
+            headerView.titleLabel.text = "Emoji"
+        } else if section == 3 {
+            headerView.titleLabel.text = "Цвет"
+        }
+
+        return headerView
     }
 }
 
@@ -308,7 +360,14 @@ private extension TrackerFormViewController {
     // MARK: Business Logic
 
     func checkFormState() {
-        
+        if let trackerTitle, !trackerTitle.isEmpty, textFieldSecton.count == 1,
+           selectedCategory != nil,
+           (selectedSchedule != nil && !(selectedSchedule?.isEmpty ?? false)) || trackerType == .event,
+           selectedEmoji != nil {
+            createButton.isEnabled = true
+        } else {
+            createButton.isEnabled = false
+        }
     }
 
     // MARK: - Layout
@@ -373,7 +432,8 @@ private extension TrackerFormViewController {
 
         guard let trackerTitle,
               let selectedCategory,
-              let selectedSchedule else {
+              let selectedSchedule,
+              let selectedEmoji else {
             assertionFailure("Invalid category form state")
             return
         }
@@ -382,7 +442,7 @@ private extension TrackerFormViewController {
             id: UUID(),
             title: trackerTitle,
             color: .purple,
-            emoji: "🎉",
+            emoji: selectedEmoji,
             schedule: selectedSchedule
         )
 
