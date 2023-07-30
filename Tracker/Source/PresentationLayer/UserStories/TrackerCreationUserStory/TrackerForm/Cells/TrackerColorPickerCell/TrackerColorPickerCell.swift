@@ -1,16 +1,16 @@
 //
-//  TrackerEmojiPickerCell.swift
+//  TrackerColorPickerCell.swift
 //  Tracker
 //
-//  Created by Олег Аксененко on 17.07.2023.
+//  Created by Олег Аксененко on 30.07.2023.
 //
 
 import UIKit
 
-final class TrackerEmojiPickerCell: TrackerBaseCell {
-    override var reuseIdentifier: String { String(describing: TrackerEmojiPickerCell.self) }
+final class TrackerColorPickerCell: TrackerBaseCell {
+    override var reuseIdentifier: String { String(describing: TrackerColorPickerCell.self) }
 
-    let emojiesCollectionView: UICollectionView = {
+    let colorsCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
@@ -20,17 +20,17 @@ final class TrackerEmojiPickerCell: TrackerBaseCell {
         return collectionView
     }()
 
-    var cellModel: TrackerEmojiPickerCellModel?
+    var cellModel: TrackerColorPickerCellModel?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        emojiesCollectionView.dataSource = self
-        emojiesCollectionView.delegate = self
+        colorsCollectionView.dataSource = self
+        colorsCollectionView.delegate = self
 
-        emojiesCollectionView.register(EmojiCell.self, forCellWithReuseIdentifier: EmojiCell.reuserIdentifier)
+        colorsCollectionView.register(ColorCell.self, forCellWithReuseIdentifier: ColorCell.reuserIdentifier)
 
-        contentView.addSubview(emojiesCollectionView)
+        contentView.addSubview(colorsCollectionView)
 
         setupConstraint()
     }
@@ -41,14 +41,14 @@ final class TrackerEmojiPickerCell: TrackerBaseCell {
 
     override func configure(from cellModel: TrackerBaseCellModelProtocol) {
         super.configure(from: cellModel)
-        guard let cellModel = cellModel as? TrackerEmojiPickerCellModel else { return }
+        guard let cellModel = cellModel as? TrackerColorPickerCellModel else { return }
         self.cellModel = cellModel
     }
 }
 
-extension TrackerEmojiPickerCell: UICollectionViewDataSource {
+extension TrackerColorPickerCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        cellModel?.emojies.count ?? 0
+        cellModel?.colors.count ?? 0
     }
 
     func collectionView(
@@ -56,38 +56,47 @@ extension TrackerEmojiPickerCell: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: EmojiCell.reuserIdentifier,
+            withReuseIdentifier: ColorCell.reuserIdentifier,
             for: indexPath
-        ) as? EmojiCell
+        ) as? ColorCell
 
-        guard let cell, let cellModel else { return UICollectionViewCell() }
+        guard let cell,
+              let cellModel,
+              let color = cellModel.colors[safe: indexPath.row] else {
+            return UICollectionViewCell()
+        }
 
-        cell.emojiLabel.text = cellModel.emojies[safe: indexPath.row]
-        cell.contentView.backgroundColor = cellModel.selectedEmojiIndex == indexPath.row ? .ypLightGray : .ypWhite
+        if cellModel.selectedColorIndex == indexPath.row {
+            cell.colorImageView.image = UIImage(named: "activeColor")
+        } else {
+            cell.colorImageView.image = UIImage(named: "noActiveColor")
+        }
+
+        cell.tintColor = color
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cellModel,
-              let selectedEmoji = cellModel.emojies[safe: indexPath.row] else {
+              let selectedColor = cellModel.colors[safe: indexPath.row] else {
             return
         }
 
         var reloadItems = [indexPath]
 
-        if let lastSelectedEmojiIndex = cellModel.selectedEmojiIndex {
+        if let lastSelectedEmojiIndex = cellModel.selectedColorIndex {
             reloadItems.append(IndexPath(row: lastSelectedEmojiIndex, section: 0))
         }
 
-        cellModel.selectionHandler?(selectedEmoji)
-        cellModel.selectedEmojiIndex = indexPath.row
+        cellModel.selectionHandler?(selectedColor)
+        cellModel.selectedColorIndex = indexPath.row
 
         collectionView.reloadItems(at: reloadItems)
     }
 }
 
-extension TrackerEmojiPickerCell: UICollectionViewDelegateFlowLayout {
+extension TrackerColorPickerCell: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -113,13 +122,13 @@ extension TrackerEmojiPickerCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-private extension TrackerEmojiPickerCell {
+private extension TrackerColorPickerCell {
     func setupConstraint() {
         NSLayoutConstraint.activate([
-            emojiesCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            emojiesCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            emojiesCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            emojiesCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            colorsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            colorsCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            colorsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            colorsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

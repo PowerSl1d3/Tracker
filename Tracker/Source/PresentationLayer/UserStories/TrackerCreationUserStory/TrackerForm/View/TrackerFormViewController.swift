@@ -13,6 +13,7 @@ final class TrackerFormViewController: UIViewController {
     private var textFieldSecton: [TrackerBaseCellModelProtocol] = []
     private var categorySection: [TrackerBaseCellModelProtocol] = []
     private var emojiesSection: [TrackerBaseCellModelProtocol] = []
+    private var colorsSection: [TrackerBaseCellModelProtocol] = []
 
     private let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
 
@@ -29,6 +30,10 @@ final class TrackerFormViewController: UIViewController {
     }
 
     private var selectedEmoji: Character? {
+        didSet { checkFormState() }
+    }
+
+    private var selectedColor: UIColor? {
         didSet { checkFormState() }
     }
 
@@ -134,6 +139,17 @@ final class TrackerFormViewController: UIViewController {
             emojiPickerCellModel
         ]
 
+        let colorPickerCellModel = TrackerColorPickerCellModel()
+        colorPickerCellModel.selectionHandler = { [weak self] selectedColor in
+            guard let self else { return }
+
+            self.selectedColor = selectedColor
+        }
+        colorsSection = [
+            TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+            colorPickerCellModel
+        ]
+
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
 
@@ -162,6 +178,10 @@ final class TrackerFormViewController: UIViewController {
         trackerParametersTableView.register(
             TrackerEmojiPickerCell.self,
             forCellReuseIdentifier: String(describing: TrackerEmojiPickerCell.self)
+        )
+        trackerParametersTableView.register(
+            TrackerColorPickerCell.self,
+            forCellReuseIdentifier: String(describing: TrackerColorPickerCell.self)
         )
         trackerParametersTableView.register(
             TrackerFormHeaderView.self,
@@ -193,6 +213,8 @@ extension TrackerFormViewController: UITableViewDataSource {
             return categorySection.count
         case 2:
             return emojiesSection.count
+        case 3:
+            return colorsSection.count
         default:
             return 0
         }
@@ -259,6 +281,19 @@ extension TrackerFormViewController: UITableViewDataSource {
             ) as? TrackerEmojiPickerCell
 
             let cellModel = emojiesSection[safe: indexPath.row]
+
+            guard let cell, let cellModel else { return UITableViewCell() }
+
+            cell.configure(from: cellModel)
+
+            return cell
+        case IndexPath(row: 1, section: 3):
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: TrackerColorPickerCell.self),
+                for: indexPath
+            ) as? TrackerColorPickerCell
+
+            let cellModel = colorsSection[safe: indexPath.row]
 
             guard let cell, let cellModel else { return UITableViewCell() }
 
@@ -363,7 +398,8 @@ private extension TrackerFormViewController {
         if let trackerTitle, !trackerTitle.isEmpty, textFieldSecton.count == 1,
            selectedCategory != nil,
            (selectedSchedule != nil && !(selectedSchedule?.isEmpty ?? false)) || trackerType == .event,
-           selectedEmoji != nil {
+           selectedEmoji != nil,
+           selectedColor != nil {
             createButton.isEnabled = true
         } else {
             createButton.isEnabled = false
@@ -433,7 +469,8 @@ private extension TrackerFormViewController {
         guard let trackerTitle,
               let selectedCategory,
               let selectedSchedule,
-              let selectedEmoji else {
+              let selectedEmoji,
+              let selectedColor else {
             assertionFailure("Invalid category form state")
             return
         }
@@ -441,7 +478,7 @@ private extension TrackerFormViewController {
         let tracker = Tracker(
             id: UUID(),
             title: trackerTitle,
-            color: .purple,
+            color: selectedColor,
             emoji: selectedEmoji,
             schedule: selectedSchedule
         )

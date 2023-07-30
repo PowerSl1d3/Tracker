@@ -47,6 +47,8 @@
 		909D07592A2311C80082F768 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909D07572A2311C80082F768 /* LaunchScreen.storyboard */; };
 		90A30D192A559A90001A5493 /* TrackersStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A30D182A559A90001A5493 /* TrackersStorageService.swift */; };
 		90A30D1C2A559D79001A5493 /* MulticastDelegate in Frameworks */ = {isa = PBXBuildFile; productRef = 90A30D1B2A559D79001A5493 /* MulticastDelegate */; };
+		90C162B42A76387400D3026E /* TrackerColorPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C162B32A76387400D3026E /* TrackerColorPickerCell.swift */; };
+		90C162B62A763A9C00D3026E /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C162B52A763A9C00D3026E /* ColorCell.swift */; };
 		90C975E32A4DC71800FAD486 /* TrackerCategoryPickerCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C975E22A4DC71800FAD486 /* TrackerCategoryPickerCellModel.swift */; };
 		90C975E52A4DCF7000FAD486 /* WeekDayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C975E42A4DCF7000FAD486 /* WeekDayFormatter.swift */; };
 		90C975E82A4DD00900FAD486 /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C975E72A4DD00900FAD486 /* WeekDay.swift */; };
@@ -105,6 +107,8 @@
 		909D07582A2311C80082F768 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909D075A2A2311C80082F768 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90A30D182A559A90001A5493 /* TrackersStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersStorageService.swift; sourceTree = "<group>"; };
+		90C162B32A76387400D3026E /* TrackerColorPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerColorPickerCell.swift; sourceTree = "<group>"; };
+		90C162B52A763A9C00D3026E /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		90C975E22A4DC71800FAD486 /* TrackerCategoryPickerCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryPickerCellModel.swift; sourceTree = "<group>"; };
 		90C975E42A4DCF7000FAD486 /* WeekDayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayFormatter.swift; sourceTree = "<group>"; };
 		90C975E72A4DD00900FAD486 /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 		905A90D42A70119600016876 /* TrackerColorPickerCell */ = {
 			isa = PBXGroup;
 			children = (
+				90C162B32A76387400D3026E /* TrackerColorPickerCell.swift */,
+				90C162B52A763A9C00D3026E /* ColorCell.swift */,
 			);
 			path = TrackerColorPickerCell;
 			sourceTree = "<group>";
@@ -616,8 +622,10 @@
 				905876092A4E960C0035E50A /* WeekDayPickerDelegate.swift in Sources */,
 				90954FF52A4FEFC100D4CB9A /* Tracker+UIEdgeInsets.swift in Sources */,
 				90230F1F2A578FA100653870 /* Date+Tracker.swift in Sources */,
+				90C162B62A763A9C00D3026E /* ColorCell.swift in Sources */,
 				906950792A4D7D5A0046145D /* TrackerCategoryPickerCell.swift in Sources */,
 				90576AA12A64BE510036C948 /* TrackerEmojiPickerCell.swift in Sources */,
+				90C162B42A76387400D3026E /* TrackerColorPickerCell.swift in Sources */,
 				90954FE72A4FC59500D4CB9A /* TrackerBaseCell.swift in Sources */,
 				90954FE12A4FA83300D4CB9A /* TrackerTitleTextFieldCellModel.swift in Sources */,
 				90954FF12A4FDE6200D4CB9A /* TrackerErrorCellModel.swift in Sources */,

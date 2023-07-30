@@ -8,16 +8,12 @@
 import UIKit
 
 final class TrackerColorPickerCellModel: TrackerBaseCellModel {
-    var selectionHandler: ((String) -> Void)?
-    var selectedEmojiIndex: Int?
+    var selectionHandler: ((UIColor) -> Void)?
+    var selectedColorIndex: Int?
 
-    let emojies = [
-        "🙂", "😻", "🌺", "🐶", "❤️", "😱",
-        "😇", "😡", "🥶", "🤔", "🙌", "🍔",
-        "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
-    ]
+    let colors = UIColor.trackerSelectionColors
 
     init() {
-        super.init(height: 144, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator)
+        super.init(height: 156, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator)
     }
 }
