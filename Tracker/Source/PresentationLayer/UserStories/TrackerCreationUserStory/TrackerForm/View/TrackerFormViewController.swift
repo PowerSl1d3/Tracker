@@ -15,7 +15,7 @@ final class TrackerFormViewController: UIViewController {
     private var emojiesSection: [TrackerBaseCellModelProtocol] = []
     private var colorsSection: [TrackerBaseCellModelProtocol] = []
 
-    private let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
+    private let trackersDataProvider: TrackersDataProvider! = TrackersDataProviderAssembly.assemble()
 
     private var trackerTitle: String? {
         didSet { checkFormState() }
@@ -483,6 +483,6 @@ private extension TrackerFormViewController {
             schedule: selectedSchedule
         )
 
-        trackersStorageService.append(tracker: tracker, toCategory: selectedCategory, fromViewController: navigationController)
+        try? trackersDataProvider.addRecord(tracker, toCategory: selectedCategory)
     }
 }

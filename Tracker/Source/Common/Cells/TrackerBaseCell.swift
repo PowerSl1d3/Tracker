@@ -22,7 +22,13 @@ class TrackerBaseCell: UITableViewCell {
     }
 
     // Необходимо для того чтобы убрать разделить между ячейкой и секцией
-    override func layoutSubviews() {}
+    override func layoutSubviews() {
+        guard separatorInset != .invisibleSeparator else {
+            return
+        }
+
+        super.layoutSubviews()
+    }
 
     func configure(from cellModel: TrackerBaseCellModelProtocol) {
         if cellModel.height > 0 {

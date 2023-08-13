@@ -45,25 +45,23 @@ final class TrackerCategoryPickerViewController: UIViewController {
     }()
 
     weak var delegate: TrackerCategoryPickerDelegate?
+    var selectedCategory: TrackerCategory?
 
-    var cellModels: [TrackerCategoryCellModel] = [] {
+    private var cellModels: [TrackerCategoryCellModel] = [] {
         didSet {
             placeholderView.isHidden = !cellModels.isEmpty
         }
     }
 
-    let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
-
-    var selectedCategory: TrackerCategory?
+    private var trackersDataProvider: TrackersDataProvider!
+    private weak var categoryCreationViewController: UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        cellModels = trackersStorageService.categories.map { category in
-            TrackerCategoryCellModel(category: category, isSelected: category.title == selectedCategory?.title)
-        }
+        trackersDataProvider = TrackersDataProviderAssembly.assemble(delegate: self)
 
-        trackersStorageService.add(delegate: self)
+        reloadCellModels()
 
         addCategoryButton.addTarget(self, action: #selector(didTapAddCategoryButton), for: .touchUpInside)
 
@@ -88,7 +86,17 @@ final class TrackerCategoryPickerViewController: UIViewController {
     }
 }
 
-extension TrackerCategoryPickerViewController: TrackersStorageServiceDelegate {
+extension TrackerCategoryPickerViewController: TrackersDataProviderDelegate {
+    func didUpdate(_ update: TrackersStoreUpdate) {
+        guard update.type == .category, let index = update.insertedIndexes.first else {
+            return
+        }
+
+        reloadCellModels()
+        categoriesTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+        categoryCreationViewController?.dismiss(animated: true)
+    }
+
     func didAppendCategory(_ category: TrackerCategory, fromViewController vc: UIViewController?) {
         cellModels.append(TrackerCategoryCellModel(category: category, isSelected: false))
 
@@ -179,8 +187,16 @@ private extension TrackerCategoryPickerViewController {
     @objc func didTapAddCategoryButton() {
         let viewController = CategoryCreationViewController()
         viewController.modalPresentationStyle = .pageSheet
-        viewController.trackersStorageService = trackersStorageService
+        categoryCreationViewController = viewController
 
         present(viewController, animated: true)
+    }
+}
+
+private extension TrackerCategoryPickerViewController {
+    func reloadCellModels() {
+        cellModels = trackersDataProvider.sections()?.compactMap { category in
+            TrackerCategoryCellModel(category: category, isSelected: category.title == selectedCategory?.title)
+        } ?? []
     }
 }

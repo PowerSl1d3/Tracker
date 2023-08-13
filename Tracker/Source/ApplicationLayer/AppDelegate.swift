@@ -9,6 +9,14 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    lazy var trackersDataStore: TrackersDataStore = {
+        do {
+            return try TrackersDataStoreImpl()
+        } catch {
+            return NullDataStore()
+        }
+    }()
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?

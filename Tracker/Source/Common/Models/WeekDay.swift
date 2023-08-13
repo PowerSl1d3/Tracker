@@ -5,7 +5,7 @@
 //  Created by Олег Аксененко on 30.06.2023.
 //
 
-enum WeekDay: Int, CaseIterable {
+enum WeekDay: Int, CaseIterable, Codable {
     case sanday
     case monday
     case tuesday
