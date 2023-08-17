@@ -16,6 +16,11 @@ final class TrackerSchedulePickerCellModel: TrackerBaseCellModel {
         self.schedule = schedule
         self.selectionHandler = selectionHandler
 
-        super.init(height: 75, contentViewBackgroundColor: .ypBackground, separatorInset: .invisibleSeparator)
+        super.init(
+            cellClass: TrackerSchedulePickerCell.self,
+            height: 75,
+            contentViewBackgroundColor: .ypBackground,
+            separatorInset: .invisibleSeparator
+        )
     }
 }

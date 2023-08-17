@@ -14,6 +14,11 @@ final class TrackerColorPickerCellModel: TrackerBaseCellModel {
     let colors = UIColor.trackerSelectionColors
 
     init() {
-        super.init(height: 156, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator)
+        super.init(
+            cellClass: TrackerColorPickerCell.self,
+            height: 156,
+            contentViewBackgroundColor: .ypWhite,
+            separatorInset: .invisibleSeparator
+        )
     }
 }

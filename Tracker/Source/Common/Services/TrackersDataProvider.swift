@@ -106,6 +106,10 @@ final class TrackersDataProviderImpl: NSObject {
 
         self.dataStore = dataStore
         self.context = context
+
+        super.init()
+
+        _ = fetchedResultsTrackerController
     }
 }
 

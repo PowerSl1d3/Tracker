@@ -18,6 +18,11 @@ final class TrackerEmojiPickerCellModel: TrackerBaseCellModel {
     ]
 
     init() {
-        super.init(height: 156, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator)
+        super.init(
+            cellClass: TrackerEmojiPickerCell.self,
+            height: 156,
+            contentViewBackgroundColor: .ypWhite,
+            separatorInset: .invisibleSeparator
+        )
     }
 }

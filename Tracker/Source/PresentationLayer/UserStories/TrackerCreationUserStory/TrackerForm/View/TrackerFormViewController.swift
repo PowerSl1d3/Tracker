@@ -10,10 +10,12 @@ import UIKit
 final class TrackerFormViewController: UIViewController {
     var trackerType: TrackerType
 
-    private var textFieldSecton: [TrackerBaseCellModelProtocol] = []
-    private var categorySection: [TrackerBaseCellModelProtocol] = []
-    private var emojiesSection: [TrackerBaseCellModelProtocol] = []
-    private var colorsSection: [TrackerBaseCellModelProtocol] = []
+    private var sections: [TrackerBaseSection] = []
+
+    private var textFieldSection: TrackerBaseSection?
+    private var categoryPickerSection: TrackerBaseSection?
+    private var emojiPickerSection: TrackerBaseSection?
+    private var colorPickerSection: TrackerBaseSection?
 
     private let trackersDataProvider: TrackersDataProvider! = TrackersDataProviderAssembly.assemble()
 
@@ -95,37 +97,43 @@ final class TrackerFormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        textFieldSecton = [
-            TrackerTitleTextFieldCellModel(title: nil, placeholder: "Введите название трекера") { [weak self] cellModel, didShowError in
-                guard let self else { return }
+        let textFieldSection = TrackerBaseSection(
+            cellModel: TrackerTitleTextFieldCellModel(title: nil, placeholder: "Введите название трекера") { [weak self] cellModel, didShowError in
+                guard let self, let textFieldSection = self.textFieldSection else { return }
 
-                if didShowError && textFieldSecton.count == 1 {
-                    textFieldSecton.append(TrackerErrorCellModel(errorText: "Ограничение 38 символов"))
+                if didShowError && textFieldSection.count == 1 {
+                    textFieldSection.append(TrackerErrorCellModel(errorText: "Ограничение 38 символов"))
                     trackerParametersTableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
-                } else if !didShowError && textFieldSecton.count == 2 {
-                    _ = textFieldSecton.popLast()
+                } else if !didShowError && textFieldSection.count == 2 {
+                    textFieldSection.pop()
                     trackerParametersTableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
                 }
 
                 trackerTitle = cellModel.title
             }
-        ]
+        )
+
+        self.textFieldSection = textFieldSection
 
         let categoryPickerCellModel = TrackerCategoryPickerCellModel(selectionHandler: { _ in
             self.didTapCategoryPickerCell()
         })
         categoryPickerCellModel.roundBottomCorners = trackerType == .event
 
-        categorySection = [
-            TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
-            categoryPickerCellModel
-        ]
+        let categoryPickerSection = TrackerBaseSection(
+            cellModels: [
+                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+                categoryPickerCellModel
+            ]
+        )
 
         if trackerType == .habit {
-            categorySection.append(TrackerSchedulePickerCellModel(selectionHandler: { cellModel in
+            categoryPickerSection.append(TrackerSchedulePickerCellModel(selectionHandler: { cellModel in
                 self.didTapWeekDayCell()
             }))
         }
+
+        self.categoryPickerSection = categoryPickerSection
 
         let emojiPickerCellModel = TrackerEmojiPickerCellModel()
         emojiPickerCellModel.selectionHandler = { [weak self] selectedEmoji in
@@ -134,10 +142,15 @@ final class TrackerFormViewController: UIViewController {
             self.selectedEmoji = Character(selectedEmoji)
         }
 
-        emojiesSection = [
-            TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
-            emojiPickerCellModel
-        ]
+        let emojiPickerSection = TrackerBaseSection(
+            name: "Emoji",
+            cellModels: [
+                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+                emojiPickerCellModel
+            ]
+        )
+
+        self.emojiPickerSection = emojiPickerSection
 
         let colorPickerCellModel = TrackerColorPickerCellModel()
         colorPickerCellModel.selectionHandler = { [weak self] selectedColor in
@@ -145,44 +158,35 @@ final class TrackerFormViewController: UIViewController {
 
             self.selectedColor = selectedColor
         }
-        colorsSection = [
-            TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
-            colorPickerCellModel
-        ]
+
+        let colorPickerSection = TrackerBaseSection(
+            name: "Цвет",
+            cellModels: [
+                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+                colorPickerCellModel
+            ]
+        )
+
+        self.colorPickerSection = colorPickerSection
+
+        sections = [textFieldSection, categoryPickerSection, emojiPickerSection, colorPickerSection]
 
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
 
         trackerParametersTableView.dataSource = self
         trackerParametersTableView.delegate = self
-        trackerParametersTableView.register(
+
+        trackerParametersTableView.register([
             TrackerBaseCell.self,
-            forCellReuseIdentifier: String(describing: TrackerBaseCell.self)
-        )
-        trackerParametersTableView.register(
             TrackerTitleTextFieldCell.self,
-            forCellReuseIdentifier: String(describing: TrackerTitleTextFieldCell.self)
-        )
-        trackerParametersTableView.register(
             TrackerErrorCell.self,
-            forCellReuseIdentifier: String(describing: TrackerErrorCell.self)
-        )
-        trackerParametersTableView.register(
             TrackerCategoryPickerCell.self,
-            forCellReuseIdentifier: String(describing: TrackerCategoryPickerCell.self)
-        )
-        trackerParametersTableView.register(
             TrackerSchedulePickerCell.self,
-            forCellReuseIdentifier: String(describing: TrackerSchedulePickerCell.self)
-        )
-        trackerParametersTableView.register(
             TrackerEmojiPickerCell.self,
-            forCellReuseIdentifier: String(describing: TrackerEmojiPickerCell.self)
-        )
-        trackerParametersTableView.register(
-            TrackerColorPickerCell.self,
-            forCellReuseIdentifier: String(describing: TrackerColorPickerCell.self)
-        )
+            TrackerColorPickerCell.self
+        ])
+
         trackerParametersTableView.register(
             TrackerFormHeaderView.self,
             forHeaderFooterViewReuseIdentifier: TrackerFormHeaderView.reuseIdentifier
@@ -202,118 +206,31 @@ final class TrackerFormViewController: UIViewController {
 
 extension TrackerFormViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        4
+        sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return textFieldSecton.count
-        case 1:
-            return categorySection.count
-        case 2:
-            return emojiesSection.count
-        case 3:
-            return colorsSection.count
-        default:
-            return 0
-        }
+        guard let section = sections[safe: section] else { return .zero }
+
+        return section.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath {
-        case IndexPath(row: 0, section: 0):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerTitleTextFieldCell.self),
-                for: indexPath
-            ) as? TrackerTitleTextFieldCell
-
-            let cellModel = textFieldSecton[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        case IndexPath(row: 1, section: 0):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerErrorCell.self),
-                for: indexPath
-            ) as? TrackerErrorCell
-
-            let cellModel = textFieldSecton[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        case IndexPath(row: 1, section: 1):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerCategoryPickerCell.self),
-                for: indexPath
-            ) as? TrackerCategoryPickerCell
-
-            let cellModel = categorySection[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        case IndexPath(row: 2, section: 1):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerSchedulePickerCell.self),
-                for: indexPath
-            ) as? TrackerSchedulePickerCell
-
-            let cellModel = categorySection[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        case IndexPath(row: 1, section: 2):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerEmojiPickerCell.self),
-                for: indexPath
-            ) as? TrackerEmojiPickerCell
-
-            let cellModel = emojiesSection[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        case IndexPath(row: 1, section: 3):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerColorPickerCell.self),
-                for: indexPath
-            ) as? TrackerColorPickerCell
-
-            let cellModel = colorsSection[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: TrackerBaseCell.self),
-                for: indexPath
-            ) as? TrackerBaseCell
-
-            let cellModel = categorySection[safe: indexPath.row]
-
-            guard let cell, let cellModel else { return UITableViewCell() }
-
-            cell.configure(from: cellModel)
-
-            return cell
+        guard let cellModel = sections[safe: indexPath.section]?[safe: indexPath.row] as? TrackerBaseCellModelProtocol else {
+            return UITableViewCell()
         }
+
+        let cellIdentifier = cellModel.reuseIdentifier
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: cellIdentifier,
+            for: indexPath
+        ) as? TrackerBaseCell
+
+        guard let cell else { return UITableViewCell() }
+
+        cell.configure(from: cellModel)
+
+        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -336,13 +253,13 @@ extension TrackerFormViewController: UITableViewDataSource {
             withIdentifier: TrackerFormHeaderView.reuseIdentifier
         ) as? TrackerFormHeaderView
 
-        guard section > 1, let headerView else { return UIView(frame: .zero) }
-
-        if section == 2 {
-            headerView.titleLabel.text = "Emoji"
-        } else if section == 3 {
-            headerView.titleLabel.text = "Цвет"
+        guard let section = sections[safe: section],
+              let name = section.name,
+              let headerView else {
+            return UIView(frame: .zero)
         }
+
+        headerView.setTitle(name)
 
         return headerView
     }
@@ -356,10 +273,10 @@ extension TrackerFormViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
 
         if indexPath.section == 1,
-           let cellModel = categorySection[safe: indexPath.row] as? TrackerCategoryPickerCellModel {
+           let cellModel = categoryPickerSection?[safe: indexPath.row] as? TrackerCategoryPickerCellModel {
             cellModel.selectionHandler?(cellModel)
         } else if indexPath.section == 1,
-                  let cellModel = categorySection[safe: indexPath.row] as? TrackerSchedulePickerCellModel {
+                  let cellModel = categoryPickerSection?[safe: indexPath.row] as? TrackerSchedulePickerCellModel {
             cellModel.selectionHandler?(cellModel)
         }
     }
@@ -370,7 +287,7 @@ extension TrackerFormViewController: WeekDayPickerDelegate {
         navigationController?.popViewController(animated: true)
         selectedSchedule = schedule
 
-        guard let scheduleCellModel = categorySection.last as? TrackerSchedulePickerCellModel else { return }
+        guard let scheduleCellModel = categoryPickerSection?.last as? TrackerSchedulePickerCellModel else { return }
 
         scheduleCellModel.schedule = schedule
         trackerParametersTableView.reloadRows(at: [IndexPath(row: 2, section: 1)], with: .none)
@@ -382,7 +299,7 @@ extension TrackerFormViewController: TrackerCategoryPickerDelegate {
         navigationController?.popViewController(animated: true)
         self.selectedCategory = category
 
-        guard let categoryCellModel = categorySection[safe: 1] as? TrackerCategoryPickerCellModel else { return }
+        guard let categoryCellModel = categoryPickerSection?[safe: 1] as? TrackerCategoryPickerCellModel else { return }
 
         categoryCellModel.category = category
         trackerParametersTableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .none)
@@ -395,7 +312,7 @@ private extension TrackerFormViewController {
     // MARK: Business Logic
 
     func checkFormState() {
-        if let trackerTitle, !trackerTitle.isEmpty, textFieldSecton.count == 1,
+        if let trackerTitle, !trackerTitle.isEmpty, textFieldSection?.count == 1,
            selectedCategory != nil,
            (selectedSchedule != nil && !(selectedSchedule?.isEmpty ?? false)) || trackerType == .event,
            selectedEmoji != nil,

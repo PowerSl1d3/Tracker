@@ -10,7 +10,7 @@ import UIKit
 final class TrackerFormHeaderView: UITableViewHeaderFooterView {
     static let reuseIdentifier = String(describing: TrackerFormHeaderView.self)
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypBoldFont(ofSize: 19)
@@ -30,6 +30,10 @@ final class TrackerFormHeaderView: UITableViewHeaderFooterView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func setTitle(_ title: String) {
+        titleLabel.text = title
     }
 }
 
