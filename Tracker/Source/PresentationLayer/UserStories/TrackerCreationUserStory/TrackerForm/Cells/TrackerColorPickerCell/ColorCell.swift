@@ -10,13 +10,24 @@ import UIKit
 final class ColorCell: UICollectionViewCell {
     static let reuserIdentifier: String = { String(describing: ColorCell.self) }()
 
-    let colorImageView: UIImageView = {
+    private let colorImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
 
         return imageView
     }()
+
+    enum State {
+        case active
+        case noActive
+    }
+
+    var state = State.noActive {
+        didSet {
+            colorImageView.image = UIImage(named: state == .active ? "activeColor" : "noActiveColor")
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -21,7 +21,7 @@ struct TrackerRecordStore {
     }
 
     init?(from trackerRecordCoreData: TrackerRecordCoreData) {
-        guard let id = trackerRecordCoreData.id,
+        guard let id = trackerRecordCoreData.idRecord,
               let date = trackerRecordCoreData.date else {
             return nil
         }

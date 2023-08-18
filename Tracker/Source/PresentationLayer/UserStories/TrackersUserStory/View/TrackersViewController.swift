@@ -107,6 +107,8 @@ final class TrackersViewController: UIViewController {
 
         trackerDataProvider = TrackersDataProviderAssembly.assemble(delegate: self)
 
+        currentDate = datePicker.date
+
         visibleCategories = currentDateCategories
 
         view.backgroundColor = .ypWhite

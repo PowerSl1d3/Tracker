@@ -30,7 +30,7 @@ final class CategoryCreationViewController: UIViewController {
     private var section: [TrackerBaseCellModelProtocol] = []
     private var categoryTitle: String?
 
-    private let trackersDataProvider: TrackersDataProvider! = TrackersDataProviderAssembly.assemble()
+    private let trackersDataProvider: TrackersDataProvider = TrackersDataProviderAssembly.assemble()
 
     override func viewDidLoad() {
         super.viewDidLoad()

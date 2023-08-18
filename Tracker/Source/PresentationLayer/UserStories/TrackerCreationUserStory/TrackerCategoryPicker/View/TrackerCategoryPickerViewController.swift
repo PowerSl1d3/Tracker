@@ -53,13 +53,13 @@ final class TrackerCategoryPickerViewController: UIViewController {
         }
     }
 
-    private var trackersDataProvider: TrackersDataProvider!
+    private lazy var trackersDataProvider: TrackersDataProvider = {
+        TrackersDataProviderAssembly.assemble(delegate: self)
+    }()
     private weak var categoryCreationViewController: UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        trackersDataProvider = TrackersDataProviderAssembly.assemble(delegate: self)
 
         reloadCellModels()
 

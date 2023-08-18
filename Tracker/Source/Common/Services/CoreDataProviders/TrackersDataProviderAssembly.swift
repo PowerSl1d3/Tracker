@@ -11,7 +11,11 @@ final class TrackersDataProviderAssembly {
     private init() {}
 
     static func assemble(delegate: TrackersDataProviderDelegate? = nil) -> TrackersDataProvider {
-        let dataProvider = try! TrackersDataProviderImpl(dataStore: (UIApplication.shared.delegate as! AppDelegate).trackersDataStore)
+        guard let trackersDataStore = (UIApplication.shared.delegate as? AppDelegate)?.trackersDataStore,
+              let dataProvider = try? TrackersDataProviderImpl(dataStore: trackersDataStore) else {
+            return NullDataProvider()
+        }
+
         dataProvider.delegate = delegate
 
         return dataProvider

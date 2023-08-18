@@ -17,7 +17,7 @@ final class TrackerFormViewController: UIViewController {
     private var emojiPickerSection: TrackerBaseSection?
     private var colorPickerSection: TrackerBaseSection?
 
-    private let trackersDataProvider: TrackersDataProvider! = TrackersDataProviderAssembly.assemble()
+    private let trackersDataProvider: TrackersDataProvider = TrackersDataProviderAssembly.assemble()
 
     private var trackerTitle: String? {
         didSet { checkFormState() }

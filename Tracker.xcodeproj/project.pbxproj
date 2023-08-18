@@ -63,6 +63,7 @@
 		90CE65CD2A505A0C00E3540C /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE65CC2A505A0C00E3540C /* CategoryCreationViewController.swift */; };
 		90D115552A821B670050BC67 /* TrackersDataProviderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */; };
 		90DC80E22A769C9800DDDB95 /* TrackersModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90DC80E02A769C9800DDDB95 /* TrackersModel.xcdatamodeld */; };
+		90DFE7682A8F876E0011E5FC /* NullDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DFE7672A8F876E0011E5FC /* NullDataProvider.swift */; };
 		90F182A72A4EFA85007F99CD /* TrackerCategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F182A62A4EFA85007F99CD /* TrackerCategoryPickerViewController.swift */; };
 		90F182AF2A4EFDDD007F99CD /* TrackerCategoryCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F182AE2A4EFDDD007F99CD /* TrackerCategoryCellModel.swift */; };
 		90F182B12A4EFE3B007F99CD /* TrackerCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F182B02A4EFE3B007F99CD /* TrackerCategoryCell.swift */; };
@@ -134,6 +135,7 @@
 		90CE65CC2A505A0C00E3540C /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
 		90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersDataProviderAssembly.swift; sourceTree = "<group>"; };
 		90DC80E12A769C9800DDDB95 /* TrackersModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackersModel.xcdatamodel; sourceTree = "<group>"; };
+		90DFE7672A8F876E0011E5FC /* NullDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullDataProvider.swift; sourceTree = "<group>"; };
 		90F182A62A4EFA85007F99CD /* TrackerCategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryPickerViewController.swift; sourceTree = "<group>"; };
 		90F182AE2A4EFDDD007F99CD /* TrackerCategoryCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryCellModel.swift; sourceTree = "<group>"; };
 		90F182B02A4EFE3B007F99CD /* TrackerCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryCell.swift; sourceTree = "<group>"; };
@@ -397,10 +399,8 @@
 		90A30D172A5599EC001A5493 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				90A30D182A559A90001A5493 /* TrackersDataStore.swift */,
-				90166C222A76A7E000E8D6EE /* NullDataStore.swift */,
-				9020CD732A79E5DD0002B957 /* TrackersDataProvider.swift */,
-				90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */,
+				90DFE7662A8F87410011E5FC /* CoreDataProviders */,
+				90DFE7652A8F87250011E5FC /* CoreData */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -453,6 +453,25 @@
 				90CE65CC2A505A0C00E3540C /* CategoryCreationViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		90DFE7652A8F87250011E5FC /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				90A30D182A559A90001A5493 /* TrackersDataStore.swift */,
+				90166C222A76A7E000E8D6EE /* NullDataStore.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		90DFE7662A8F87410011E5FC /* CoreDataProviders */ = {
+			isa = PBXGroup;
+			children = (
+				90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */,
+				9020CD732A79E5DD0002B957 /* TrackersDataProvider.swift */,
+				90DFE7672A8F876E0011E5FC /* NullDataProvider.swift */,
+			);
+			path = CoreDataProviders;
 			sourceTree = "<group>";
 		};
 		90F182A42A4EF9F5007F99CD /* TrackerTypePicker */ = {
@@ -635,6 +654,7 @@
 				90CE65CD2A505A0C00E3540C /* CategoryCreationViewController.swift in Sources */,
 				9012D2D22A4BD3CF006F39A2 /* TrackerFormViewController.swift in Sources */,
 				902363552A4B249B00A8896A /* TrackerTypePickerViewController.swift in Sources */,
+				90DFE7682A8F876E0011E5FC /* NullDataProvider.swift in Sources */,
 				901A1A0B2A88C17000AB47A1 /* TrackerBaseSection.swift in Sources */,
 				9096D3F62A3EC64700B9EC48 /* UIColor+Tracker.swift in Sources */,
 				90F53F5D2A4A6A770062B877 /* Tracker.swift in Sources */,

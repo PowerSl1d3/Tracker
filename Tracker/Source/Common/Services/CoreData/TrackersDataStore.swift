@@ -121,7 +121,7 @@ extension TrackersDataStoreImpl: TrackersDataStore {
         try performSync { context in
             Result {
                 let trackerRecordCoreData = TrackerRecordCoreData(context: context)
-                trackerRecordCoreData.id = record.id
+                trackerRecordCoreData.idRecord = record.id
                 trackerRecordCoreData.date = record.date
 
                 try context.save()
@@ -131,10 +131,16 @@ extension TrackersDataStoreImpl: TrackersDataStore {
 
     func delete(_ record: TrackerRecordStore) throws {
         let fetchRequest = TrackerRecordCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerRecordCoreData.idRecord),
+            record.id as CVarArg
+        )
+        fetchRequest.fetchLimit = 1
 
         try performSync { context in
             Result {
-                guard let trackerRecordCoreData = try context.fetch(fetchRequest).first(where: { $0.id == record.id }) else {
+                guard let trackerRecordCoreData = try context.fetch(fetchRequest).first else {
                     throw TrackersDataStoreError.failedToFetchRecord
                 }
 
@@ -147,11 +153,11 @@ extension TrackersDataStoreImpl: TrackersDataStore {
 }
 
 private extension TrackersDataStoreImpl {
-    func performSync<R>(_ action: (NSManagedObjectContext) -> Result<R, Error>) throws -> R {
+    func performSync<R>(_ action: (NSManagedObjectContext) -> Result<R, Error>) throws -> R? {
         let context = self.context
-        var result: Result<R, Error>!
+        var result: Result<R, Error>?
         context.performAndWait { result = action(context) }
-        return try result.get()
+        return try result?.get()
     }
 
     func cleanUpReferencesToPersistentStores() {

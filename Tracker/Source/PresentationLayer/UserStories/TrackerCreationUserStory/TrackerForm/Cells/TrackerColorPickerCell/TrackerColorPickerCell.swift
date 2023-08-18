@@ -66,12 +66,7 @@ extension TrackerColorPickerCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        if cellModel.selectedColorIndex == indexPath.row {
-            cell.colorImageView.image = UIImage(named: "activeColor")
-        } else {
-            cell.colorImageView.image = UIImage(named: "noActiveColor")
-        }
-
+        cell.state = cellModel.selectedColorIndex == indexPath.row ? .active : .noActive
         cell.tintColor = color
 
         return cell
