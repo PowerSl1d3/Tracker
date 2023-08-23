@@ -8,13 +8,13 @@
 import UIKit
 
 extension UIColor {
-    static let ypBlack = UIColor(named: "YP Black")!
-    static let ypWhite = UIColor(named: "YP White")!
-    static let ypBackground = UIColor(named: "YP Background")!
-    static let ypRed = UIColor(named: "YP Red")!
-    static let ypBlue = UIColor(named: "YP Blue")!
-    static let ypGray = UIColor(named: "YP Gray")!
-    static let ypLightGray = UIColor(named: "YP Light Gray")!
+    static let ypBlack = UIColor(named: "YP Black") ?? .white
+    static let ypWhite = UIColor(named: "YP White") ?? .white
+    static let ypBackground = UIColor(named: "YP Background") ?? .white
+    static let ypRed = UIColor(named: "YP Red") ?? .white
+    static let ypBlue = UIColor(named: "YP Blue") ?? .white
+    static let ypGray = UIColor(named: "YP Gray") ?? .white
+    static let ypLightGray = UIColor(named: "YP Light Gray") ?? .white
 }
 
 // MARK: - Tracker Colors
@@ -25,6 +25,6 @@ extension UIColor {
     }
 
     static var trackerSelectionColors: [UIColor] {
-        (0...17).reduce(into: [UIColor]()) { $0.append(selectionColor(byIndex: $1)!) }
+        (0...17).reduce(into: [UIColor?]()) { $0.append(selectionColor(byIndex: $1)) }.compactMap { $0 }
     }
 }
