@@ -11,6 +11,6 @@ final class TrackerErrorCellModel: TrackerBaseCellModel {
     init(errorText: String) {
         self.errorText = errorText
 
-        super.init(height: 0, contentViewBackgroundColor: .clear, separatorInset: .invisibleSeparator)
+        super.init(cellClass: TrackerErrorCell.self, height: 0, contentViewBackgroundColor: .clear, separatorInset: .invisibleSeparator)
     }
 }

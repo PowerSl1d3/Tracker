@@ -18,6 +18,7 @@ final class TrackerCategoryPickerCellModel: TrackerBaseCellModel {
         self.selectionHandler = selectionHandler
 
         super.init(
+            cellClass: TrackerCategoryPickerCell.self,
             height: 75,
             backgroundColor: .ypBackground,
             contentViewBackgroundColor: .clear

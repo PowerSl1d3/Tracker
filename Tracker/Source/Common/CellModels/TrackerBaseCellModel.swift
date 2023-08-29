@@ -8,17 +8,20 @@
 import UIKit
 
 class TrackerBaseCellModel: TrackerBaseCellModelProtocol {
+    let reuseIdentifier: String
     let height: CGFloat
     let backgroundColor: UIColor
     let contentViewBackgroundColor: UIColor
     let separatorInset: UIEdgeInsets
 
     init(
+        cellClass: UITableViewCell.Type = TrackerBaseCell.self,
         height: CGFloat,
         backgroundColor: UIColor = .clear,
         contentViewBackgroundColor: UIColor,
         separatorInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     ) {
+        self.reuseIdentifier = String(describing: cellClass)
         self.height = height
         self.backgroundColor = backgroundColor
         self.contentViewBackgroundColor = contentViewBackgroundColor

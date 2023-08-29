@@ -70,10 +70,10 @@ final class TrackersViewController: UIViewController {
         }
     }
 
-    private let trackersStorageService: TrackersStorageService = TrackersStorageServiceImpl.shared
+    private var trackerDataProvider: TrackersDataProvider!
 
     private var currentDateCategories: [TrackerCategory] {
-        let filteredCategories = trackersStorageService.categories.compactMap { (category: TrackerCategory) -> TrackerCategory? in
+        let filteredCategories = trackerDataProvider.sections()?.compactMap { (category: TrackerCategory) -> TrackerCategory? in
             let filteredTrackers = category.trackers.filter { tracker in
                 guard let currentWeekDay = currentDate.weekDay else {
                     return false
@@ -85,23 +85,31 @@ final class TrackersViewController: UIViewController {
             guard !filteredTrackers.isEmpty else { return nil }
 
             return TrackerCategory(trackers: filteredTrackers, title: category.title)
-        }
+        } ?? []
 
         return filteredCategories
     }
 
-    private var completedTrackers = [TrackerRecord]()
+    private var completedTrackerRecords: [TrackerRecord] {
+        trackerDataProvider.records() ?? []
+    }
+
     private var visibleCategories = [TrackerCategory]() {
         didSet {
             placeholderView.isHidden = !visibleCategories.isEmpty
         }
     }
 
+    private weak var typePickerViewController: UIViewController?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        trackerDataProvider = TrackersDataProviderAssembly.assemble(delegate: self)
+
+        currentDate = datePicker.date
+
         visibleCategories = currentDateCategories
-        trackersStorageService.add(delegate: self)
 
         view.backgroundColor = .ypWhite
 
@@ -175,7 +183,8 @@ extension TrackersViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        let completedDays = completedTrackers.filter { $0.id == cellModel.id }
+        // TODO: когда нибудь заменить на фильрацию при помощи CoreData
+        let completedDays = completedTrackerRecords.filter { $0.id == cellModel.id }
         let currentDateTrackerRecord = completedDays.first { $0.date == currentDate }
 
         cell.prepareForReuse()
@@ -189,17 +198,9 @@ extension TrackersViewController: UICollectionViewDataSource {
             guard let self, let cellModel else { return }
 
             if let currentDateTrackerRecord {
-                let currentDayTrackerRecordIndex = completedTrackers.firstIndex(of: currentDateTrackerRecord)
-
-                guard let currentDayTrackerRecordIndex else {
-                    assertionFailure("Invalid completed trackers state")
-
-                    return
-                }
-
-                completedTrackers.remove(at: currentDayTrackerRecordIndex)
+                try? trackerDataProvider.deleteRecord(currentDateTrackerRecord)
             } else {
-                completedTrackers.append(TrackerRecord(id: cellModel.id, date: currentDate))
+                try? trackerDataProvider.addRecord(TrackerRecord(id: cellModel.id, date: currentDate))
             }
 
             self.trackerCollectionView.reloadItems(at: [indexPath])
@@ -345,10 +346,17 @@ private extension TrackersViewController {
 
 // MARK: - TrackersStorageServiceDelegate
 
-extension TrackersViewController: TrackersStorageServiceDelegate {
-    func didAppendTracker(_ tracker: Tracker, toCategory category: TrackerCategory, fromViewController vc: UIViewController?) {
-        reloadTrackers(filterText: Constants.emptyFilter)
-        vc?.dismiss(animated: true)
+extension TrackersViewController: TrackersDataProviderDelegate {
+    func didUpdate(_ update: TrackersStoreUpdate) {
+        switch update.type {
+        case .tracker:
+            reloadTrackers(filterText: Constants.emptyFilter)
+            typePickerViewController?.dismiss(animated: true)
+        case .category:
+            break
+        case .record:
+            break
+        }
     }
 }
 
@@ -390,6 +398,7 @@ private extension TrackersViewController {
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
 
+        typePickerViewController = navigationController
         present(navigationController, animated: true)
     }
 

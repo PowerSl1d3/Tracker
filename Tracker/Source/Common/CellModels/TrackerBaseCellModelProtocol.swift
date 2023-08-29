@@ -8,6 +8,7 @@
 import UIKit
 
 protocol TrackerBaseCellModelProtocol {
+    var reuseIdentifier: String { get }
     var height: CGFloat { get }
     var backgroundColor: UIColor { get }
     var contentViewBackgroundColor: UIColor { get }

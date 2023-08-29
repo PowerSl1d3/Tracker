@@ -30,7 +30,7 @@ final class CategoryCreationViewController: UIViewController {
     private var section: [TrackerBaseCellModelProtocol] = []
     private var categoryTitle: String?
 
-    var trackersStorageService: TrackersStorageService!
+    private let trackersDataProvider: TrackersDataProvider = TrackersDataProviderAssembly.assemble()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,6 +134,6 @@ private extension CategoryCreationViewController {
         guard let categoryTitle else { return }
 
         let category = TrackerCategory(trackers: [], title: categoryTitle)
-        trackersStorageService.append(category: category, fromViewController: self)
+        try? trackersDataProvider.addRecord(category)
     }
 }
