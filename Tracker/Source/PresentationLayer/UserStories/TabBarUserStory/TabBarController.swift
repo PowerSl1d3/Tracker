@@ -29,7 +29,7 @@ private extension TabBarController {
     }
 
     func configureTabBarControllers() {
-        let trackersViewController = TrackersViewController()
+        let trackersViewController = TrackersAssembly.assemble()
         let trackersTabBarItem = UITabBarItem(
             title: "Трекеры",
             image: UIImage(named: "trackers"),

@@ -10,7 +10,7 @@ import UIKit
 final class OnboardPageViewController: UIPageViewController {
     lazy var pages: [UIViewController] = [
         OnboardViewController(imageName: "onboarding0", inviteText: "Отслеживайте только то, что хотите"),
-        OnboardViewController(imageName: "onboarding1", inviteText: "Даже если это не литры воды йога")
+        OnboardViewController(imageName: "onboarding1", inviteText: "Даже если это не литры воды и йога")
     ]
 
     private let inviteButton: UIButton = {
