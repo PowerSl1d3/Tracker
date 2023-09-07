@@ -357,9 +357,8 @@ private extension TrackerFormViewController {
     // MARK: - Actions
 
     func didTapCategoryPickerCell() {
-        let viewController = TrackerCategoryPickerViewController()
-        viewController.delegate = self
-        viewController.selectedCategory = selectedCategory
+        let moduleData = CategoryPickerModuleData(delegate: self, selectedCategory: selectedCategory)
+        let viewController = CategoryPickerAssembly.assemble(moduleData: moduleData)
         viewController.modalPresentationStyle = .pageSheet
 
         navigationController?.pushViewController(viewController, animated: true)

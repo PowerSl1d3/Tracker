@@ -37,6 +37,12 @@
 		90615E922A3F363700D95838 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90615E912A3F363700D95838 /* StatisticsViewController.swift */; };
 		906950792A4D7D5A0046145D /* TrackerCategoryPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906950782A4D7D5A0046145D /* TrackerCategoryPickerCell.swift */; };
 		908814CE2A49C7F800736AE6 /* TrackerCardsCategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908814CD2A49C7F800736AE6 /* TrackerCardsCategoryHeaderView.swift */; };
+		908AC9BD2AA9370D00B6342B /* TrackerCategoryPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908AC9BC2AA9370D00B6342B /* TrackerCategoryPickerViewModel.swift */; };
+		908AC9C02AA9377A00B6342B /* CategoryPickerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908AC9BF2AA9377A00B6342B /* CategoryPickerAssembly.swift */; };
+		908AC9C42AA9394300B6342B /* CategorPickerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908AC9C32AA9394300B6342B /* CategorPickerRouter.swift */; };
+		908AC9C72AA93A5200B6342B /* TrackerCategoryPickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908AC9C62AA93A5200B6342B /* TrackerCategoryPickerModel.swift */; };
+		908AC9CA2AA941D100B6342B /* CategoryPickerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908AC9C92AA941D100B6342B /* CategoryPickerDataSource.swift */; };
+		908AC9CC2AA9470200B6342B /* CategoryPickerModuleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908AC9CB2AA9470200B6342B /* CategoryPickerModuleData.swift */; };
 		90954FE12A4FA83300D4CB9A /* TrackerTitleTextFieldCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90954FE02A4FA83300D4CB9A /* TrackerTitleTextFieldCellModel.swift */; };
 		90954FE72A4FC59500D4CB9A /* TrackerBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90954FE62A4FC59500D4CB9A /* TrackerBaseCell.swift */; };
 		90954FE92A4FCEBE00D4CB9A /* TrackerBaseCellModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90954FE82A4FCEBE00D4CB9A /* TrackerBaseCellModelProtocol.swift */; };
@@ -115,6 +121,12 @@
 		90615E912A3F363700D95838 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		906950782A4D7D5A0046145D /* TrackerCategoryPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryPickerCell.swift; sourceTree = "<group>"; };
 		908814CD2A49C7F800736AE6 /* TrackerCardsCategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCardsCategoryHeaderView.swift; sourceTree = "<group>"; };
+		908AC9BC2AA9370D00B6342B /* TrackerCategoryPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryPickerViewModel.swift; sourceTree = "<group>"; };
+		908AC9BF2AA9377A00B6342B /* CategoryPickerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerAssembly.swift; sourceTree = "<group>"; };
+		908AC9C32AA9394300B6342B /* CategorPickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorPickerRouter.swift; sourceTree = "<group>"; };
+		908AC9C62AA93A5200B6342B /* TrackerCategoryPickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryPickerModel.swift; sourceTree = "<group>"; };
+		908AC9C92AA941D100B6342B /* CategoryPickerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerDataSource.swift; sourceTree = "<group>"; };
+		908AC9CB2AA9470200B6342B /* CategoryPickerModuleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerModuleData.swift; sourceTree = "<group>"; };
 		90954FE02A4FA83300D4CB9A /* TrackerTitleTextFieldCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTitleTextFieldCellModel.swift; sourceTree = "<group>"; };
 		90954FE62A4FC59500D4CB9A /* TrackerBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerBaseCell.swift; sourceTree = "<group>"; };
 		90954FE82A4FCEBE00D4CB9A /* TrackerBaseCellModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerBaseCellModelProtocol.swift; sourceTree = "<group>"; };
@@ -379,6 +391,47 @@
 			path = StatisticsUserStory;
 			sourceTree = "<group>";
 		};
+		908AC9BB2AA9362E00B6342B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				908AC9BC2AA9370D00B6342B /* TrackerCategoryPickerViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		908AC9BE2AA9372300B6342B /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				908AC9BF2AA9377A00B6342B /* CategoryPickerAssembly.swift */,
+				908AC9CB2AA9470200B6342B /* CategoryPickerModuleData.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		908AC9C22AA9392900B6342B /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				908AC9C32AA9394300B6342B /* CategorPickerRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		908AC9C52AA93A3E00B6342B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				908AC9C62AA93A5200B6342B /* TrackerCategoryPickerModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		908AC9C82AA941A800B6342B /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				908AC9C92AA941D100B6342B /* CategoryPickerDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 		90954FE42A4FC53700D4CB9A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,9 +627,12 @@
 		90F182A52A4EFA4D007F99CD /* TrackerCategoryPicker */ = {
 			isa = PBXGroup;
 			children = (
+				908AC9BE2AA9372300B6342B /* Assembly */,
 				90F182AB2A4EFC82007F99CD /* View */,
-				90F182AC2A4EFD8D007F99CD /* Cells */,
-				90F182AD2A4EFDA2007F99CD /* CellModels */,
+				908AC9BB2AA9362E00B6342B /* ViewModel */,
+				908AC9C52AA93A3E00B6342B /* Model */,
+				908AC9C82AA941A800B6342B /* DataSource */,
+				908AC9C22AA9392900B6342B /* Router */,
 			);
 			path = TrackerCategoryPicker;
 			sourceTree = "<group>";
@@ -609,6 +665,8 @@
 		90F182AB2A4EFC82007F99CD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				90F182AC2A4EFD8D007F99CD /* Cells */,
+				90F182AD2A4EFDA2007F99CD /* CellModels */,
 				90F182A62A4EFA85007F99CD /* TrackerCategoryPickerViewController.swift */,
 				90F182B22A4F05D2007F99CD /* TrackerCategoryPickerDelegate.swift */,
 			);
@@ -738,6 +796,7 @@
 				90347EB42AA81C3A00AF9288 /* TrackersModel.swift in Sources */,
 				90576AAC2A6576290036C948 /* TrackerFormHeaderView.swift in Sources */,
 				9020CD712A79E1110002B957 /* TrackerRecordStore.swift in Sources */,
+				908AC9CA2AA941D100B6342B /* CategoryPickerDataSource.swift in Sources */,
 				90615E862A3EF3BE00D95838 /* UIFont+Tracker.swift in Sources */,
 				905A90D62A7011E500016876 /* TrackerColorPickerCellModel.swift in Sources */,
 				90CE65CD2A505A0C00E3540C /* CategoryCreationViewController.swift in Sources */,
@@ -755,9 +814,11 @@
 				90F53F632A4A799E0062B877 /* Array+Tracker.swift in Sources */,
 				90347EAE2AA7E6B900AF9288 /* TrackersDataSource.swift in Sources */,
 				90576AAA2A6574830036C948 /* TrackerEmojiPickerCellModel.swift in Sources */,
+				908AC9C72AA93A5200B6342B /* TrackerCategoryPickerModel.swift in Sources */,
 				90F182A72A4EFA85007F99CD /* TrackerCategoryPickerViewController.swift in Sources */,
 				90954FED2A4FD9E300D4CB9A /* TrackerSchedulePickerCellModel.swift in Sources */,
 				90615E8E2A3F2CC300D95838 /* TabBarController.swift in Sources */,
+				908AC9CC2AA9470200B6342B /* CategoryPickerModuleData.swift in Sources */,
 				900086722A54173100010CDC /* TrackersPlaceholderStarView.swift in Sources */,
 				90961E0D2AA6BF9D0005D667 /* Observable.swift in Sources */,
 				90961E0F2AA6D2C20005D667 /* TrackersAssembly.swift in Sources */,
@@ -767,6 +828,7 @@
 				90F182AF2A4EFDDD007F99CD /* TrackerCategoryCellModel.swift in Sources */,
 				905876092A4E960C0035E50A /* WeekDayPickerDelegate.swift in Sources */,
 				90954FF52A4FEFC100D4CB9A /* Tracker+UIEdgeInsets.swift in Sources */,
+				908AC9BD2AA9370D00B6342B /* TrackerCategoryPickerViewModel.swift in Sources */,
 				90230F1F2A578FA100653870 /* Date+Tracker.swift in Sources */,
 				90C162B62A763A9C00D3026E /* ColorCell.swift in Sources */,
 				9020CD6D2A79DF680002B957 /* UIColorMarshalling.swift in Sources */,
@@ -777,9 +839,11 @@
 				90954FE72A4FC59500D4CB9A /* TrackerBaseCell.swift in Sources */,
 				90347EB12AA7F29F00AF9288 /* TrackersRouter.swift in Sources */,
 				90D115552A821B670050BC67 /* TrackersDataProviderAssembly.swift in Sources */,
+				908AC9C02AA9377A00B6342B /* CategoryPickerAssembly.swift in Sources */,
 				90954FE12A4FA83300D4CB9A /* TrackerTitleTextFieldCellModel.swift in Sources */,
 				90954FF12A4FDE6200D4CB9A /* TrackerErrorCellModel.swift in Sources */,
 				90954FE92A4FCEBE00D4CB9A /* TrackerBaseCellModelProtocol.swift in Sources */,
+				908AC9C42AA9394300B6342B /* CategorPickerRouter.swift in Sources */,
 				90954FEB2A4FD24D00D4CB9A /* TrackerBaseCellModel.swift in Sources */,
 				90F53F612A4A6A900062B877 /* TrackerCategory.swift in Sources */,
 				9012D2D52A4BD4EE006F39A2 /* TrackerType.swift in Sources */,

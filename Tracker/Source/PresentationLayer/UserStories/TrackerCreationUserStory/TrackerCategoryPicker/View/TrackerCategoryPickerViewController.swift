@@ -44,28 +44,28 @@ final class TrackerCategoryPickerViewController: UIViewController {
         return placeholderView
     }()
 
-    weak var delegate: TrackerCategoryPickerDelegate?
-    var selectedCategory: TrackerCategory?
+    private var viewModel: TrackerCategoryPickerViewModel?
 
-    private var cellModels: [TrackerCategoryCellModel] = [] {
-        didSet {
+    func initialize(viewModel: TrackerCategoryPickerViewModel) {
+        self.viewModel = viewModel
+        bind()
+    }
+
+    func bind() {
+        viewModel?.$cellModels.bindAndCall { [weak self] cellModels in
+            guard let self else { return }
+
+            categoriesTableView.reloadData()
             placeholderView.isHidden = !cellModels.isEmpty
         }
     }
 
-    private lazy var trackersDataProvider: TrackersDataProvider = {
-        TrackersDataProviderAssembly.assemble(delegate: self)
-    }()
-    private weak var categoryCreationViewController: UIViewController?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        reloadCellModels()
-
         addCategoryButton.addTarget(self, action: #selector(didTapAddCategoryButton), for: .touchUpInside)
 
-        categoriesTableView.dataSource = self
+        categoriesTableView.dataSource = viewModel?.dataSource
         categoriesTableView.delegate = self
 
         categoriesTableView.register(
@@ -86,77 +86,11 @@ final class TrackerCategoryPickerViewController: UIViewController {
     }
 }
 
-extension TrackerCategoryPickerViewController: TrackersDataProviderDelegate {
-    func didUpdate(_ update: TrackersStoreUpdate) {
-        guard update.type == .category, let index = update.insertedIndexes.first else {
-            return
-        }
-
-        reloadCellModels()
-        categoriesTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-        categoryCreationViewController?.dismiss(animated: true)
-    }
-
-    func didAppendCategory(_ category: TrackerCategory, fromViewController vc: UIViewController?) {
-        cellModels.append(TrackerCategoryCellModel(category: category, isSelected: false))
-
-        let indexPath = IndexPath(row: cellModels.count - 1, section: 0)
-        categoriesTableView.insertRows(at: [indexPath], with: .fade)
-
-        vc?.dismiss(animated: true)
-    }
-}
-
-extension TrackerCategoryPickerViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cellModels.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: TrackerCategoryCell.reuseIdentifier,
-            for: indexPath
-        ) as? TrackerCategoryCell
-
-        guard let cell,
-              let cellModel = cellModels[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
-
-        cell.configure(from: cellModel)
-
-        return cell
-    }
-}
-
 extension TrackerCategoryPickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedCellModel = cellModels[safe: indexPath.row] else { return }
-
-        var lastSelectedRowIndexPath: Int?
-        var lastSelectedCellModel: TrackerCategoryCellModel?
-        for (index, cellModel) in cellModels.enumerated() {
-            if cellModel.isSelected {
-                lastSelectedRowIndexPath = index
-                lastSelectedCellModel = cellModel
-                break
-            }
-        }
-
-        lastSelectedCellModel?.isSelected = false
-        selectedCellModel.isSelected = true
-
-        tableView.reloadRows(
-            at: [
-                indexPath,
-                IndexPath(
-                    row: lastSelectedRowIndexPath ?? indexPath.row,
-                    section: indexPath.section
-                )
-            ],
-            with: .fade
-        )
-        delegate?.didSelectCategory(selectedCellModel.category, fromViewController: self)
+        guard let selectedCellModel = viewModel?.cellModels[safe: indexPath.row] else { return }
+        viewModel?.tableView(didSelectRowAt: indexPath)
+        viewModel?.delegate?.didSelectCategory(selectedCellModel.category, fromViewController: self)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -185,18 +119,6 @@ private extension TrackerCategoryPickerViewController {
     }
 
     @objc func didTapAddCategoryButton() {
-        let viewController = CategoryCreationViewController()
-        viewController.modalPresentationStyle = .pageSheet
-        categoryCreationViewController = viewController
-
-        present(viewController, animated: true)
-    }
-}
-
-private extension TrackerCategoryPickerViewController {
-    func reloadCellModels() {
-        cellModels = trackersDataProvider.sections()?.compactMap { category in
-            TrackerCategoryCellModel(category: category, isSelected: category.title == selectedCategory?.title)
-        } ?? []
+        viewModel?.didTapAddCategoryButton()
     }
 }

@@ -65,7 +65,6 @@ final class TrackersViewController: UIViewController {
 
     func initialize(viewModel: TrackersViewModel) {
         self.viewModel = viewModel
-        collectionView.dataSource = viewModel.dataSource
         bind()
     }
 
@@ -89,6 +88,7 @@ final class TrackersViewController: UIViewController {
 
         searchTextField.delegate = self
         collectionView.delegate = self
+        collectionView.dataSource = viewModel?.dataSource
 
         collectionView.register(
             TrackerCardCollectionViewCell.self,
