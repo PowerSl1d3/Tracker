@@ -10,6 +10,8 @@ import UIKit
 final class TrackerCategoryCell: UITableViewCell {
     static let reuseIdentifier = String(describing: TrackerCategoryCell.self)
 
+    weak var tableView: UITableView?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -23,6 +25,12 @@ final class TrackerCategoryCell: UITableViewCell {
 
     func configure(from cellModel: TrackerCategoryCellModel) {
         textLabel?.text = cellModel.category.title
-        accessoryType = cellModel.isSelected ? .checkmark : .none
+
+        cellModel.$isSelected.bindAndCall { [weak self] isSelected in
+            guard let self else { return }
+
+            accessoryType = isSelected ? .checkmark : .none
+            tableView?.reloadRows(at: [IndexPath(row: cellModel.index, section: 0)], with: .fade)
+        }
     }
 }
