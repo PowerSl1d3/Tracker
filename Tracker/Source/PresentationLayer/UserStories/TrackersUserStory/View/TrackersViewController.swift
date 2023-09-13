@@ -13,7 +13,7 @@ final class TrackersViewController: UIViewController {
         let searchTextField = UISearchTextField()
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchTextField.font = .ypRegularFont(ofSize: 17)
-        searchTextField.placeholder = "Поиск"
+        searchTextField.placeholder = LocalizedString("trackers.searchTextField.placeholder")
         searchTextField.clearButtonMode = .never
         searchTextField.returnKeyType = .search
 
@@ -23,7 +23,7 @@ final class TrackersViewController: UIViewController {
     private let cancelSearchButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(LocalizedString("trackers.cancelSearchButton.cancel"), for: .normal)
         button.setTitleColor(.ypBlue, for: .normal)
 
         return button
@@ -55,7 +55,7 @@ final class TrackersViewController: UIViewController {
     private let placeholderView: TrackersPlaceholderStarView = {
         let placeholderView = TrackersPlaceholderStarView()
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
-        placeholderView.titleLabel.text = "Что будем отслеживать?"
+        placeholderView.titleLabel.text = LocalizedString("trackers.placeholder")
         placeholderView.isHidden = true
 
         return placeholderView
@@ -205,7 +205,7 @@ private extension TrackersViewController {
         let datePickerItem = UIBarButtonItem(customView: datePicker)
 
         navigationItem.leftBarButtonItem = addTrackersItem
-        navigationItem.title = "Трекеры"
+        navigationItem.title = LocalizedString("trackers.navItem")
         navigationItem.rightBarButtonItem = datePickerItem
     }
 

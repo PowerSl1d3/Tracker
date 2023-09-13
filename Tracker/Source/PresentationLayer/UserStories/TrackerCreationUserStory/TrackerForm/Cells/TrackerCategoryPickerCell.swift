@@ -14,7 +14,7 @@ final class TrackerCategoryPickerCell: TrackerBaseCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypRegularFont(ofSize: 17)
-        label.text = "Категория"
+        label.text = LocalizedString("trackersForm.categoryPickerCell.title")
 
         return label
     }()

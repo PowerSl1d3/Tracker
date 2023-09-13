@@ -1,0 +1,65 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Олег Аксененко on 11.09.2023.
+  
+*/
+
+// Onboard
+
+"onboard.inviteText.first" = "Отслеживайте только то, что хотите";
+"onboard.inviteText.second" = "Даже если это не литры воды и йога";
+"onboard.inviteButton" = "Вот это технологии!";
+
+// TabBar
+
+"tabBarItem.trackers" = "Трекеры";
+"tabBarItem.statistics" = "Статистика";
+
+// Tracker List
+
+"trackers.searchTextField.placeholder" = "Поиск";
+"trackers.cancelSearchButton.cancel" = "Отменить";
+"trackers.placeholder" = "Что будем отслеживать?";
+"trackers.navItem" = "Трекеры";
+
+// Tracker Type Picker
+
+"typePicker.habit" = "Привычка";
+"typePicker.event" = "Нерегулярное событие";
+"typePicker.navItem" = "Создание трекера";
+
+// Trackers Form
+
+"trackersForm.cancel" = "Отменить";
+"trackersForm.create" = "Создать";
+"trackersForm.titleTextField.placeholder" = "Введите название трекера";
+"trackersForm.titleTextField.error" = "Ограничение 38 символов";
+"trackersForm.section.emoji" = "Emoji";
+"trackersForm.section.color" = "Цвет";
+"trackersForm.navItem.habit" = "Новая привычка";
+"trackersForm.navItem.event" = "Новое нерегулярное событие";
+
+// Trackers Form Cells
+
+"trackersForm.categoryPickerCell.title" = "Категория";
+"trackersForm.schedulePickerCell.title" = "Расписание";
+
+// Trackers Category Creation
+
+"trackersCategoryCreation.button.title" = "Добавить категорию";
+"trackersCategoryCreation.placeholder.title" = "Привычки и события можно объединить по смыслу";
+"trackersCategoryCreation.navItem" = "Категория";
+
+// Category Creation
+
+"categoryCreation.button.title" = "Готово";
+"categoryCreation.titleTextFiels.placeholder" = "Введите название категории";
+"categoryCreation.titleTextFiels.error" = "Ограничение 38 символов";
+"categoryCreation.navItem" = "Категория";
+
+// Week Day Picker
+
+"weekDayPicker.button.title" = "Готово";
+"weekDayPicker.navItem" = "Расписание";

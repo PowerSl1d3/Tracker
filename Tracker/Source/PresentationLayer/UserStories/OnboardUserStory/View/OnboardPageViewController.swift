@@ -9,13 +9,13 @@ import UIKit
 
 final class OnboardPageViewController: UIPageViewController {
     lazy var pages: [UIViewController] = [
-        OnboardViewController(imageName: "onboarding0", inviteText: "Отслеживайте только то, что хотите"),
-        OnboardViewController(imageName: "onboarding1", inviteText: "Даже если это не литры воды и йога")
+        OnboardViewController(imageName: "onboarding0", inviteText: LocalizedString("onboard.inviteText.first")),
+        OnboardViewController(imageName: "onboarding1", inviteText: LocalizedString("onboard.inviteText.second"))
     ]
 
     private let inviteButton: UIButton = {
         let button = StateButton()
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(LocalizedString("onboard.inviteButton"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button

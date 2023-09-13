@@ -31,7 +31,7 @@ final class WeekDayPickerViewController: UIViewController {
             .foregroundColor: UIColor.ypWhite
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Готово", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("weekDayPicker.button.title"), attributes: attributes), for: .normal)
 
         return button
     }()
@@ -55,7 +55,7 @@ final class WeekDayPickerViewController: UIViewController {
         weekDayTableView.register(WeekDaySwitchCell.self, forCellReuseIdentifier: WeekDaySwitchCell.reuseIdentifier)
 
         view.backgroundColor = .ypWhite
-        navigationItem.title = "Расписание"
+        navigationItem.title = LocalizedString("weekDayPicker.navItem")
         navigationItem.hidesBackButton = true
 
         view.addSubview(weekDayTableView)

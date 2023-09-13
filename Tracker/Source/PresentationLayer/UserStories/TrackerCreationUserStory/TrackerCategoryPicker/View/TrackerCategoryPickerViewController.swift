@@ -30,7 +30,7 @@ final class TrackerCategoryPickerViewController: UIViewController {
             .font: UIFont.ypMediumFont(ofSize: 16)
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Добавить категорию", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("trackersCategoryCreation.button.title"), attributes: attributes), for: .normal)
 
         return button
     }()
@@ -38,7 +38,7 @@ final class TrackerCategoryPickerViewController: UIViewController {
     let placeholderView: TrackersPlaceholderStarView = {
         let placeholderView = TrackersPlaceholderStarView()
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
-        placeholderView.titleLabel.text = "Привычки и события можно объединить по смыслу"
+        placeholderView.titleLabel.text = LocalizedString("trackersCategoryCreation.placeholder.title")
         placeholderView.isHidden = true
 
         return placeholderView
@@ -74,7 +74,7 @@ final class TrackerCategoryPickerViewController: UIViewController {
         )
 
         view.backgroundColor = .ypWhite
-        navigationItem.title = "Категория"
+        navigationItem.title = LocalizedString("trackersCategoryCreation.navItem")
         navigationItem.hidesBackButton = true
 
         categoriesTableView.addSubview(placeholderView)

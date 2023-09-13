@@ -63,15 +63,15 @@ final class TrackerFormViewController: UIViewController {
             .foregroundColor: UIColor.ypRed
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Отменить", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("trackersForm.cancel"), attributes: attributes), for: .normal)
 
         return button
     }()
 
     private let createButton: UIButton = {
         let button = StateButton(type: .system)
-        button.setTitle("Создать", for: .normal)
-        button.setTitle("Создать", for: .disabled)
+        button.setTitle(LocalizedString("trackersForm.create"), for: .normal)
+        button.setTitle(LocalizedString("trackersForm.create"), for: .disabled)
         button.isEnabled = false
 
         return button
@@ -98,11 +98,11 @@ final class TrackerFormViewController: UIViewController {
         super.viewDidLoad()
 
         let textFieldSection = TrackerBaseSection(
-            cellModel: TrackerTitleTextFieldCellModel(title: nil, placeholder: "Введите название трекера") { [weak self] cellModel, didShowError in
+            cellModel: TrackerTitleTextFieldCellModel(title: nil, placeholder: LocalizedString("trackersForm.titleTextField.placeholder")) { [weak self] cellModel, didShowError in
                 guard let self, let textFieldSection = self.textFieldSection else { return }
 
                 if didShowError && textFieldSection.count == 1 {
-                    textFieldSection.append(TrackerErrorCellModel(errorText: "Ограничение 38 символов"))
+                    textFieldSection.append(TrackerErrorCellModel(errorText: LocalizedString("trackersForm.titleTextField.error")))
                     trackerParametersTableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
                 } else if !didShowError && textFieldSection.count == 2 {
                     textFieldSection.pop()
@@ -143,7 +143,7 @@ final class TrackerFormViewController: UIViewController {
         }
 
         let emojiPickerSection = TrackerBaseSection(
-            name: "Emoji",
+            name: LocalizedString("trackersForm.section.emoji"),
             cellModels: [
                 TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
                 emojiPickerCellModel
@@ -160,7 +160,7 @@ final class TrackerFormViewController: UIViewController {
         }
 
         let colorPickerSection = TrackerBaseSection(
-            name: "Цвет",
+            name: LocalizedString("trackersForm.section.color"),
             cellModels: [
                 TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
                 colorPickerCellModel
@@ -326,7 +326,7 @@ private extension TrackerFormViewController {
     // MARK: - Layout
 
     func setupNavBar() {
-        navigationItem.title = trackerType == .event ? "Новое нерегулярное событие" : "Новая привычка"
+        navigationItem.title = trackerType == .event ? LocalizedString("trackersForm.navItem.event") : LocalizedString("trackersForm.navItem.habit")
         navigationItem.hidesBackButton = true
     }
 

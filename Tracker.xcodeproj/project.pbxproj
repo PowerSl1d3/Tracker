@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		900086722A54173100010CDC /* TrackersPlaceholderStarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900086712A54173100010CDC /* TrackersPlaceholderStarView.swift */; };
+		900926312AAFC835002728CB /* NSLocalizedString+Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900926302AAFC835002728CB /* NSLocalizedString+Tracker.swift */; };
 		9012D2D22A4BD3CF006F39A2 /* TrackerFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9012D2D12A4BD3CF006F39A2 /* TrackerFormViewController.swift */; };
 		9012D2D52A4BD4EE006F39A2 /* TrackerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9012D2D42A4BD4EE006F39A2 /* TrackerType.swift */; };
 		9012D2DA2A4C03AC006F39A2 /* TrackerTitleTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9012D2D92A4C03AC006F39A2 /* TrackerTitleTextFieldCell.swift */; };
@@ -74,6 +75,7 @@
 		90C975E82A4DD00900FAD486 /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C975E72A4DD00900FAD486 /* WeekDay.swift */; };
 		90CE65CD2A505A0C00E3540C /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE65CC2A505A0C00E3540C /* CategoryCreationViewController.swift */; };
 		90D115552A821B670050BC67 /* TrackersDataProviderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */; };
+		90D91CE32AB17DBE00569323 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90D91CE52AB17DBE00569323 /* Localizable.strings */; };
 		90DC80E22A769C9800DDDB95 /* TrackersModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90DC80E02A769C9800DDDB95 /* TrackersModel.xcdatamodeld */; };
 		90DF32DF2AA32C5100CFA3A6 /* OnboardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF32DE2AA32C5100CFA3A6 /* OnboardPageViewController.swift */; };
 		90DF32E52AA32E1D00CFA3A6 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DF32E42AA32E1D00CFA3A6 /* OnboardViewController.swift */; };
@@ -92,6 +94,7 @@
 
 /* Begin PBXFileReference section */
 		900086712A54173100010CDC /* TrackersPlaceholderStarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersPlaceholderStarView.swift; sourceTree = "<group>"; };
+		900926302AAFC835002728CB /* NSLocalizedString+Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLocalizedString+Tracker.swift"; sourceTree = "<group>"; };
 		9012D2D12A4BD3CF006F39A2 /* TrackerFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFormViewController.swift; sourceTree = "<group>"; };
 		9012D2D42A4BD4EE006F39A2 /* TrackerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerType.swift; sourceTree = "<group>"; };
 		9012D2D92A4C03AC006F39A2 /* TrackerTitleTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTitleTextFieldCell.swift; sourceTree = "<group>"; };
@@ -160,6 +163,8 @@
 		90C975E72A4DD00900FAD486 /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
 		90CE65CC2A505A0C00E3540C /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
 		90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersDataProviderAssembly.swift; sourceTree = "<group>"; };
+		90D91CE42AB17DBE00569323 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		90D91CE62AB17DCA00569323 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		90DC80E12A769C9800DDDB95 /* TrackersModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackersModel.xcdatamodel; sourceTree = "<group>"; };
 		90DF32DE2AA32C5100CFA3A6 /* OnboardPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardPageViewController.swift; sourceTree = "<group>"; };
 		90DF32E42AA32E1D00CFA3A6 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
@@ -469,6 +474,7 @@
 				90230F1E2A578FA100653870 /* Date+Tracker.swift */,
 				90166C242A76ABE300E8D6EE /* CoreData+Tracker.swift */,
 				90B231AC2A8BBEF80019B7A2 /* UITableView+Tracker.swift */,
+				900926302AAFC835002728CB /* NSLocalizedString+Tracker.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -478,6 +484,7 @@
 			children = (
 				9096D3F82A3ED11200B9EC48 /* Fonts */,
 				909D07552A2311C80082F768 /* Assets.xcassets */,
+				90D91CE52AB17DBE00569323 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -755,11 +762,12 @@
 			};
 			buildConfigurationList = 909D07442A2311C70082F768 /* Build configuration list for PBXProject "Tracker" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 909D07402A2311C70082F768;
 			packageReferences = (
@@ -779,6 +787,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				909D07592A2311C80082F768 /* LaunchScreen.storyboard in Resources */,
+				90D91CE32AB17DBE00569323 /* Localizable.strings in Resources */,
 				9096D3FE2A3ED12800B9EC48 /* YS Display-Regular.ttf in Resources */,
 				9096D3FD2A3ED12800B9EC48 /* YS Display-Medium.ttf in Resources */,
 				9096D3FC2A3ED12800B9EC48 /* YS Display-Bold.ttf in Resources */,
@@ -850,6 +859,7 @@
 				9012D2DA2A4C03AC006F39A2 /* TrackerTitleTextFieldCell.swift in Sources */,
 				90954FF32A4FDF3000D4CB9A /* TrackerErrorCell.swift in Sources */,
 				9020CD742A79E5DD0002B957 /* TrackersDataProvider.swift in Sources */,
+				900926312AAFC835002728CB /* NSLocalizedString+Tracker.swift in Sources */,
 				9020CD6B2A79DDE90002B957 /* TrackerStore.swift in Sources */,
 				905876022A4E683D0035E50A /* WeekDaySwitchCell.swift in Sources */,
 				90C975E82A4DD00900FAD486 /* WeekDay.swift in Sources */,
@@ -883,6 +893,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		90D91CE52AB17DBE00569323 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				90D91CE42AB17DBE00569323 /* en */,
+				90D91CE62AB17DCA00569323 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -890,6 +909,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -950,6 +970,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

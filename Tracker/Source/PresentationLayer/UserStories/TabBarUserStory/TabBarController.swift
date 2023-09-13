@@ -31,7 +31,7 @@ private extension TabBarController {
     func configureTabBarControllers() {
         let trackersViewController = TrackersAssembly.assemble()
         let trackersTabBarItem = UITabBarItem(
-            title: "Трекеры",
+            title: LocalizedString("tabBarItem.trackers"),
             image: UIImage(named: "trackers"),
             tag: 0
         )
@@ -42,7 +42,7 @@ private extension TabBarController {
 
         let statisticsViewController = StatisticsViewController()
         let statisticsTabBarItem = UITabBarItem(
-            title: "Статистика",
+            title: LocalizedString("tabBarItem.statistics"),
             image: UIImage(named: "stats"),
             tag: 1
         )

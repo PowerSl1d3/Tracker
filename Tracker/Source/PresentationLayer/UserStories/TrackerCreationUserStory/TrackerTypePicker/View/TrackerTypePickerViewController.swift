@@ -27,7 +27,7 @@ final class TrackerTypePickerViewController: UIViewController {
             .font: UIFont.ypMediumFont(ofSize: 16)
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Привычка", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("typePicker.habit"), attributes: attributes), for: .normal)
 
         return button
     }()
@@ -44,7 +44,7 @@ final class TrackerTypePickerViewController: UIViewController {
             .font: UIFont.ypMediumFont(ofSize: 16)
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Нерегулярные события", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("typePicker.event"), attributes: attributes), for: .normal)
 
         return button
     }()
@@ -56,7 +56,7 @@ final class TrackerTypePickerViewController: UIViewController {
         eventButton.addTarget(self, action: #selector(didTapCreateTrackerButton(_:)), for: .touchUpInside)
 
         view.backgroundColor = .ypWhite
-        navigationItem.title = "Создание трекера"
+        navigationItem.title = LocalizedString("typePicker.navItem")
 
         containerView.addSubview(habitButton)
         containerView.addSubview(eventButton)
