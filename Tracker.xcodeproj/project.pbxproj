@@ -165,6 +165,8 @@
 		90D115542A821B670050BC67 /* TrackersDataProviderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersDataProviderAssembly.swift; sourceTree = "<group>"; };
 		90D91CE42AB17DBE00569323 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		90D91CE62AB17DCA00569323 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		90D91CEC2AB17EB800569323 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		90D91CEE2AB17EBD00569323 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		90DC80E12A769C9800DDDB95 /* TrackersModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackersModel.xcdatamodel; sourceTree = "<group>"; };
 		90DF32DE2AA32C5100CFA3A6 /* OnboardPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardPageViewController.swift; sourceTree = "<group>"; };
 		90DF32E42AA32E1D00CFA3A6 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
@@ -889,6 +891,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				909D07582A2311C80082F768 /* Base */,
+				90D91CEC2AB17EB800569323 /* ru */,
+				90D91CEE2AB17EBD00569323 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

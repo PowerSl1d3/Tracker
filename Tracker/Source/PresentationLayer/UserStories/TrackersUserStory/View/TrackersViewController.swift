@@ -38,7 +38,6 @@ final class TrackersViewController: UIViewController {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         datePicker.tintColor = .ypBlue
-        datePicker.locale = Locale(identifier: "ru-RU")
 
         return datePicker
     }()

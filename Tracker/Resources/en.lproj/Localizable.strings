@@ -8,58 +8,58 @@
 
 // Onboard
 
-"onboard.inviteText.first" = "Отслеживайте только то, что хотите";
-"onboard.inviteText.second" = "Даже если это не литры воды и йога";
-"onboard.inviteButton" = "Вот это технологии!";
+"onboard.inviteText.first" = "Track only what you want";
+"onboard.inviteText.second" = "Even if it's not liters of water and yoga";
+"onboard.inviteButton" = "These are technologies!";
 
 // TabBar
 
-"tabBarItem.trackers" = "Трекеры";
-"tabBarItem.statistics" = "Статистика";
+"tabBarItem.trackers" = "Trackers";
+"tabBarItem.statistics" = "Statistics";
 
 // Tracker List
 
-"trackers.searchTextField.placeholder" = "Поиск";
-"trackers.cancelSearchButton.cancel" = "Отменить";
-"trackers.placeholder" = "Что будем отслеживать?";
-"trackers.navItem" = "Трекеры";
+"trackers.searchTextField.placeholder" = "Search";
+"trackers.cancelSearchButton.cancel" = "Cancel";
+"trackers.placeholder" = "What will we track?";
+"trackers.navItem" = "Trackers";
 
 // Tracker Type Picker
 
-"typePicker.habit" = "Привычка";
-"typePicker.event" = "Нерегулярное событие";
-"typePicker.navItem" = "Создание трекера";
+"typePicker.habit" = "Habit";
+"typePicker.event" = "Irregular event";
+"typePicker.navItem" = "Creating a tracker";
 
 // Trackers Form
 
-"trackersForm.cancel" = "Отменить";
-"trackersForm.create" = "Создать";
-"trackersForm.titleTextField.placeholder" = "Введите название трекера";
-"trackersForm.titleTextField.error" = "Ограничение 38 символов";
+"trackersForm.cancel" = "Cancel";
+"trackersForm.create" = "Create";
+"trackersForm.titleTextField.placeholder" = "Enter the name of the tracker";
+"trackersForm.titleTextField.error" = "Limit of 38 characters";
 "trackersForm.section.emoji" = "Emoji";
-"trackersForm.section.color" = "Цвет";
-"trackersForm.navItem.habit" = "Новая привычка";
-"trackersForm.navItem.event" = "Новое нерегулярное событие";
+"trackersForm.section.color" = "Color";
+"trackersForm.navItem.habit" = "New habit";
+"trackersForm.navItem.event" = "New irregular event";
 
 // Trackers Form Cells
 
-"trackersForm.categoryPickerCell.title" = "Категория";
-"trackersForm.schedulePickerCell.title" = "Расписание";
+"trackersForm.categoryPickerCell.title" = "Category";
+"trackersForm.schedulePickerCell.title" = "Schedule";
 
 // Trackers Category Creation
 
-"trackersCategoryCreation.button.title" = "Добавить категорию";
-"trackersCategoryCreation.placeholder.title" = "Привычки и события можно объединить по смыслу";
-"trackersCategoryCreation.navItem" = "Категория";
+"trackersCategoryCreation.button.title" = "Add a category";
+"trackersCategoryCreation.placeholder.title" = "Habits and events can be combined in meaning";
+"trackersCategoryCreation.navItem" = "Category";
 
 // Category Creation
 
-"categoryCreation.button.title" = "Готово";
-"categoryCreation.titleTextFiels.placeholder" = "Введите название категории";
-"categoryCreation.titleTextFiels.error" = "Ограничение 38 символов";
-"categoryCreation.navItem" = "Категория";
+"categoryCreation.button.title" = "Done";
+"categoryCreation.titleTextFiels.placeholder" = "Enter the category name";
+"categoryCreation.titleTextFiels.error" = "Limit of 38 characters";
+"categoryCreation.navItem" = "Category";
 
 // Week Day Picker
 
-"weekDayPicker.button.title" = "Готово";
-"weekDayPicker.navItem" = "Расписание";
+"weekDayPicker.button.title" = "Done";
+"weekDayPicker.navItem" = "Schedule";
