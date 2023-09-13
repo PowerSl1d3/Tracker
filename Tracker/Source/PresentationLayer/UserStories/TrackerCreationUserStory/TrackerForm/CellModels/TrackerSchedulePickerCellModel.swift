@@ -19,7 +19,7 @@ final class TrackerSchedulePickerCellModel: TrackerBaseCellModel {
         super.init(
             cellClass: TrackerSchedulePickerCell.self,
             height: 75,
-            contentViewBackgroundColor: .ypBackground,
+            contentViewBackgroundColor: Asset.ypBackground.color,
             separatorInset: .invisibleSeparator
         )
     }

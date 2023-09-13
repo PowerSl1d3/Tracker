@@ -11,8 +11,8 @@ final class TrackerCategoryPickerViewController: UIViewController {
     let categoriesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .ypWhite
-        tableView.separatorColor = .ypGray
+        tableView.backgroundColor = Asset.ypWhite.color
+        tableView.separatorColor = Asset.ypGray.color
         tableView.allowsMultipleSelection = false
 
         return tableView
@@ -21,8 +21,8 @@ final class TrackerCategoryPickerViewController: UIViewController {
     let addCategoryButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.backgroundColor = Asset.ypBlack.color
+        button.setTitleColor(Asset.ypWhite.color, for: .normal)
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
@@ -73,7 +73,7 @@ final class TrackerCategoryPickerViewController: UIViewController {
             forCellReuseIdentifier: TrackerCategoryCell.reuseIdentifier
         )
 
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = Asset.ypWhite.color
         navigationItem.title = LocalizedString("trackersCategoryCreation.navItem")
         navigationItem.hidesBackButton = true
 

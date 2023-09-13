@@ -28,9 +28,9 @@ final class OnboardPageViewController: UIPageViewController {
         pageControl.currentPage = 0
         pageControl.numberOfPages = pages.count
 
-        pageControl.currentPageIndicatorTintColor = .ypBlack
+        pageControl.currentPageIndicatorTintColor = Asset.ypBlack.color
             .resolvedColor(with: UITraitCollection(userInterfaceStyle: .light))
-        pageControl.pageIndicatorTintColor = .ypBlack
+        pageControl.pageIndicatorTintColor = Asset.ypBlack.color
             .resolvedColor(with: UITraitCollection(userInterfaceStyle: .light))
             .withAlphaComponent(0.3)
 

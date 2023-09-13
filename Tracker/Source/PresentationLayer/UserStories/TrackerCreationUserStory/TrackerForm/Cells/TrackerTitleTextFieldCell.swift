@@ -14,7 +14,7 @@ final class TrackerTitleTextFieldCell: TrackerBaseCell {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = .ypRegularFont(ofSize: 17)
-        textField.backgroundColor = .ypBackground
+        textField.backgroundColor = Asset.ypBackground.color
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftViewMode = .always

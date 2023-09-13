@@ -20,7 +20,7 @@ final class TrackerCategoryPickerCellModel: TrackerBaseCellModel {
         super.init(
             cellClass: TrackerCategoryPickerCell.self,
             height: 75,
-            backgroundColor: .ypBackground,
+            backgroundColor: Asset.ypBackground.color,
             contentViewBackgroundColor: .clear
         )
     }

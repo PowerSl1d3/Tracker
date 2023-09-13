@@ -24,7 +24,7 @@ final class TrackersViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(LocalizedString("trackers.cancelSearchButton.cancel"), for: .normal)
-        button.setTitleColor(.ypBlue, for: .normal)
+        button.setTitleColor(Asset.ypBlue.color, for: .normal)
 
         return button
     }()
@@ -37,7 +37,7 @@ final class TrackersViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
-        datePicker.tintColor = .ypBlue
+        datePicker.tintColor = Asset.ypBlue.color
 
         return datePicker
     }()
@@ -46,7 +46,7 @@ final class TrackersViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .ypWhite
+        collectionView.backgroundColor = Asset.ypWhite.color
 
         return collectionView
     }()
@@ -79,7 +79,7 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = Asset.ypWhite.color
 
         datePicker.addTarget(self, action: #selector(didChangeDate), for: .valueChanged)
         cancelSearchButton.addTarget(self, action: #selector(didTapCancelSearchButton), for: .touchUpInside)
@@ -199,7 +199,7 @@ private extension TrackersViewController {
             target: self,
             action: #selector(didTapAddTrackerButton)
         )
-        addTrackersItem.tintColor = .ypBlack
+        addTrackersItem.tintColor = Asset.ypBlack.color
 
         let datePickerItem = UIBarButtonItem(customView: datePicker)
 

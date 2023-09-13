@@ -21,7 +21,7 @@ final class TrackersPlaceholderStarView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypMediumFont(ofSize: 12)
-        label.textColor = .ypBlack
+        label.textColor = Asset.ypBlack.color
         label.textAlignment = .center
         label.numberOfLines = 2
 

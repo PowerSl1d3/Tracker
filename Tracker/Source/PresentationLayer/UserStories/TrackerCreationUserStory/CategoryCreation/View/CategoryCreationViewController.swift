@@ -11,8 +11,8 @@ final class CategoryCreationViewController: UIViewController {
     private let categoryTextFieldTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .ypWhite
-        tableView.separatorColor = .ypGray
+        tableView.backgroundColor = Asset.ypWhite.color
+        tableView.separatorColor = Asset.ypGray.color
         tableView.allowsMultipleSelection = false
 
         return tableView
@@ -66,7 +66,7 @@ final class CategoryCreationViewController: UIViewController {
             forCellReuseIdentifier: String(describing: TrackerErrorCell.self)
         )
 
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = Asset.ypWhite.color
         navigationItem.title = LocalizedString("categoryCreation.navItem")
         navigationItem.hidesBackButton = true
 

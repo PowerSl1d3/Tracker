@@ -43,8 +43,8 @@ final class TrackerFormViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .ypWhite
-        tableView.separatorColor = .ypGray
+        tableView.backgroundColor = Asset.ypWhite.color
+        tableView.separatorColor = Asset.ypGray.color
 
         return tableView
     }()
@@ -52,15 +52,15 @@ final class TrackerFormViewController: UIViewController {
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypWhite
+        button.backgroundColor = Asset.ypWhite.color
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.ypRed.cgColor
+        button.layer.borderColor = Asset.ypRed.color.cgColor
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.ypMediumFont(ofSize: 16),
-            .foregroundColor: UIColor.ypRed
+            .foregroundColor: Asset.ypRed.color
         ]
 
         button.setAttributedTitle(NSAttributedString(string: LocalizedString("trackersForm.cancel"), attributes: attributes), for: .normal)
@@ -122,7 +122,7 @@ final class TrackerFormViewController: UIViewController {
 
         let categoryPickerSection = TrackerBaseSection(
             cellModels: [
-                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: Asset.ypWhite.color, separatorInset: .invisibleSeparator),
                 categoryPickerCellModel
             ]
         )
@@ -145,7 +145,7 @@ final class TrackerFormViewController: UIViewController {
         let emojiPickerSection = TrackerBaseSection(
             name: LocalizedString("trackersForm.section.emoji"),
             cellModels: [
-                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: Asset.ypWhite.color, separatorInset: .invisibleSeparator),
                 emojiPickerCellModel
             ]
         )
@@ -162,7 +162,7 @@ final class TrackerFormViewController: UIViewController {
         let colorPickerSection = TrackerBaseSection(
             name: LocalizedString("trackersForm.section.color"),
             cellModels: [
-                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: .ypWhite, separatorInset: .invisibleSeparator),
+                TrackerBaseCellModel(height: 24, contentViewBackgroundColor: Asset.ypWhite.color, separatorInset: .invisibleSeparator),
                 colorPickerCellModel
             ]
         )
@@ -192,7 +192,7 @@ final class TrackerFormViewController: UIViewController {
             forHeaderFooterViewReuseIdentifier: TrackerFormHeaderView.reuseIdentifier
         )
 
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = Asset.ypWhite.color
         view.addSubview(trackerParametersTableView)
 
         buttonsContainerView.addSubview(cancelButton)

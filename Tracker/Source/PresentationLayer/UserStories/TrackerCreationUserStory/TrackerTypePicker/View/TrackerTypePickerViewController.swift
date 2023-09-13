@@ -18,8 +18,8 @@ final class TrackerTypePickerViewController: UIViewController {
     let habitButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.backgroundColor = Asset.ypBlack.color
+        button.setTitleColor(Asset.ypWhite.color, for: .normal)
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
@@ -35,8 +35,8 @@ final class TrackerTypePickerViewController: UIViewController {
     let eventButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.backgroundColor = Asset.ypBlack.color
+        button.setTitleColor(Asset.ypWhite.color, for: .normal)
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
@@ -55,7 +55,7 @@ final class TrackerTypePickerViewController: UIViewController {
         habitButton.addTarget(self, action: #selector(didTapCreateTrackerButton(_:)), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(didTapCreateTrackerButton(_:)), for: .touchUpInside)
 
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = Asset.ypWhite.color
         navigationItem.title = LocalizedString("typePicker.navItem")
 
         containerView.addSubview(habitButton)

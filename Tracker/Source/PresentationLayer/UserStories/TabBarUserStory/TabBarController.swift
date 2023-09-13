@@ -21,7 +21,7 @@ final class TabBarController: UITabBarController {
 
 private extension TabBarController {
     func configureAppearance() {
-        tabBar.backgroundColor = .ypWhite
+        tabBar.backgroundColor = Asset.ypWhite.color
         tabBar.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         tabBar.layer.shadowOffset = CGSize(width: 0, height: -0.5)
         tabBar.layer.shadowOpacity = 1

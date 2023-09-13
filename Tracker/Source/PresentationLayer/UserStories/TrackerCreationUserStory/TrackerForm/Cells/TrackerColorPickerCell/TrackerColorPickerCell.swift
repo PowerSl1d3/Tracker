@@ -15,7 +15,7 @@ final class TrackerColorPickerCell: TrackerBaseCell {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
         collectionView.allowsMultipleSelection = false
-        collectionView.backgroundColor = .ypWhite
+        collectionView.backgroundColor = Asset.ypWhite.color
 
         return collectionView
     }()

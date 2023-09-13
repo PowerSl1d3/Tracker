@@ -23,7 +23,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
     let emojiLabelContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .ypWhite.withAlphaComponent(0.3)
+        view.backgroundColor = Asset.ypWhite.color.withAlphaComponent(0.3)
         view.layer.cornerRadius = 24 / 2
         view.clipsToBounds = true
 
@@ -35,7 +35,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 3
         label.font = .ypMediumFont(ofSize: 12)
-        label.textColor = UIColor { _ in .ypWhite.resolvedColor(with: UITraitCollection(userInterfaceStyle: .light)) }
+        label.textColor = UIColor { _ in Asset.ypWhite.color.resolvedColor(with: UITraitCollection(userInterfaceStyle: .light)) }
 
         return label
     }()

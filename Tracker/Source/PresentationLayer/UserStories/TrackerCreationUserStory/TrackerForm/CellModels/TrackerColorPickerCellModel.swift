@@ -17,7 +17,7 @@ final class TrackerColorPickerCellModel: TrackerBaseCellModel {
         super.init(
             cellClass: TrackerColorPickerCell.self,
             height: 156,
-            contentViewBackgroundColor: .ypWhite,
+            contentViewBackgroundColor: Asset.ypWhite.color,
             separatorInset: .invisibleSeparator
         )
     }

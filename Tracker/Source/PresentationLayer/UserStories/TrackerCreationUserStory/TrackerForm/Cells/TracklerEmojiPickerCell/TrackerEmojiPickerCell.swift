@@ -15,7 +15,7 @@ final class TrackerEmojiPickerCell: TrackerBaseCell {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
         collectionView.allowsMultipleSelection = false
-        collectionView.backgroundColor = .ypWhite
+        collectionView.backgroundColor = Asset.ypWhite.color
 
         return collectionView
     }()
@@ -63,7 +63,7 @@ extension TrackerEmojiPickerCell: UICollectionViewDataSource {
         guard let cell, let cellModel else { return UICollectionViewCell() }
 
         cell.emojiLabel.text = cellModel.emojies[safe: indexPath.row]
-        cell.contentView.backgroundColor = cellModel.selectedEmojiIndex == indexPath.row ? .ypLightGray : .ypWhite
+        cell.contentView.backgroundColor = cellModel.selectedEmojiIndex == indexPath.row ? Asset.ypLightGray.color : Asset.ypWhite.color
 
         return cell
     }

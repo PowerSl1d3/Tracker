@@ -13,8 +13,8 @@ final class WeekDayPickerViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.showsVerticalScrollIndicator = false
         tableView.allowsSelection = false
-        tableView.backgroundColor = .ypWhite
-        tableView.separatorColor = .ypGray
+        tableView.backgroundColor = Asset.ypWhite.color
+        tableView.separatorColor = Asset.ypGray.color
 
         return tableView
     }()
@@ -22,13 +22,13 @@ final class WeekDayPickerViewController: UIViewController {
     let doneButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
+        button.backgroundColor = Asset.ypBlack.color
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.ypMediumFont(ofSize: 16),
-            .foregroundColor: UIColor.ypWhite
+            .foregroundColor: Asset.ypWhite.color
         ]
 
         button.setAttributedTitle(NSAttributedString(string: LocalizedString("weekDayPicker.button.title"), attributes: attributes), for: .normal)
@@ -54,7 +54,7 @@ final class WeekDayPickerViewController: UIViewController {
 
         weekDayTableView.register(WeekDaySwitchCell.self, forCellReuseIdentifier: WeekDaySwitchCell.reuseIdentifier)
 
-        view.backgroundColor = .ypWhite
+        view.backgroundColor = Asset.ypWhite.color
         navigationItem.title = LocalizedString("weekDayPicker.navItem")
         navigationItem.hidesBackButton = true
 

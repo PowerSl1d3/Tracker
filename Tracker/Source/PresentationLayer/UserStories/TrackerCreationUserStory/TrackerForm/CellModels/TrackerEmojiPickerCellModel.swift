@@ -21,7 +21,7 @@ final class TrackerEmojiPickerCellModel: TrackerBaseCellModel {
         super.init(
             cellClass: TrackerEmojiPickerCell.self,
             height: 156,
-            contentViewBackgroundColor: .ypWhite,
+            contentViewBackgroundColor: Asset.ypWhite.color,
             separatorInset: .invisibleSeparator
         )
     }

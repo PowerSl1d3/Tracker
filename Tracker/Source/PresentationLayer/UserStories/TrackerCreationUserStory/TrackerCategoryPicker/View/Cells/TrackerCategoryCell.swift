@@ -16,7 +16,7 @@ final class TrackerCategoryCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        backgroundColor = .ypBackground
+        backgroundColor = Asset.ypBackground.color
     }
 
     required init?(coder: NSCoder) {
