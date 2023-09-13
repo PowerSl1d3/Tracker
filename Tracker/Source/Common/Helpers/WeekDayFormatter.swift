@@ -34,24 +34,6 @@ final class WeekDayFormatter {
             return "Воскресенье"
         }
     }
-
-    func formattedDaysCount(_ daysCount: Int) -> String {
-        let daysSuffix: String
-
-        if "1".contains("\(daysCount % 10)") {
-            daysSuffix = "день"
-        } else if "234".contains("\(daysCount % 10)") {
-            daysSuffix = "дня"
-        } else if "567890".contains("\(daysCount % 10)") {
-            daysSuffix = "дней"
-        } else if 11...14 ~= daysCount % 100 {
-            daysSuffix = "дней"
-        } else {
-            daysSuffix = "день"
-        }
-
-        return "\(daysCount) \(daysSuffix)"
-    }
 }
 
 private extension WeekDayFormatter {

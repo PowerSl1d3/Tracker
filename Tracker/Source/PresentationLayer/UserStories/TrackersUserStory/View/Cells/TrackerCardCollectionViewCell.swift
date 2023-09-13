@@ -77,8 +77,6 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    let daysFormatter = WeekDayFormatter()
-
     var cellModel: Tracker?
     var completeButtonHandler: ((Tracker?) -> Void)?
 
@@ -123,7 +121,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         completeButton.isEnabled = !isFutureDate
         emojiLabel.text = String(cellModel.emoji)
         cardDescriptionLabel.text = cellModel.title
-        quantityLabel.text = daysFormatter.formattedDaysCount(completedDays)
+        quantityLabel.text = String.localizedStringWithFormat(LocalizedString("numberOfDays"), completedDays)
     }
 }
 
