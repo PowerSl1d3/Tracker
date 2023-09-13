@@ -63,3 +63,7 @@
 
 "weekDayPicker.button.title" = "Done";
 "weekDayPicker.navItem" = "Schedule";
+
+// Week Day Formatted
+
+"weekDayFormatter.everyDay" = "Every day";
