@@ -40,6 +40,8 @@ final class OnboardPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        overrideUserInterfaceStyle = .light
+
         inviteButton.addTarget(self, action: #selector(didTapInviteButton), for: .touchUpInside)
 
         dataSource = self
