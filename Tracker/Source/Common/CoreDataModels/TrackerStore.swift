@@ -27,7 +27,7 @@ struct TrackerStore {
         return Tracker(id: id, title: title, color: color, emoji: Character(emoji), schedule: schedule)
     }
 
-    init?(from tracker: Tracker, category: TrackerCategoryStore) {
+    init?(from tracker: Tracker, category: TrackerCategoryStore?) {
         id = tracker.id
         title = tracker.title
         color = Self.colorConverter.hexString(from: tracker.color)
@@ -42,7 +42,7 @@ struct TrackerStore {
     }
 
     init?(from trackerCoreData: TrackerCoreData) {
-        guard let id = trackerCoreData.id,
+        guard let id = trackerCoreData.trackerId,
               let title = trackerCoreData.title,
               let color = trackerCoreData.color,
               let emoji = trackerCoreData.emoji,

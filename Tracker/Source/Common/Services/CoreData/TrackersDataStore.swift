@@ -15,6 +15,7 @@ protocol TrackersDataStore {
     func add(_ record: TrackerStore) throws
     func add(_ record: TrackerCategoryStore) throws
     func add(_ record: TrackerRecordStore) throws
+    func delete(_ record: TrackerStore) throws
     func delete(_ record: TrackerRecordStore) throws
 }
 
@@ -81,7 +82,7 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 }
 
                 let trackerCoreData = TrackerCoreData(context: context)
-                trackerCoreData.id = record.id
+                trackerCoreData.trackerId = record.id
                 trackerCoreData.title = record.title
                 trackerCoreData.color = record.color
                 trackerCoreData.emoji = record.emoji
@@ -123,6 +124,28 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 let trackerRecordCoreData = TrackerRecordCoreData(context: context)
                 trackerRecordCoreData.idRecord = record.id
                 trackerRecordCoreData.date = record.date
+
+                try context.save()
+            }
+        }
+    }
+
+    func delete(_ record: TrackerStore) throws {
+        let fetchRequest = TrackerCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerCoreData.trackerId),
+            record.id as CVarArg
+        )
+        fetchRequest.fetchLimit = 1
+
+        try performSync { context in
+            Result {
+                guard let trackerCoreData = try context.fetch(fetchRequest).first else {
+                    throw TrackersDataStoreError.failedToFetchRecord
+                }
+
+                context.delete(trackerCoreData)
 
                 try context.save()
             }

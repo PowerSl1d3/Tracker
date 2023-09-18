@@ -12,8 +12,8 @@ final class TrackersViewModel {
     @Observable private(set) var visibleCategories: [TrackerCategory] = []
 
     var currentDate: Date { model?.currentDate ?? Date() }
-    var completedTrackerRecords: [TrackerRecord] { dataProvider?.records() ?? [] }
     var dataProvider: TrackersDataProvider? { model?.dataProvider }
+    var completedTrackerRecords: [TrackerRecord] { dataProvider?.records() ?? [] }
 
     var model: TrackersModel?
     var dataSource: TrackersDataSource?
@@ -41,6 +41,18 @@ final class TrackersViewModel {
 
     func didTapCancelSearchButton() {
         visibleCategories = model?.currentDateCategories ?? []
+    }
+
+    func didSelectPinContextMenu() {
+
+    }
+
+    func didSelectEditContextMenu() {
+
+    }
+
+    func didSelectDeleteContextMenu(_ tracker: Tracker) {
+        model?.deleteTracker(tracker)
     }
 }
 

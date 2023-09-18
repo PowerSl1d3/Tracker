@@ -58,6 +58,12 @@ final class TrackersModel {
     func presentTrackerTypePicker() {
         router?.presentTrackerTypePicker()
     }
+
+    func deleteTracker(_ tracker: Tracker) {
+        router?.presentDeleteTrackerAlert { [weak self] in
+            try? self?.dataProvider?.deleteRecord(tracker)
+        }
+    }
 }
 
 extension TrackersModel: TrackersDataProviderDelegate {

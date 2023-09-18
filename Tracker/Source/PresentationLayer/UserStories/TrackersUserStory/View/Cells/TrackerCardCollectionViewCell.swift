@@ -12,7 +12,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Card part
 
-    let emojiLabel: UILabel = {
+    private let emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypMediumFont(ofSize: 12)
@@ -20,7 +20,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    let emojiLabelContainer: UIView = {
+    private let emojiLabelContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Asset.ypWhite.color.withAlphaComponent(0.3)
@@ -30,7 +30,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return view
     }()
 
-    let cardDescriptionLabel: UILabel = {
+    private let cardDescriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 3
@@ -40,7 +40,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    let cardContainerView: UIView = {
+    private let cardContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
@@ -51,7 +51,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Quantity part
 
-    let quantityLabel: UILabel = {
+    private let quantityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypMediumFont(ofSize: 12)
@@ -60,7 +60,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    let completeButton: UIButton = {
+    private let completeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "plusButton"), for: .normal)
@@ -70,7 +70,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
-    let quantityContainerView: UIView = {
+    private let quantityContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -79,6 +79,10 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
 
     var cellModel: Tracker?
     var completeButtonHandler: ((Tracker?) -> Void)?
+
+    var targetHighlightedPreview: UIView {
+        cardContainerView
+    }
 
     override init(frame: CGRect) {
         super.init(frame: .zero)

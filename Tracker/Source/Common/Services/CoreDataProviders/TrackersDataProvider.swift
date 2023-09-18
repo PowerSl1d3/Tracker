@@ -34,6 +34,7 @@ protocol TrackersDataProvider {
     func addRecord(_ record: TrackerCategory) throws
     func addRecord(_ record: TrackerRecord) throws
 
+    func deleteRecord(_ record: Tracker) throws
     func deleteRecord(_ record: TrackerRecord) throws
 
     func records() -> [TrackerRecord]?
@@ -202,6 +203,11 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
 
     func addRecord(_ record: TrackerRecord) throws {
         try dataStore.add(TrackerRecordStore(from: record))
+    }
+
+    func deleteRecord(_ record: Tracker) throws {
+        guard let record = TrackerStore(from: record, category: nil) else { return }
+        try dataStore.delete(record)
     }
 
     func deleteRecord(_ record: TrackerRecord) throws {

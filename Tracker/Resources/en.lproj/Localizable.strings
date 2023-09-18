@@ -22,6 +22,13 @@
 "trackers.searchTextField.placeholder" = "Search";
 "trackers.cancelSearchButton.cancel" = "Cancel";
 "trackers.placeholder" = "What will we track?";
+"trackers.actions.pin" = "Pin";
+"trackers.actions.unpin" = "Unpin";
+"trackers.actions.edit" = "Edit";
+"trackers.actions.delete" = "Delete";
+"trackers.router.deleteAlert.text" = "Are you sure you want to delete the tracker?";
+"trackers.router.deleteAlert.delete" = "Delete";
+"trackers.router.deleteAlert.cancel" = "Cancel";
 "trackers.navItem" = "Trackers";
 
 // Tracker Type Picker

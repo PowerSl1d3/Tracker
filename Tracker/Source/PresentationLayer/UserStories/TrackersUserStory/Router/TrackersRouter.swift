@@ -10,6 +10,7 @@ import UIKit
 protocol TrackersRouter {
     func presentTrackerTypePicker()
     func dismissTrackerTypePicker()
+    func presentDeleteTrackerAlert(deleteHandler: @escaping () -> Void)
 }
 
 final class TrackersRouterImpl {
@@ -30,5 +31,24 @@ extension TrackersRouterImpl: TrackersRouter {
 
     func dismissTrackerTypePicker() {
         trackerTypePickerVC?.dismiss(animated: true)
+    }
+
+    func presentDeleteTrackerAlert(deleteHandler: @escaping () -> Void) {
+        let alertController = UIAlertController(
+            title: LocalizedString("trackers.router.deleteAlert.text"),
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+
+        let deleteAlert = UIAlertAction(title: LocalizedString("trackers.router.deleteAlert.delete"), style: .destructive) { _ in
+            deleteHandler()
+        }
+
+        let cancelAlert = UIAlertAction(title: LocalizedString("trackers.router.deleteAlert.cancel"), style: .cancel)
+
+        alertController.addAction(deleteAlert)
+        alertController.addAction(cancelAlert)
+
+        rootViewController?.present(alertController, animated: true)
     }
 }

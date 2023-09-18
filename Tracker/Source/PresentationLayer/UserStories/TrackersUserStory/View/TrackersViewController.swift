@@ -188,6 +188,46 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
             verticalFittingPriority: .fittingSizeLevel
         )
     }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfiguration configuration: UIContextMenuConfiguration,
+        highlightPreviewForItemAt indexPath: IndexPath
+    ) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TrackerCardCollectionViewCell else {
+            return nil
+        }
+
+        return UITargetedPreview(view: cell.targetHighlightedPreview)
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        guard indexPaths.count == 1 else { return nil }
+
+        guard let indexPath = indexPaths.first,
+              let cell = collectionView.cellForItem(at: indexPath) as? TrackerCardCollectionViewCell,
+              let cellModel = cell.cellModel else {
+            return nil
+        }
+
+        return UIContextMenuConfiguration(actionProvider:  { [weak self] _ in
+            UIMenu(children: [
+                UIAction(title: LocalizedString("trackers.actions.pin")) { [weak self] action in
+                    self?.viewModel?.didSelectPinContextMenu()
+                },
+                UIAction(title: LocalizedString("trackers.actions.edit")) { [weak self] action in
+                    self?.viewModel?.didSelectEditContextMenu()
+                },
+                UIAction(title: LocalizedString("trackers.actions.delete"), attributes: .destructive) { [weak self] _ in
+                    self?.viewModel?.didSelectDeleteContextMenu(cellModel)
+                }
+            ])
+        })
+    }
 }
 
 // MARK: - Configuration
