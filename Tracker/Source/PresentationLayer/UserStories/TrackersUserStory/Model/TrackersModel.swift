@@ -77,7 +77,7 @@ extension TrackersModel: TrackersDataProviderDelegate {
         switch update.type {
         case .tracker:
             output?.didUpdateTrackers()
-            router?.dismissTrackerTypePicker()
+            router?.dismissAllViewControllers()
         default:
             break
         }

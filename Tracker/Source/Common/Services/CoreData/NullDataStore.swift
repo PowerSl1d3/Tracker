@@ -15,6 +15,7 @@ extension NullDataStore: TrackersDataStore {
     func add(_ record: TrackerStore) throws {}
     func add(_ record: TrackerCategoryStore) throws {}
     func add(_ record: TrackerRecordStore) throws {}
+    func edit(_ record: TrackerStore) throws {}
     func delete(_ record: TrackerStore) throws {}
     func delete(_ record: TrackerRecordStore) throws {}
 }

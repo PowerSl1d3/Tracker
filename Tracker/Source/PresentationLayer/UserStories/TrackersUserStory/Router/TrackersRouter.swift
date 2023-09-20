@@ -9,14 +9,15 @@ import UIKit
 
 protocol TrackersRouter {
     func presentTrackerTypePicker()
-    func dismissTrackerTypePicker()
     func presentEditForm(for tracker: Tracker, from category: TrackerCategory)
     func presentDeleteTrackerAlert(deleteHandler: @escaping () -> Void)
+    func dismissAllViewControllers()
 }
 
 final class TrackersRouterImpl {
     weak var rootViewController: UIViewController?
     weak var trackerTypePickerVC: UIViewController?
+    weak var trackerFormVC: UIViewController?
 }
 
 extension TrackersRouterImpl: TrackersRouter {
@@ -30,15 +31,13 @@ extension TrackersRouterImpl: TrackersRouter {
         rootViewController?.present(navigationController, animated: true)
     }
 
-    func dismissTrackerTypePicker() {
-        trackerTypePickerVC?.dismiss(animated: true)
-    }
-
     func presentEditForm(for tracker: Tracker, from category: TrackerCategory) {
         let configuration = TrackerFormConfiguration.edit(tracker, category)
-        let viewController = TrackerFormAssembly.assemble(with: configuration)
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let trackerFormViewController = TrackerFormAssembly.assemble(with: configuration)
+        let navigationController = UINavigationController(rootViewController: trackerFormViewController)
         navigationController.modalPresentationStyle = .pageSheet
+
+        trackerFormVC = trackerFormViewController
 
         rootViewController?.present(navigationController, animated: true)
     }
@@ -60,5 +59,20 @@ extension TrackersRouterImpl: TrackersRouter {
         alertController.addAction(cancelAlert)
 
         rootViewController?.present(alertController, animated: true)
+    }
+
+    func dismissAllViewControllers() {
+        dismissTrackerTypePicker()
+        dismissTrackerForm()
+    }
+}
+
+private extension TrackersRouterImpl {
+    func dismissTrackerTypePicker() {
+        trackerTypePickerVC?.dismiss(animated: true)
+    }
+
+    func dismissTrackerForm() {
+        trackerFormVC?.dismiss(animated: true)
     }
 }

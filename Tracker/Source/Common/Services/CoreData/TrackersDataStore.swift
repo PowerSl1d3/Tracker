@@ -15,6 +15,7 @@ protocol TrackersDataStore {
     func add(_ record: TrackerStore) throws
     func add(_ record: TrackerCategoryStore) throws
     func add(_ record: TrackerRecordStore) throws
+    func edit(_ record: TrackerStore) throws
     func delete(_ record: TrackerStore) throws
     func delete(_ record: TrackerRecordStore) throws
 }
@@ -36,6 +37,7 @@ final class TrackersDataStoreImpl {
         case failedToFetchCategory
         case failedToFetchRecord
         case failedToCreateCategory
+        case failedToEditTracker
     }
 
     init() throws {
@@ -124,6 +126,45 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 let trackerRecordCoreData = TrackerRecordCoreData(context: context)
                 trackerRecordCoreData.idRecord = record.id
                 trackerRecordCoreData.date = record.date
+
+                try context.save()
+            }
+        }
+    }
+
+    func edit(_ record: TrackerStore) throws {
+        guard let categoryTitle = record.category?.title else {
+            throw TrackersDataStoreError.failedToEditTracker
+        }
+
+        let trackerFetchRequest = TrackerCoreData.fetchRequest()
+        trackerFetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerCoreData.trackerId),
+            record.id as CVarArg
+        )
+        trackerFetchRequest.fetchLimit = 1
+
+        let categoryFetchRequest = TrackerCategoryCoreData.fetchRequest()
+        categoryFetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerCategoryCoreData.title),
+            categoryTitle
+        )
+        categoryFetchRequest.fetchLimit = 1
+
+        try performSync { context in
+            Result {
+                guard let trackerCoreData = try context.fetch(trackerFetchRequest).first,
+                      let categoryCoreData = try context.fetch(categoryFetchRequest).first else {
+                    throw TrackersDataStoreError.failedToFetchRecord
+                }
+
+                trackerCoreData.title = record.title
+                trackerCoreData.category = categoryCoreData
+                trackerCoreData.schedule = record.schedule
+                trackerCoreData.color = record.color
+                trackerCoreData.emoji = record.emoji
 
                 try context.save()
             }

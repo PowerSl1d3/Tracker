@@ -17,6 +17,7 @@ final class NullDataProvider: TrackersDataProvider {
     func addRecord(_ trackerRecord: Tracker, toCategory category: TrackerCategory) throws {}
     func addRecord(_ record: TrackerCategory) throws {}
     func addRecord(_ record: TrackerRecord) throws {}
+    func editRecord(_ record: Tracker, from category: TrackerCategory) throws {}
     func deleteRecord(_ record: Tracker) throws {}
     func deleteRecord(_ record: TrackerRecord) throws {}
     func records() -> [TrackerRecord]? { nil }

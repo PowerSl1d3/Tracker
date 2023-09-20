@@ -102,11 +102,14 @@ final class TrackerFormViewController: UIViewController {
         super.viewDidLoad()
 
         let trackerType: TrackerType
+        let editMode: Bool
         switch configuration {
         case .create(let configurationTrackerType):
             trackerType = configurationTrackerType
+            editMode = false
         case .edit(let tracker, _):
             trackerType = tracker.schedule == .eventSchedule ? .event : .habit
+            editMode = true
         }
 
         let textFieldSection = TrackerBaseSection(
@@ -139,9 +142,9 @@ final class TrackerFormViewController: UIViewController {
             ]
         )
 
-        if trackerType == .habit {
-            categoryPickerSection.append(TrackerSchedulePickerCellModel(selectionHandler: { cellModel in
-                self.didTapWeekDayCell()
+        if trackerType == .habit || editMode {
+            categoryPickerSection.append(TrackerSchedulePickerCellModel(schedule: selectedSchedule, selectionHandler: { [weak self] cellModel in
+                self?.didTapWeekDayCell()
             }))
         }
 
@@ -420,15 +423,19 @@ private extension TrackerFormViewController {
     }
 
     @objc func didTapDoneButton() {
+        guard let trackerTitle,
+              let selectedCategory,
+              let selectedEmoji,
+              let selectedColor else {
+            assertionFailure("Invalid category form state")
+            return
+        }
+
         switch configuration {
         case .create(let trackerType):
             let selectedSchedule = trackerType == .event ? .eventSchedule : selectedSchedule
 
-            guard let trackerTitle,
-                  let selectedCategory,
-                  let selectedSchedule,
-                  let selectedEmoji,
-                  let selectedColor else {
+            guard let selectedSchedule else {
                 assertionFailure("Invalid category form state")
                 return
             }
@@ -442,9 +449,21 @@ private extension TrackerFormViewController {
             )
 
             try? trackersDataProvider.addRecord(tracker, toCategory: selectedCategory)
-        case .edit(let tracker, _):
-            // TODO: доделать реализацию изменения информации о текущем трекере
-            break
+        case .edit(let configurationTracker, _):
+            guard let selectedSchedule else {
+                assertionFailure("Invalid category form state")
+                return
+            }
+
+            let tracker = Tracker(
+                id: configurationTracker.id,
+                title: trackerTitle,
+                color: selectedColor,
+                emoji: selectedEmoji,
+                schedule: selectedSchedule
+            )
+
+            try? trackersDataProvider.editRecord(tracker, from: selectedCategory)
         }
     }
 }

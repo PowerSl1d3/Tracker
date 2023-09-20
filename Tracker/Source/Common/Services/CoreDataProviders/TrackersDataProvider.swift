@@ -35,6 +35,8 @@ protocol TrackersDataProvider {
     func addRecord(_ record: TrackerCategory) throws
     func addRecord(_ record: TrackerRecord) throws
 
+    func editRecord(_ record: Tracker, from category: TrackerCategory) throws
+
     func deleteRecord(_ record: Tracker) throws
     func deleteRecord(_ record: TrackerRecord) throws
 
@@ -45,6 +47,7 @@ final class TrackersDataProviderImpl: NSObject {
     enum TrackerProviderError: Error {
         case failedToInitializeContext
         case failedToCreateTrackerRecord
+        case failedToEditTracker
     }
 
     weak var delegate: TrackersDataProviderDelegate?
@@ -213,6 +216,16 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
 
     func addRecord(_ record: TrackerRecord) throws {
         try dataStore.add(TrackerRecordStore(from: record))
+    }
+
+    func editRecord(_ record: Tracker, from category: TrackerCategory) throws {
+        let categoryRecord = TrackerCategoryStore(from: category)
+
+        guard let trackerRecord = TrackerStore(from: record, category: categoryRecord) else {
+            throw TrackerProviderError.failedToEditTracker
+        }
+
+        try dataStore.edit(trackerRecord)
     }
 
     func deleteRecord(_ record: Tracker) throws {
