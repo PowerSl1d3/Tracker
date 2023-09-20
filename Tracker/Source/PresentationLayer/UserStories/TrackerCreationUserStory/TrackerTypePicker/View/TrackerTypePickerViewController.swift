@@ -66,6 +66,12 @@ final class TrackerTypePickerViewController: UIViewController {
     }
 }
 
+extension TrackerTypePickerViewController: TrackerFormDelegate {
+    func didTapCancelButton() {
+        navigationController?.popViewController(animated: true)
+    }
+}
+
 private extension TrackerTypePickerViewController {
     func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -87,7 +93,11 @@ private extension TrackerTypePickerViewController {
     }
 
     @objc func didTapCreateTrackerButton(_ sender: UIControl) {
-        let configuration = TrackerFormConfiguration.create(sender === habitButton ? .habit : .event)
+        let configuration = TrackerFormConfiguration.create(
+            type: sender === habitButton ? .habit : .event,
+            delegate: self
+        )
+
         let viewController = TrackerFormAssembly.assemble(with: configuration)
         navigationController?.pushViewController(viewController, animated: true)
     }

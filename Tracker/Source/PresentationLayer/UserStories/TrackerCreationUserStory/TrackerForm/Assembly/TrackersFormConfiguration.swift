@@ -6,6 +6,6 @@
 //
 
 enum TrackerFormConfiguration {
-    case create(TrackerType)
-    case edit(Tracker, TrackerCategory)
+    case create(type: TrackerType, delegate: TrackerFormDelegate)
+    case edit(tracker: Tracker, category: TrackerCategory, delegate: TrackerFormDelegate)
 }

@@ -62,7 +62,7 @@ final class TrackersModel {
     func editTracker(_ tracker: Tracker) {
         guard let category = dataProvider?.section(for: tracker) else { return }
 
-        router?.presentEditForm(for: tracker, from: category)
+        router?.presentEditForm(for: tracker, from: category, delegate: self)
     }
 
     func deleteTracker(_ tracker: Tracker) {
@@ -81,5 +81,11 @@ extension TrackersModel: TrackersDataProviderDelegate {
         default:
             break
         }
+    }
+}
+
+extension TrackersModel: TrackerFormDelegate {
+    func didTapCancelButton() {
+        router?.dismissAllViewControllers()
     }
 }
