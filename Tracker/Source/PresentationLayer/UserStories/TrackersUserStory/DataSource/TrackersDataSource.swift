@@ -50,8 +50,8 @@ extension TrackersDataSource: UICollectionViewDataSource {
 
         let currentDateTrackerRecord = completedDays.first(where: { $0.date == viewModel?.currentDate })
 
-        cell.configure(
-            cellModel: cellModel,
+        let cellConfiguration = TrackerCardCellConfiguration(
+            tracker: cellModel,
             completedDays: completedDays.count,
             isCurrentDateCompleted: currentDateTrackerRecord != nil,
             isFutureDate: currentDate > Date()
@@ -66,6 +66,8 @@ extension TrackersDataSource: UICollectionViewDataSource {
 
             collectionView.reloadItems(at: [indexPath])
         }
+
+        cell.configure(with: cellConfiguration)
 
 
         return cell

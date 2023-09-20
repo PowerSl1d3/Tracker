@@ -23,12 +23,13 @@ protocol TrackersDataProviderDelegate: AnyObject {
     func didUpdate(_ update: TrackersStoreUpdate)
 }
 
+// TODO: большой протокол, разбить на несколько и использовать только те методы в местах, которые нужны
 protocol TrackersDataProvider {
     var numberOfSections: Int { get }
     func numberOfRowsInSection(_ section: Int) -> Int
     func section(at index: Int) -> TrackerCategory?
     func section(for tracker: Tracker) -> TrackerCategory?
-    func sections() -> [TrackerCategory]?
+    func sections(enablePinSection: Bool) -> [TrackerCategory]?
     func object(at indexPath: IndexPath) -> Tracker?
 
     func addRecord(_ trackerRecord: Tracker, toCategory category: TrackerCategory) throws
@@ -190,10 +191,27 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         return TrackerCategoryStore(from: trackerCategoryCoreData)?.trackerCategory
     }
 
-    func sections() -> [TrackerCategory]? {
-        return fetchedResultsCategoryController.fetchedObjects?.compactMap {
-            TrackerCategoryStore(from: $0)?.trackerCategory
+    func sections(enablePinSection: Bool) -> [TrackerCategory]? {
+        guard enablePinSection else {
+            return fetchedResultsCategoryController.fetchedObjects?.compactMap {
+                TrackerCategoryStore(from: $0)?.trackerCategory
+            }
         }
+
+        let pinnedTrackers = fetchedResultsTrackerController.fetchedObjects?
+            .filter { $0.isPinned }
+            .compactMap { TrackerStore(from: $0)?.tracker } ?? []
+
+        let pinnedCategory = TrackerCategory(trackers: pinnedTrackers, title: LocalizedString("dataProvider.pinned"))
+
+
+        var otherCategories = fetchedResultsCategoryController.fetchedObjects?
+            .compactMap { TrackerCategoryStore(from: $0)?.trackerCategory }
+            .map { TrackerCategory(trackers: $0.trackers.filter { !$0.isPinned }, title: $0.title) } ?? []
+
+        otherCategories.insert(pinnedCategory, at: 0)
+
+        return otherCategories
     }
 
     func object(at indexPath: IndexPath) -> Tracker? {

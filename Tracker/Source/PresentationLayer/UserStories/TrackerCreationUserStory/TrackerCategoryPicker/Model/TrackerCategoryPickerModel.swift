@@ -20,7 +20,7 @@ final class TrackerCategoryPickerModel {
     private(set) var categories: [TrackerCategory] = []
 
     func reloadCategoies() {
-        categories = dataProvider?.sections() ?? []
+        categories = dataProvider?.sections(enablePinSection: false) ?? []
     }
 
     func presentCategoryCreation() {
@@ -33,10 +33,5 @@ extension TrackerCategoryPickerModel: TrackersDataProviderDelegate {
         guard update.type == .category else { return }
         reloadCategoies()
         router?.dismissCategoryCreation()
-    }
-
-    func didAppendCategory(_ category: TrackerCategory, fromViewController vc: UIViewController?) {
-        categories.append(category)
-        vc?.dismiss(animated: true)
     }
 }

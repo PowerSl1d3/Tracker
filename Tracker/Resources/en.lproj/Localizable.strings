@@ -77,3 +77,7 @@
 // Week Day Formatted
 
 "weekDayFormatter.everyDay" = "Every day";
+
+// Trackers Data Provider
+
+"dataProvider.pinned" = "Pinned";

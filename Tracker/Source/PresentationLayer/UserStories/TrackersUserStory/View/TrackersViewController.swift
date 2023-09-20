@@ -216,7 +216,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
         return UIContextMenuConfiguration(actionProvider:  { [weak self] _ in
             UIMenu(children: [
-                UIAction(title: LocalizedString("trackers.actions.pin")) { [weak self] action in
+                UIAction(title: LocalizedString("trackers.actions.\(cellModel.isPinned ? "unpin" : "pin")")) { [weak self] action in
                     self?.viewModel?.didSelectPinContextMenu(cellModel)
                 },
                 UIAction(title: LocalizedString("trackers.actions.edit")) { [weak self] action in

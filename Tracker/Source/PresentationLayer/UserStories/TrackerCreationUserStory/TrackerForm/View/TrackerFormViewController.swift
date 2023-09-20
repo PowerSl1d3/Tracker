@@ -453,7 +453,8 @@ private extension TrackerFormViewController {
                 title: trackerTitle,
                 color: selectedColor,
                 emoji: selectedEmoji,
-                schedule: selectedSchedule
+                schedule: selectedSchedule,
+                isPinned: false
             )
 
             try? trackersDataProvider.addRecord(tracker, toCategory: selectedCategory)
@@ -468,7 +469,8 @@ private extension TrackerFormViewController {
                 title: trackerTitle,
                 color: selectedColor,
                 emoji: selectedEmoji,
-                schedule: selectedSchedule
+                schedule: selectedSchedule,
+                isPinned: configurationTracker.isPinned
             )
 
             try? trackersDataProvider.editRecord(tracker, from: selectedCategory)

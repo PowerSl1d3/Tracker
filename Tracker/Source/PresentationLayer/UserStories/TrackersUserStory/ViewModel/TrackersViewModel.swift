@@ -44,7 +44,7 @@ final class TrackersViewModel {
     }
 
     func didSelectPinContextMenu(_ tracker: Tracker) {
-
+        model?.pinTracker(tracker)
     }
 
     func didSelectEditContextMenu(_ tracker: Tracker) {

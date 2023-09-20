@@ -163,6 +163,7 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 trackerCoreData.title = record.title
                 trackerCoreData.category = categoryCoreData
                 trackerCoreData.schedule = record.schedule
+                trackerCoreData.isPinned = record.isPinned
                 trackerCoreData.color = record.color
                 trackerCoreData.emoji = record.emoji
 

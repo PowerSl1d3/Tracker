@@ -7,6 +7,14 @@
 
 import UIKit
 
+struct TrackerCardCellConfiguration {
+    let tracker: Tracker
+    let completedDays: Int
+    let isCurrentDateCompleted: Bool
+    let isFutureDate: Bool
+    let completeButtonHandler: ((Tracker?) -> Void)?
+}
+
 final class TrackerCardCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = String(describing: TrackerCardCollectionViewCell.self)
 
@@ -28,6 +36,16 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         view.clipsToBounds = true
 
         return view
+    }()
+
+    private let pinIconImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = Asset.pinIcon.image
+        imageView.isHidden = true
+
+        return imageView
     }()
 
     private let cardDescriptionLabel: UILabel = {
@@ -91,6 +109,7 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
 
         emojiLabelContainer.addSubview(emojiLabel)
         cardContainerView.addSubview(emojiLabelContainer)
+        cardContainerView.addSubview(pinIconImage)
         cardContainerView.addSubview(cardDescriptionLabel)
 
         quantityContainerView.addSubview(quantityLabel)
@@ -106,26 +125,25 @@ final class TrackerCardCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(
-        cellModel: Tracker,
-        completedDays: Int,
-        isCurrentDateCompleted: Bool,
-        isFutureDate: Bool,
-        completeButtonHandler: @escaping (Tracker?) -> Void
-    ) {
-        self.cellModel = cellModel
-        self.completeButtonHandler = completeButtonHandler
+    func configure(with configuration: TrackerCardCellConfiguration) {
+        self.cellModel = configuration.tracker
+        self.completeButtonHandler = configuration.completeButtonHandler
 
-        let completeButtonColor = isCurrentDateCompleted || isFutureDate ? cellModel.color.withAlphaComponent(0.5) : cellModel.color
-        let completeButtonIconImage = isFutureDate ? ("plusButton") : (isCurrentDateCompleted ? "doneButton" : "plusButton")
+        let completeButtonColor = configuration.isCurrentDateCompleted ||
+        configuration.isFutureDate ? configuration.tracker.color.withAlphaComponent(0.5) : configuration.tracker.color
 
-        cardContainerView.backgroundColor = cellModel.color
+        let completeButtonIconImage = configuration.isFutureDate ?
+        ("plusButton") : (configuration.isCurrentDateCompleted ?
+                          "doneButton" : "plusButton")
+
+        cardContainerView.backgroundColor = configuration.tracker.color
         completeButton.tintColor = completeButtonColor
         completeButton.setImage(UIImage(named: completeButtonIconImage), for: .normal)
-        completeButton.isEnabled = !isFutureDate
-        emojiLabel.text = String(cellModel.emoji)
-        cardDescriptionLabel.text = cellModel.title
-        quantityLabel.text = String.localizedStringWithFormat(LocalizedString("numberOfDays"), completedDays)
+        completeButton.isEnabled = !configuration.isFutureDate
+        emojiLabel.text = String(configuration.tracker.emoji)
+        cardDescriptionLabel.text = configuration.tracker.title
+        quantityLabel.text = String.localizedStringWithFormat(LocalizedString("numberOfDays"), configuration.completedDays)
+        pinIconImage.isHidden = !configuration.tracker.isPinned
     }
 }
 
@@ -141,6 +159,11 @@ private extension TrackerCardCollectionViewCell {
 
             emojiLabel.centerXAnchor.constraint(equalTo: emojiLabelContainer.centerXAnchor),
             emojiLabel.centerYAnchor.constraint(equalTo: emojiLabelContainer.centerYAnchor),
+
+            pinIconImage.topAnchor.constraint(equalTo: cardContainerView.topAnchor, constant: 12),
+            pinIconImage.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor, constant: -4),
+            pinIconImage.heightAnchor.constraint(equalToConstant: 24),
+            pinIconImage.widthAnchor.constraint(equalToConstant: 24),
 
             cardDescriptionLabel.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor, constant: 12),
             cardDescriptionLabel.topAnchor.constraint(greaterThanOrEqualTo: cardContainerView.topAnchor, constant: 8),

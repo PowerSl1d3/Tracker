@@ -20,7 +20,7 @@ final class TrackersModel {
     var dataProvider: TrackersDataProvider?
 
     var currentDateCategories: [TrackerCategory] {
-        let filteredCategories = dataProvider?.sections()?.compactMap { (category: TrackerCategory) -> TrackerCategory? in
+        let filteredCategories = dataProvider?.sections(enablePinSection: true)?.compactMap { (category: TrackerCategory) -> TrackerCategory? in
             let filteredTrackers = category.trackers.filter { tracker in
                 guard let currentWeekDay = currentDate.weekDay else {
                     return false
@@ -57,6 +57,21 @@ final class TrackersModel {
 
     func presentTrackerTypePicker() {
         router?.presentTrackerTypePicker()
+    }
+
+    func pinTracker(_ tracker: Tracker) {
+        guard let category = dataProvider?.section(for: tracker) else { return }
+
+        let tracker = Tracker(
+            id: tracker.id,
+            title: tracker.title,
+            color: tracker.color,
+            emoji: tracker.emoji,
+            schedule: tracker.schedule,
+            isPinned: !tracker.isPinned
+        )
+
+        try? dataProvider?.editRecord(tracker, from: category)
     }
 
     func editTracker(_ tracker: Tracker) {

@@ -12,7 +12,7 @@ final class NullDataProvider: TrackersDataProvider {
     func numberOfRowsInSection(_ section: Int) -> Int { 0 }
     func section(at index: Int) -> TrackerCategory? { nil }
     func section(for tracker: Tracker) -> TrackerCategory? { nil }
-    func sections() -> [TrackerCategory]? { nil }
+    func sections(enablePinSection: Bool) -> [TrackerCategory]? { nil }
     func object(at indexPath: IndexPath) -> Tracker? { nil }
     func addRecord(_ trackerRecord: Tracker, toCategory category: TrackerCategory) throws {}
     func addRecord(_ record: TrackerCategory) throws {}
