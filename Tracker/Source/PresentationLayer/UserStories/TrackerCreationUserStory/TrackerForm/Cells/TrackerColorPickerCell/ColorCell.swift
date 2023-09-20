@@ -19,13 +19,22 @@ final class ColorCell: UICollectionViewCell {
     }()
 
     enum State {
-        case active
-        case noActive
+        case selected
+        case deselected
     }
 
-    var state = State.noActive {
+    var state = State.deselected {
         didSet {
-            colorImageView.image = UIImage(named: state == .active ? "activeColor" : "noActiveColor")
+            colorImageView.image = state == .selected ? Asset.activeColor.image : Asset.noActiveColor.image
+        }
+    }
+
+    var color: UIColor {
+        get {
+            tintColor
+        }
+        set {
+            tintColor = newValue
         }
     }
 

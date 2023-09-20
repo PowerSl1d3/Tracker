@@ -10,7 +10,7 @@ final class TrackerTitleTextFieldCellModel: TrackerBaseCellModel {
     var placeholder: String?
     var errorLabelAppearanceHandler: ((TrackerTitleTextFieldCellModel, Bool) -> Void)?
 
-    init(title: String?, placeholder: String?, errorLabelAppearanceHandler: @escaping (TrackerTitleTextFieldCellModel, Bool) -> Void) {
+    init(title: String? = nil, placeholder: String? = nil, errorLabelAppearanceHandler: @escaping (TrackerTitleTextFieldCellModel, Bool) -> Void) {
         super.init(
             cellClass: TrackerTitleTextFieldCell.self,
             height: 75,

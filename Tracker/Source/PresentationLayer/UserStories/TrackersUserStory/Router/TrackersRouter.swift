@@ -10,6 +10,7 @@ import UIKit
 protocol TrackersRouter {
     func presentTrackerTypePicker()
     func dismissTrackerTypePicker()
+    func presentEditForm(for tracker: Tracker, from category: TrackerCategory)
     func presentDeleteTrackerAlert(deleteHandler: @escaping () -> Void)
 }
 
@@ -31,6 +32,15 @@ extension TrackersRouterImpl: TrackersRouter {
 
     func dismissTrackerTypePicker() {
         trackerTypePickerVC?.dismiss(animated: true)
+    }
+
+    func presentEditForm(for tracker: Tracker, from category: TrackerCategory) {
+        let configuration = TrackerFormConfiguration.edit(tracker, category)
+        let viewController = TrackerFormAssembly.assemble(with: configuration)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .pageSheet
+
+        rootViewController?.present(navigationController, animated: true)
     }
 
     func presentDeleteTrackerAlert(deleteHandler: @escaping () -> Void) {

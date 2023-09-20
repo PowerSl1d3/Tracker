@@ -217,10 +217,10 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         return UIContextMenuConfiguration(actionProvider:  { [weak self] _ in
             UIMenu(children: [
                 UIAction(title: LocalizedString("trackers.actions.pin")) { [weak self] action in
-                    self?.viewModel?.didSelectPinContextMenu()
+                    self?.viewModel?.didSelectPinContextMenu(cellModel)
                 },
                 UIAction(title: LocalizedString("trackers.actions.edit")) { [weak self] action in
-                    self?.viewModel?.didSelectEditContextMenu()
+                    self?.viewModel?.didSelectEditContextMenu(cellModel)
                 },
                 UIAction(title: LocalizedString("trackers.actions.delete"), attributes: .destructive) { [weak self] _ in
                     self?.viewModel?.didSelectDeleteContextMenu(cellModel)

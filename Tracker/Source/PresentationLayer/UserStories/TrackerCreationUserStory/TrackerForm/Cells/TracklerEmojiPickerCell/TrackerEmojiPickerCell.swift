@@ -60,30 +60,40 @@ extension TrackerEmojiPickerCell: UICollectionViewDataSource {
             for: indexPath
         ) as? EmojiCell
 
-        guard let cell, let cellModel else { return UICollectionViewCell() }
+        guard let cell,
+              let cellModel,
+              let currentEmoji = cellModel.emojies[safe: indexPath.row] else {
+            return UICollectionViewCell()
+        }
 
-        cell.emojiLabel.text = cellModel.emojies[safe: indexPath.row]
-        cell.contentView.backgroundColor = cellModel.selectedEmojiIndex == indexPath.row ? Asset.ypLightGray.color : Asset.ypWhite.color
+        cell.prepareForReuse()
+        cell.emoji = currentEmoji
+
+        if cellModel.selectedEmoji == currentEmoji {
+            cell.state = .selected
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
+        } else {
+            cell.state = .deselected
+        }
 
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else { return }
+        cell.state = .deselected
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cellModel,
-              let selectedEmoji = cellModel.emojies[safe: indexPath.row] else {
+              let selectedEmoji = cellModel.emojies[safe: indexPath.row],
+              let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else {
             return
         }
 
-        var reloadItems = [indexPath]
-
-        if let lastSelectedEmojiIndex = cellModel.selectedEmojiIndex {
-            reloadItems.append(IndexPath(row: lastSelectedEmojiIndex, section: 0))
-        }
-
+        cell.state = .selected
         cellModel.selectionHandler?(selectedEmoji)
-        cellModel.selectedEmojiIndex = indexPath.row
-
-        collectionView.reloadItems(at: reloadItems)
+        cellModel.selectedEmoji = selectedEmoji
     }
 }
 

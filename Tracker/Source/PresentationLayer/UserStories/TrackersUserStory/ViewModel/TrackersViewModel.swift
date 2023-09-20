@@ -43,12 +43,12 @@ final class TrackersViewModel {
         visibleCategories = model?.currentDateCategories ?? []
     }
 
-    func didSelectPinContextMenu() {
+    func didSelectPinContextMenu(_ tracker: Tracker) {
 
     }
 
-    func didSelectEditContextMenu() {
-
+    func didSelectEditContextMenu(_ tracker: Tracker) {
+        model?.editTracker(tracker)
     }
 
     func didSelectDeleteContextMenu(_ tracker: Tracker) {

@@ -87,7 +87,8 @@ private extension TrackerTypePickerViewController {
     }
 
     @objc func didTapCreateTrackerButton(_ sender: UIControl) {
-        let viewController = TrackerFormViewController(trackerType: sender === habitButton ? .habit : .event)
+        let configuration = TrackerFormConfiguration.create(sender === habitButton ? .habit : .event)
+        let viewController = TrackerFormAssembly.assemble(with: configuration)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

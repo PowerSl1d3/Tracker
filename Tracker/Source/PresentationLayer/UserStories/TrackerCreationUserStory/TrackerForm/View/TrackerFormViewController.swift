@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackerFormViewController: UIViewController {
-    var trackerType: TrackerType
+    private let configuration: TrackerFormConfiguration
 
     private var sections: [TrackerBaseSection] = []
 
@@ -68,14 +68,7 @@ final class TrackerFormViewController: UIViewController {
         return button
     }()
 
-    private let createButton: UIButton = {
-        let button = StateButton(type: .system)
-        button.setTitle(LocalizedString("trackersForm.create"), for: .normal)
-        button.setTitle(LocalizedString("trackersForm.create"), for: .disabled)
-        button.isEnabled = false
-
-        return button
-    }()
+    private let doneButton: UIButton = StateButton(type: .system)
 
     private let buttonsContainerView: UIView = {
         let view = UIView()
@@ -84,8 +77,19 @@ final class TrackerFormViewController: UIViewController {
         return view
     }()
 
-    init(trackerType: TrackerType) {
-        self.trackerType = trackerType
+    init(with configuration: TrackerFormConfiguration) {
+        self.configuration = configuration
+
+        switch configuration {
+        case .edit(let tracker, let trackerCategory):
+            trackerTitle = tracker.title
+            selectedCategory = trackerCategory
+            selectedSchedule = tracker.schedule
+            selectedEmoji = tracker.emoji
+            selectedColor = tracker.color
+        default:
+            break
+        }
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -97,8 +101,16 @@ final class TrackerFormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let trackerType: TrackerType
+        switch configuration {
+        case .create(let configurationTrackerType):
+            trackerType = configurationTrackerType
+        case .edit(let tracker, _):
+            trackerType = tracker.schedule == .eventSchedule ? .event : .habit
+        }
+
         let textFieldSection = TrackerBaseSection(
-            cellModel: TrackerTitleTextFieldCellModel(title: nil, placeholder: LocalizedString("trackersForm.titleTextField.placeholder")) { [weak self] cellModel, didShowError in
+            cellModel: TrackerTitleTextFieldCellModel(title: trackerTitle, placeholder: LocalizedString("trackersForm.titleTextField.placeholder")) { [weak self] cellModel, didShowError in
                 guard let self, let textFieldSection = self.textFieldSection else { return }
 
                 if didShowError && textFieldSection.count == 1 {
@@ -115,7 +127,7 @@ final class TrackerFormViewController: UIViewController {
 
         self.textFieldSection = textFieldSection
 
-        let categoryPickerCellModel = TrackerCategoryPickerCellModel(selectionHandler: { _ in
+        let categoryPickerCellModel = TrackerCategoryPickerCellModel(category: selectedCategory, selectionHandler: { _ in
             self.didTapCategoryPickerCell()
         })
         categoryPickerCellModel.roundBottomCorners = trackerType == .event
@@ -135,11 +147,11 @@ final class TrackerFormViewController: UIViewController {
 
         self.categoryPickerSection = categoryPickerSection
 
-        let emojiPickerCellModel = TrackerEmojiPickerCellModel()
+        let emojiPickerCellModel = TrackerEmojiPickerCellModel(emoji: selectedEmoji)
         emojiPickerCellModel.selectionHandler = { [weak self] selectedEmoji in
             guard let self else { return }
 
-            self.selectedEmoji = Character(selectedEmoji)
+            self.selectedEmoji = selectedEmoji
         }
 
         let emojiPickerSection = TrackerBaseSection(
@@ -152,7 +164,7 @@ final class TrackerFormViewController: UIViewController {
 
         self.emojiPickerSection = emojiPickerSection
 
-        let colorPickerCellModel = TrackerColorPickerCellModel()
+        let colorPickerCellModel = TrackerColorPickerCellModel(color: selectedColor)
         colorPickerCellModel.selectionHandler = { [weak self] selectedColor in
             guard let self else { return }
 
@@ -172,7 +184,7 @@ final class TrackerFormViewController: UIViewController {
         sections = [textFieldSection, categoryPickerSection, emojiPickerSection, colorPickerSection]
 
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-        createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
+        doneButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
 
         trackerParametersTableView.dataSource = self
         trackerParametersTableView.delegate = self
@@ -196,10 +208,11 @@ final class TrackerFormViewController: UIViewController {
         view.addSubview(trackerParametersTableView)
 
         buttonsContainerView.addSubview(cancelButton)
-        buttonsContainerView.addSubview(createButton)
+        buttonsContainerView.addSubview(doneButton)
         view.addSubview(buttonsContainerView)
 
         setupNavBar()
+        setupViews(with: configuration)
         setupConstraints()
     }
 }
@@ -312,22 +325,49 @@ private extension TrackerFormViewController {
     // MARK: Business Logic
 
     func checkFormState() {
+        let trackerType: TrackerType
+        switch configuration {
+        case .create(let configurationTrackerType):
+            trackerType = configurationTrackerType
+        case .edit(let tracker, _):
+            trackerType = tracker.schedule == .eventSchedule ? .event : .habit
+        }
+
         if let trackerTitle, !trackerTitle.isEmpty, textFieldSection?.count == 1,
            selectedCategory != nil,
-           (selectedSchedule != nil && !(selectedSchedule?.isEmpty ?? false)) || trackerType == .event,
+           !selectedSchedule.isNilOrEmpty || trackerType == .event,
            selectedEmoji != nil,
            selectedColor != nil {
-            createButton.isEnabled = true
+            doneButton.isEnabled = true
         } else {
-            createButton.isEnabled = false
+            doneButton.isEnabled = false
         }
     }
 
     // MARK: - Layout
 
     func setupNavBar() {
-        navigationItem.title = trackerType == .event ? LocalizedString("trackersForm.navItem.event") : LocalizedString("trackersForm.navItem.habit")
+        switch configuration {
+        case .create(let trackerType):
+            navigationItem.title = trackerType == .event ? LocalizedString("trackersForm.navItem.event") : LocalizedString("trackersForm.navItem.habit")
+        case .edit(let tracker, _):
+            navigationItem.title = tracker.schedule == .eventSchedule ? LocalizedString("trackersForm.navItem.editEvent") : LocalizedString("trackersForm.navItem.editHabit")
+        }
+
         navigationItem.hidesBackButton = true
+    }
+
+    func setupViews(with configuration: TrackerFormConfiguration) {
+        switch configuration {
+        case .create(_):
+            doneButton.setTitle(LocalizedString("trackersForm.create"), for: .normal)
+            doneButton.setTitle(LocalizedString("trackersForm.create"), for: .disabled)
+            doneButton.isEnabled = false
+        case .edit(_, _):
+            doneButton.setTitle(LocalizedString("trackersForm.save"), for: .normal)
+            doneButton.setTitle(LocalizedString("trackersForm.save"), for: .disabled)
+            doneButton.isEnabled = true
+        }
     }
 
     func setupConstraints() {
@@ -341,11 +381,11 @@ private extension TrackerFormViewController {
             cancelButton.topAnchor.constraint(equalTo: buttonsContainerView.topAnchor),
             cancelButton.bottomAnchor.constraint(equalTo: buttonsContainerView.bottomAnchor),
 
-            createButton.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor, constant: 8),
-            createButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor),
-            createButton.topAnchor.constraint(equalTo: buttonsContainerView.topAnchor),
-            createButton.trailingAnchor.constraint(equalTo: buttonsContainerView.trailingAnchor),
-            createButton.bottomAnchor.constraint(equalTo: buttonsContainerView.bottomAnchor),
+            doneButton.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor, constant: 8),
+            doneButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor),
+            doneButton.topAnchor.constraint(equalTo: buttonsContainerView.topAnchor),
+            doneButton.trailingAnchor.constraint(equalTo: buttonsContainerView.trailingAnchor),
+            doneButton.bottomAnchor.constraint(equalTo: buttonsContainerView.bottomAnchor),
 
             buttonsContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             buttonsContainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -379,26 +419,32 @@ private extension TrackerFormViewController {
         navigationController?.popViewController(animated: true)
     }
 
-    @objc func didTapCreateButton() {
-        let selectedSchedule = trackerType == .event ? .eventSchedule : selectedSchedule
+    @objc func didTapDoneButton() {
+        switch configuration {
+        case .create(let trackerType):
+            let selectedSchedule = trackerType == .event ? .eventSchedule : selectedSchedule
 
-        guard let trackerTitle,
-              let selectedCategory,
-              let selectedSchedule,
-              let selectedEmoji,
-              let selectedColor else {
-            assertionFailure("Invalid category form state")
-            return
+            guard let trackerTitle,
+                  let selectedCategory,
+                  let selectedSchedule,
+                  let selectedEmoji,
+                  let selectedColor else {
+                assertionFailure("Invalid category form state")
+                return
+            }
+
+            let tracker = Tracker(
+                id: UUID(),
+                title: trackerTitle,
+                color: selectedColor,
+                emoji: selectedEmoji,
+                schedule: selectedSchedule
+            )
+
+            try? trackersDataProvider.addRecord(tracker, toCategory: selectedCategory)
+        case .edit(let tracker, _):
+            // TODO: доделать реализацию изменения информации о текущем трекере
+            break
         }
-
-        let tracker = Tracker(
-            id: UUID(),
-            title: trackerTitle,
-            color: selectedColor,
-            emoji: selectedEmoji,
-            schedule: selectedSchedule
-        )
-
-        try? trackersDataProvider.addRecord(tracker, toCategory: selectedCategory)
     }
 }

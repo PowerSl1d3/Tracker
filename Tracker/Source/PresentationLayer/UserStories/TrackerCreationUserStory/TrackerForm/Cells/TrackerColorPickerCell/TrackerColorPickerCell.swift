@@ -10,7 +10,9 @@ import UIKit
 final class TrackerColorPickerCell: TrackerBaseCell {
     override var reuseIdentifier: String { String(describing: TrackerColorPickerCell.self) }
 
-    let colorsCollectionView: UICollectionView = {
+    private let colorConverted = UIColorMarshalling()
+
+    private let colorsCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
@@ -62,32 +64,39 @@ extension TrackerColorPickerCell: UICollectionViewDataSource {
 
         guard let cell,
               let cellModel,
-              let color = cellModel.colors[safe: indexPath.row] else {
+              let currentColor = cellModel.colors[safe: indexPath.row] else {
             return UICollectionViewCell()
         }
 
-        cell.state = cellModel.selectedColorIndex == indexPath.row ? .active : .noActive
-        cell.tintColor = color
+        cell.prepareForReuse()
+        cell.color = currentColor
+
+        if let selectedColor = cellModel.selectedColor,
+           colorConverted.hexString(from: selectedColor) == colorConverted.hexString(from: currentColor) {
+            cell.state = .selected
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
+        } else {
+            cell.state = .deselected
+        }
 
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else { return }
+        cell.state = .deselected
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cellModel,
-              let selectedColor = cellModel.colors[safe: indexPath.row] else {
+              let selectedColor = cellModel.colors[safe: indexPath.row],
+              let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {
             return
         }
 
-        var reloadItems = [indexPath]
-
-        if let lastSelectedEmojiIndex = cellModel.selectedColorIndex {
-            reloadItems.append(IndexPath(row: lastSelectedEmojiIndex, section: 0))
-        }
-
+        cell.state = .selected
         cellModel.selectionHandler?(selectedColor)
-        cellModel.selectedColorIndex = indexPath.row
-
-        collectionView.reloadItems(at: reloadItems)
+        cellModel.selectedColor = selectedColor
     }
 }
 

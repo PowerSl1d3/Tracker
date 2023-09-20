@@ -41,12 +41,15 @@
 
 "trackersForm.cancel" = "Cancel";
 "trackersForm.create" = "Create";
+"trackersForm.save" = "Save";
 "trackersForm.titleTextField.placeholder" = "Enter the name of the tracker";
 "trackersForm.titleTextField.error" = "Limit of 38 characters";
 "trackersForm.section.emoji" = "Emoji";
 "trackersForm.section.color" = "Color";
 "trackersForm.navItem.habit" = "New habit";
 "trackersForm.navItem.event" = "New irregular event";
+"trackersForm.navItem.editHabit" = "Editing habit";
+"trackersForm.navItem.editEvent" = "Editing an irregular event";
 
 // Trackers Form Cells
 

@@ -27,6 +27,7 @@ protocol TrackersDataProvider {
     var numberOfSections: Int { get }
     func numberOfRowsInSection(_ section: Int) -> Int
     func section(at index: Int) -> TrackerCategory?
+    func section(for tracker: Tracker) -> TrackerCategory?
     func sections() -> [TrackerCategory]?
     func object(at indexPath: IndexPath) -> Tracker?
 
@@ -171,6 +172,15 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
 
     func section(at index: Int) -> TrackerCategory? {
         guard let trackerCategoryCoreData = fetchedResultsCategoryController.fetchedObjects?[safe: index] else {
+            return nil
+        }
+
+        return TrackerCategoryStore(from: trackerCategoryCoreData)?.trackerCategory
+    }
+
+    func section(for tracker: Tracker) -> TrackerCategory? {
+        let trackerCoreData = fetchedResultsTrackerController.fetchedObjects?.first { $0.trackerId == tracker.id }
+        guard let trackerCategoryCoreData = trackerCoreData?.category else {
             return nil
         }
 

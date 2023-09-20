@@ -9,11 +9,13 @@ import UIKit
 
 final class TrackerColorPickerCellModel: TrackerBaseCellModel {
     var selectionHandler: ((UIColor) -> Void)?
-    var selectedColorIndex: Int?
+    var selectedColor: UIColor?
 
     let colors = UIColor.trackerSelectionColors
 
-    init() {
+    init(color: UIColor? = nil) {
+        selectedColor = color
+
         super.init(
             cellClass: TrackerColorPickerCell.self,
             height: 156,
