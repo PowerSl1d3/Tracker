@@ -14,6 +14,7 @@ final class TrackerFormViewController: UIViewController {
 
     private var sections: [TrackerBaseSection] = []
 
+    private var completedDaysSection: TrackerBaseSection?
     private var textFieldSection: TrackerBaseSection?
     private var categoryPickerSection: TrackerBaseSection?
     private var emojiPickerSection: TrackerBaseSection?
@@ -80,7 +81,7 @@ final class TrackerFormViewController: UIViewController {
         switch configuration {
         case .create(_, let delegate):
             self.delegate = delegate
-        case .edit(let tracker, let trackerCategory, let delegate):
+        case .edit(let tracker, let trackerCategory, let delegate, _):
             self.delegate = delegate
             trackerTitle = tracker.title
             selectedCategory = trackerCategory
@@ -103,14 +104,23 @@ final class TrackerFormViewController: UIViewController {
 
         let trackerType: TrackerType
         let editMode: Bool
+        let daysCount: Int?
         switch configuration {
         case .create(let configurationTrackerType, _):
             trackerType = configurationTrackerType
             editMode = false
-        case .edit(let tracker, _, _):
+            daysCount = nil
+        case .edit(let tracker, _, _, let configurationDaysCount):
             trackerType = tracker.schedule == .eventSchedule ? .event : .habit
             editMode = true
+            daysCount = configurationDaysCount
         }
+
+        let completedDaysSection = TrackerBaseSection(
+            cellModel: TrackerCompletedDaysCellModel(daysCount: daysCount)
+        )
+
+        self.completedDaysSection = completedDaysSection
 
         let textFieldSection = TrackerBaseSection(
             cellModel: TrackerTitleTextFieldCellModel(title: trackerTitle, placeholder: LocalizedString("trackersForm.titleTextField.placeholder")) { [weak self] cellModel, didShowError in
@@ -133,7 +143,7 @@ final class TrackerFormViewController: UIViewController {
         let categoryPickerCellModel = TrackerCategoryPickerCellModel(category: selectedCategory, selectionHandler: { _ in
             self.didTapCategoryPickerCell()
         })
-        categoryPickerCellModel.roundBottomCorners = trackerType == .event
+        categoryPickerCellModel.roundBottomCorners = trackerType == .event && !editMode
 
         let categoryPickerSection = TrackerBaseSection(
             cellModels: [
@@ -150,11 +160,10 @@ final class TrackerFormViewController: UIViewController {
 
         self.categoryPickerSection = categoryPickerSection
 
-        let emojiPickerCellModel = TrackerEmojiPickerCellModel(emoji: selectedEmoji)
-        emojiPickerCellModel.selectionHandler = { [weak self] selectedEmoji in
-            guard let self else { return }
+        let emojiPickerCellModel = TrackerEmojiPickerCellModel(emoji: selectedEmoji) { [weak self] cellModel in
+            guard let self, let cellModel = cellModel as? TrackerEmojiPickerCellModel else { return }
 
-            self.selectedEmoji = selectedEmoji
+            self.selectedEmoji = cellModel.selectedEmoji
         }
 
         let emojiPickerSection = TrackerBaseSection(
@@ -167,11 +176,10 @@ final class TrackerFormViewController: UIViewController {
 
         self.emojiPickerSection = emojiPickerSection
 
-        let colorPickerCellModel = TrackerColorPickerCellModel(color: selectedColor)
-        colorPickerCellModel.selectionHandler = { [weak self] selectedColor in
-            guard let self else { return }
+        let colorPickerCellModel = TrackerColorPickerCellModel(color: selectedColor) { [weak self] cellModel in
+            guard let self, let cellModel = cellModel as? TrackerColorPickerCellModel else { return }
 
-            self.selectedColor = selectedColor
+            self.selectedColor = cellModel.selectedColor
         }
 
         let colorPickerSection = TrackerBaseSection(
@@ -186,6 +194,10 @@ final class TrackerFormViewController: UIViewController {
 
         sections = [textFieldSection, categoryPickerSection, emojiPickerSection, colorPickerSection]
 
+        if editMode {
+            sections.insert(completedDaysSection, at: 0)
+        }
+
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         doneButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
 
@@ -194,6 +206,7 @@ final class TrackerFormViewController: UIViewController {
 
         trackerParametersTableView.register([
             TrackerBaseCell.self,
+            TrackerCompletedDaysCell.self,
             TrackerTitleTextFieldCell.self,
             TrackerErrorCell.self,
             TrackerCategoryPickerCell.self,
@@ -288,13 +301,11 @@ extension TrackerFormViewController: UITableViewDelegate {
     ) {
         tableView.deselectRow(at: indexPath, animated: false)
 
-        if indexPath.section == 1,
-           let cellModel = categoryPickerSection?[safe: indexPath.row] as? TrackerCategoryPickerCellModel {
-            cellModel.selectionHandler?(cellModel)
-        } else if indexPath.section == 1,
-                  let cellModel = categoryPickerSection?[safe: indexPath.row] as? TrackerSchedulePickerCellModel {
-            cellModel.selectionHandler?(cellModel)
+        guard let cellModel = sections[safe: indexPath.section]?[safe: indexPath.row] as? TrackerBaseCellModel else {
+            return
         }
+
+        cellModel.selectionHandler?(cellModel)
     }
 }
 
@@ -303,10 +314,19 @@ extension TrackerFormViewController: WeekDayPickerDelegate {
         navigationController?.popViewController(animated: true)
         selectedSchedule = schedule
 
-        guard let scheduleCellModel = categoryPickerSection?.last as? TrackerSchedulePickerCellModel else { return }
+        guard let (scheduleCellModelIndex, scheduleCellModel) = categoryPickerSection?
+            .enumerated()
+            .first(where: { $1 is TrackerSchedulePickerCellModel }),
+              let scheduleCellModel = scheduleCellModel as? TrackerSchedulePickerCellModel,
+              let categoryPickerSectionIndex = sections.firstIndex(where: { $0 === categoryPickerSection }) else {
+            return
+        }
 
         scheduleCellModel.schedule = schedule
-        trackerParametersTableView.reloadRows(at: [IndexPath(row: 2, section: 1)], with: .none)
+        trackerParametersTableView.reloadRows(
+            at: [IndexPath(row: scheduleCellModelIndex, section: categoryPickerSectionIndex)],
+            with: .none
+        )
     }
 }
 
@@ -315,10 +335,19 @@ extension TrackerFormViewController: TrackerCategoryPickerDelegate {
         navigationController?.popViewController(animated: true)
         self.selectedCategory = category
 
-        guard let categoryCellModel = categoryPickerSection?[safe: 1] as? TrackerCategoryPickerCellModel else { return }
+        guard let (categoryCellModelIndex, categoryCellModel) = categoryPickerSection?
+            .enumerated()
+            .first(where: { $1 is TrackerCategoryPickerCellModel }),
+              let categoryCellModel = categoryCellModel as? TrackerCategoryPickerCellModel,
+              let categoryPickerSectionIndex = sections.firstIndex(where: { $0 === categoryPickerSection }) else {
+            return
+        }
 
         categoryCellModel.category = category
-        trackerParametersTableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .none)
+        trackerParametersTableView.reloadRows(
+            at: [IndexPath(row: categoryCellModelIndex, section: categoryPickerSectionIndex)],
+            with: .none
+        )
 
         vc.dismiss(animated: true)
     }
@@ -340,7 +369,7 @@ private extension TrackerFormViewController {
         switch configuration {
         case .create(let configurationTrackerType, _):
             trackerType = configurationTrackerType
-        case .edit(let tracker, _, _):
+        case .edit(let tracker, _, _, _):
             trackerType = tracker.schedule == .eventSchedule ? .event : .habit
         }
 
@@ -361,7 +390,7 @@ private extension TrackerFormViewController {
         switch configuration {
         case .create(let trackerType, _):
             navigationItem.title = trackerType == .event ? LocalizedString("trackersForm.navItem.event") : LocalizedString("trackersForm.navItem.habit")
-        case .edit(let tracker, _, _):
+        case .edit(let tracker, _, _, _):
             navigationItem.title = tracker.schedule == .eventSchedule ? LocalizedString("trackersForm.navItem.editEvent") : LocalizedString("trackersForm.navItem.editHabit")
         }
 
@@ -374,7 +403,7 @@ private extension TrackerFormViewController {
             doneButton.setTitle(LocalizedString("trackersForm.create"), for: .normal)
             doneButton.setTitle(LocalizedString("trackersForm.create"), for: .disabled)
             doneButton.isEnabled = false
-        case .edit(_, _, _):
+        case .edit(_, _, _, _):
             doneButton.setTitle(LocalizedString("trackersForm.save"), for: .normal)
             doneButton.setTitle(LocalizedString("trackersForm.save"), for: .disabled)
             doneButton.isEnabled = true
@@ -458,7 +487,7 @@ private extension TrackerFormViewController {
             )
 
             try? trackersDataProvider.addRecord(tracker, toCategory: selectedCategory)
-        case .edit(let configurationTracker, _, _):
+        case .edit(let configurationTracker, _, _, _):
             guard let selectedSchedule else {
                 assertionFailure("Invalid category form state")
                 return

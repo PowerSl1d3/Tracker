@@ -8,19 +8,19 @@
 import UIKit
 
 final class TrackerColorPickerCellModel: TrackerBaseCellModel {
-    var selectionHandler: ((UIColor) -> Void)?
     var selectedColor: UIColor?
 
     let colors = UIColor.trackerSelectionColors
 
-    init(color: UIColor? = nil) {
+    init(color: UIColor? = nil, selectionHandler: @escaping (TrackerBaseCellModelProtocol) -> Void) {
         selectedColor = color
 
         super.init(
             cellClass: TrackerColorPickerCell.self,
             height: 156,
             contentViewBackgroundColor: Asset.ypWhite.color,
-            separatorInset: .invisibleSeparator
+            separatorInset: .invisibleSeparator,
+            selectionHandler: selectionHandler
         )
     }
 }

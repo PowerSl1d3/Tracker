@@ -26,6 +26,8 @@
 		90347EAE2AA7E6B900AF9288 /* TrackersDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90347EAD2AA7E6B900AF9288 /* TrackersDataSource.swift */; };
 		90347EB12AA7F29F00AF9288 /* TrackersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90347EB02AA7F29F00AF9288 /* TrackersRouter.swift */; };
 		90347EB42AA81C3A00AF9288 /* TrackersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90347EB32AA81C3A00AF9288 /* TrackersModel.swift */; };
+		90547C762ABB260700030BE4 /* TrackerCompletedDaysCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90547C752ABB260700030BE4 /* TrackerCompletedDaysCellModel.swift */; };
+		90547C782ABB269900030BE4 /* TrackerCompletedDaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90547C772ABB269900030BE4 /* TrackerCompletedDaysCell.swift */; };
 		90576AA12A64BE510036C948 /* TrackerEmojiPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90576AA02A64BE510036C948 /* TrackerEmojiPickerCell.swift */; };
 		90576AAA2A6574830036C948 /* TrackerEmojiPickerCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90576AA92A6574830036C948 /* TrackerEmojiPickerCellModel.swift */; };
 		90576AAC2A6576290036C948 /* TrackerFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90576AAB2A6576290036C948 /* TrackerFormHeaderView.swift */; };
@@ -120,6 +122,8 @@
 		90347EAD2AA7E6B900AF9288 /* TrackersDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersDataSource.swift; sourceTree = "<group>"; };
 		90347EB02AA7F29F00AF9288 /* TrackersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersRouter.swift; sourceTree = "<group>"; };
 		90347EB32AA81C3A00AF9288 /* TrackersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersModel.swift; sourceTree = "<group>"; };
+		90547C752ABB260700030BE4 /* TrackerCompletedDaysCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCompletedDaysCellModel.swift; sourceTree = "<group>"; };
+		90547C772ABB269900030BE4 /* TrackerCompletedDaysCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCompletedDaysCell.swift; sourceTree = "<group>"; };
 		90576AA02A64BE510036C948 /* TrackerEmojiPickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerEmojiPickerCell.swift; sourceTree = "<group>"; };
 		90576AA92A6574830036C948 /* TrackerEmojiPickerCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerEmojiPickerCellModel.swift; sourceTree = "<group>"; };
 		90576AAB2A6576290036C948 /* TrackerFormHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFormHeaderView.swift; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 		9012D2D82A4C037F006F39A2 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				90547C772ABB269900030BE4 /* TrackerCompletedDaysCell.swift */,
 				9012D2D92A4C03AC006F39A2 /* TrackerTitleTextFieldCell.swift */,
 				90954FF22A4FDF3000D4CB9A /* TrackerErrorCell.swift */,
 				906950782A4D7D5A0046145D /* TrackerCategoryPickerCell.swift */,
@@ -584,6 +589,7 @@
 		90C975E12A4DC6EA00FAD486 /* CellModels */ = {
 			isa = PBXGroup;
 			children = (
+				90547C752ABB260700030BE4 /* TrackerCompletedDaysCellModel.swift */,
 				90954FE02A4FA83300D4CB9A /* TrackerTitleTextFieldCellModel.swift */,
 				90954FF02A4FDE6200D4CB9A /* TrackerErrorCellModel.swift */,
 				90C975E22A4DC71800FAD486 /* TrackerCategoryPickerCellModel.swift */,
@@ -965,12 +971,14 @@
 				9020CD6B2A79DDE90002B957 /* TrackerStore.swift in Sources */,
 				905876022A4E683D0035E50A /* WeekDaySwitchCell.swift in Sources */,
 				90C975E82A4DD00900FAD486 /* WeekDay.swift in Sources */,
+				90547C762ABB260700030BE4 /* TrackerCompletedDaysCellModel.swift in Sources */,
 				90C975E52A4DCF7000FAD486 /* WeekDayFormatter.swift in Sources */,
 				909D074D2A2311C70082F768 /* AppDelegate.swift in Sources */,
 				90DF32DF2AA32C5100CFA3A6 /* OnboardPageViewController.swift in Sources */,
 				90984A632A48691C00FF3627 /* TrackerCardCollectionViewCell.swift in Sources */,
 				90FFBB002A6A414B009C3D8A /* EmojiCell.swift in Sources */,
 				90954FEF2A4FDA8400D4CB9A /* TrackerSchedulePickerCell.swift in Sources */,
+				90547C782ABB269900030BE4 /* TrackerCompletedDaysCell.swift in Sources */,
 				905876002A4E65EF0035E50A /* WeekDayPickerViewController.swift in Sources */,
 				90C975E32A4DC71800FAD486 /* TrackerCategoryPickerCellModel.swift in Sources */,
 				909D074F2A2311C70082F768 /* SceneDelegate.swift in Sources */,

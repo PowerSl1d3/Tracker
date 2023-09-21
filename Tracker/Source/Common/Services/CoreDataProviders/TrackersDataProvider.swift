@@ -27,6 +27,7 @@ protocol TrackersDataProviderDelegate: AnyObject {
 protocol TrackersDataProvider {
     var numberOfSections: Int { get }
     func numberOfRowsInSection(_ section: Int) -> Int
+    func numberOfTrackerRecord(for tracker: Tracker) -> Int
     func section(at index: Int) -> TrackerCategory?
     func section(for tracker: Tracker) -> TrackerCategory?
     func sections(enablePinSection: Bool) -> [TrackerCategory]?
@@ -167,11 +168,17 @@ extension TrackersDataProviderImpl: NSFetchedResultsControllerDelegate {
 
 extension TrackersDataProviderImpl: TrackersDataProvider {
     var numberOfSections: Int {
-        fetchedResultsCategoryController.sections?.count ?? 0
+        fetchedResultsCategoryController.sections?.count ?? .zero
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
-        fetchedResultsCategoryController.sections?[safe: section]?.numberOfObjects ?? 0
+        fetchedResultsCategoryController.sections?[safe: section]?.numberOfObjects ?? .zero
+    }
+
+    func numberOfTrackerRecord(for tracker: Tracker) -> Int {
+        guard let records = records() else { return .zero }
+
+        return records.filter { $0.id == tracker.id }.count
     }
 
     func section(at index: Int) -> TrackerCategory? {
@@ -220,8 +227,8 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         return TrackerStore(from: trackerCoreData)?.tracker
     }
 
-    func addRecord(_ trackerRecord: Tracker, toCategory category: TrackerCategory) throws {
-        guard let trackerStore = TrackerStore(from: trackerRecord, category: TrackerCategoryStore(from: category)) else {
+    func addRecord(_ tracker: Tracker, toCategory category: TrackerCategory) throws {
+        guard let trackerStore = TrackerStore(from: tracker, category: TrackerCategoryStore(from: category)) else {
             throw TrackerProviderError.failedToCreateTrackerRecord
         }
 

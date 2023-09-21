@@ -7,5 +7,5 @@
 
 enum TrackerFormConfiguration {
     case create(type: TrackerType, delegate: TrackerFormDelegate)
-    case edit(tracker: Tracker, category: TrackerCategory, delegate: TrackerFormDelegate)
+    case edit(tracker: Tracker, category: TrackerCategory, delegate: TrackerFormDelegate, daysCount: Int)
 }

@@ -92,8 +92,8 @@ extension TrackerEmojiPickerCell: UICollectionViewDataSource {
         }
 
         cell.state = .selected
-        cellModel.selectionHandler?(selectedEmoji)
         cellModel.selectedEmoji = selectedEmoji
+        cellModel.selectionHandler?(cellModel)
     }
 }
 

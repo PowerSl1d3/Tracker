@@ -95,8 +95,8 @@ extension TrackerColorPickerCell: UICollectionViewDataSource {
         }
 
         cell.state = .selected
-        cellModel.selectionHandler?(selectedColor)
         cellModel.selectedColor = selectedColor
+        cellModel.selectionHandler?(cellModel)
     }
 }
 

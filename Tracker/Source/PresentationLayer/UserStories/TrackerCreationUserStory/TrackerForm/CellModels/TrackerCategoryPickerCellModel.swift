@@ -7,21 +7,20 @@
 
 final class TrackerCategoryPickerCellModel: TrackerBaseCellModel {
     var category: TrackerCategory?
-    var selectionHandler: ((TrackerCategoryPickerCellModel) -> Void)?
     var roundBottomCorners = false
 
     init(
         category: TrackerCategory? = nil,
-        selectionHandler: @escaping (TrackerCategoryPickerCellModel) -> Void
+        selectionHandler: @escaping (TrackerBaseCellModelProtocol) -> Void
     ) {
         self.category = category
-        self.selectionHandler = selectionHandler
 
         super.init(
             cellClass: TrackerCategoryPickerCell.self,
             height: 75,
             backgroundColor: Asset.ypBackground.color,
-            contentViewBackgroundColor: .clear
+            contentViewBackgroundColor: .clear,
+            selectionHandler: selectionHandler
         )
     }
 }

@@ -9,7 +9,14 @@ import UIKit
 
 protocol TrackersRouter {
     func presentTrackerTypePicker()
-    func presentEditForm(for tracker: Tracker, from category: TrackerCategory, delegate: TrackerFormDelegate)
+
+    func presentEditForm(
+        for tracker: Tracker,
+        from category: TrackerCategory,
+        delegate: TrackerFormDelegate,
+        completedDaysCount: Int
+    )
+
     func presentDeleteTrackerAlert(deleteHandler: @escaping () -> Void)
     func dismissAllViewControllers()
 }
@@ -31,8 +38,19 @@ extension TrackersRouterImpl: TrackersRouter {
         rootViewController?.present(navigationController, animated: true)
     }
 
-    func presentEditForm(for tracker: Tracker, from category: TrackerCategory, delegate: TrackerFormDelegate) {
-        let configuration = TrackerFormConfiguration.edit(tracker: tracker, category: category, delegate: delegate)
+    func presentEditForm(
+        for tracker: Tracker,
+        from category: TrackerCategory,
+        delegate: TrackerFormDelegate,
+        completedDaysCount: Int
+    ) {
+        let configuration = TrackerFormConfiguration.edit(
+            tracker: tracker,
+            category: category,
+            delegate: delegate,
+            daysCount: completedDaysCount
+        )
+
         let trackerFormViewController = TrackerFormAssembly.assemble(with: configuration)
         let navigationController = UINavigationController(rootViewController: trackerFormViewController)
         navigationController.modalPresentationStyle = .pageSheet
