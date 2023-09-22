@@ -1,5 +1,5 @@
 //
-//  TrackersViewController.swift
+//  TrackerListViewController.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 28.05.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TrackersViewController: UIViewController {
+final class TrackerListViewController: UIViewController {
 
     private let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
@@ -78,9 +78,9 @@ final class TrackersViewController: UIViewController {
         return button
     }()
 
-    private var viewModel: TrackersViewModel?
+    private var viewModel: TrackerListViewModel?
 
-    func initialize(viewModel: TrackersViewModel) {
+    func initialize(viewModel: TrackerListViewModel) {
         self.viewModel = viewModel
         bind()
     }
@@ -129,7 +129,7 @@ final class TrackersViewController: UIViewController {
     }
 }
 
-extension TrackersViewController: UISearchTextFieldDelegate {
+extension TrackerListViewController: UISearchTextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         view.addSubview(cancelSearchButton)
         defaultModeConstraints.forEach { $0.isActive = false }
@@ -148,7 +148,7 @@ extension TrackersViewController: UISearchTextFieldDelegate {
     }
 }
 
-extension TrackersViewController: UICollectionViewDelegateFlowLayout {
+extension TrackerListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -252,7 +252,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Configuration
 
-private extension TrackersViewController {
+private extension TrackerListViewController {
     func configureNavigationBar() {
         let addTrackersItem = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -309,7 +309,7 @@ private extension TrackersViewController {
 
 // MARK: - Actions
 
-private extension TrackersViewController {
+private extension TrackerListViewController {
     @objc func didTapAddTrackerButton() {
         viewModel?.didTapAddTrackerButton()
     }

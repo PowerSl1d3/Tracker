@@ -1,5 +1,5 @@
 //
-//  TrackersModel.swift
+//  TrackerListModel.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 06.09.2023.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-protocol TrackersModelOutput: AnyObject {
+protocol TrackerListModelModelOutput: AnyObject {
     func didUpdateTrackers()
 }
 
-final class TrackersModel {
+final class TrackerListModel {
 
-    weak var output: TrackersModelOutput?
+    weak var output: TrackerListModelModelOutput?
 
-    var router: TrackersRouter?
+    var router: TrackerListRouter?
     var dataProvider: TrackersDataProvider?
 
     var currentDate: Date = Date()
@@ -95,7 +95,7 @@ final class TrackersModel {
     }
 }
 
-extension TrackersModel: TrackersDataProviderDelegate {
+extension TrackerListModel: TrackersDataProviderDelegate {
     func didUpdate(_ update: TrackersStoreUpdate) {
         switch update.type {
         case .tracker:
@@ -107,13 +107,13 @@ extension TrackersModel: TrackersDataProviderDelegate {
     }
 }
 
-extension TrackersModel: TrackerFormDelegate {
+extension TrackerListModel: TrackerFormDelegate {
     func didTapCancelButton() {
         router?.dismissAllViewControllers()
     }
 }
 
-extension TrackersModel: FilterPickerDelegate {
+extension TrackerListModel: FilterPickerDelegate {
     func didSelectFilter(_ filter: TrackerFilter) {
         self.filter = filter
         print(#function, filter)

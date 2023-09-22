@@ -29,7 +29,7 @@ private extension TabBarController {
     }
 
     func configureTabBarControllers() {
-        let trackersViewController = TrackersAssembly.assemble()
+        let trackersViewController = TrackerListAssembly.assemble()
         let trackersTabBarItem = UITabBarItem(
             title: LocalizedString("tabBarItem.trackers"),
             image: UIImage(named: "trackers"),

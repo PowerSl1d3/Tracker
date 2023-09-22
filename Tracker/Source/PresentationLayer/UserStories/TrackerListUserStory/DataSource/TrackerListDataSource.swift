@@ -1,5 +1,5 @@
 //
-//  TrackersDataSource.swift
+//  TrackerListDataSource.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 06.09.2023.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-final class TrackersDataSource: NSObject {
-    private weak var viewModel: TrackersViewModel?
+final class TrackerListDataSource: NSObject {
+    private weak var viewModel: TrackerListViewModel?
 
-    init(viewModel: TrackersViewModel) {
+    init(viewModel: TrackerListViewModel) {
         self.viewModel = viewModel
 
         super.init()
     }
 }
 
-extension TrackersDataSource: UICollectionViewDataSource {
+extension TrackerListDataSource: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel?.visibleCategories.count ?? 0
     }

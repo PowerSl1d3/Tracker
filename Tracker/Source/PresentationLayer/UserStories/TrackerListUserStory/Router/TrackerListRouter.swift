@@ -1,5 +1,5 @@
 //
-//  TrackersRouter.swift
+//  TrackerListRouter.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 06.09.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol TrackersRouter {
+protocol TrackerListRouter {
     func presentTrackerTypePicker()
     func presentFilterPicker(selectedFilter: TrackerFilter, delegate: FilterPickerDelegate)
 
@@ -22,13 +22,13 @@ protocol TrackersRouter {
     func dismissAllViewControllers()
 }
 
-final class TrackersRouterImpl {
+final class TrackerListRouterImpl {
     weak var rootViewController: UIViewController?
     weak var trackerTypePickerVC: UIViewController?
     weak var trackerFormVC: UIViewController?
 }
 
-extension TrackersRouterImpl: TrackersRouter {
+extension TrackerListRouterImpl: TrackerListRouter {
     func presentTrackerTypePicker() {
         let trackerTypePickerViewController = TrackerTypePickerViewController()
         let navigationController = UINavigationController(rootViewController: trackerTypePickerViewController)
@@ -94,7 +94,7 @@ extension TrackersRouterImpl: TrackersRouter {
     }
 }
 
-private extension TrackersRouterImpl {
+private extension TrackerListRouterImpl {
     func dismissTrackerTypePicker() {
         trackerTypePickerVC?.dismiss(animated: true)
     }
