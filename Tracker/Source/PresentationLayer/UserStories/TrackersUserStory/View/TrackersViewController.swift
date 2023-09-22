@@ -60,6 +60,24 @@ final class TrackersViewController: UIViewController {
         return placeholderView
     }()
 
+    private let filterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 16
+        button.backgroundColor = Asset.ypBlue.color
+
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.ypMediumFont(ofSize: 16),
+            .foregroundColor: Asset.ypBlack.color.resolvedColor(with: UITraitCollection(userInterfaceStyle: .dark))
+        ]
+        button.setAttributedTitle(
+            NSAttributedString(string: LocalizedString("trackers.filter.button"), attributes: attributes),
+            for: .normal
+        )
+
+        return button
+    }()
+
     private var viewModel: TrackersViewModel?
 
     func initialize(viewModel: TrackersViewModel) {
@@ -84,6 +102,7 @@ final class TrackersViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(didChangeDate), for: .valueChanged)
         cancelSearchButton.addTarget(self, action: #selector(didTapCancelSearchButton), for: .touchUpInside)
         searchTextField.addTarget(self, action: #selector(didChangeSearchTextField), for: .editingChanged)
+        filterButton.addTarget(self, action: #selector(didTapFiltersButton), for: .touchUpInside)
 
         searchTextField.delegate = self
         collectionView.delegate = self
@@ -103,6 +122,7 @@ final class TrackersViewController: UIViewController {
         collectionView.addSubview(placeholderView)
         view.addSubview(searchTextField)
         view.addSubview(collectionView)
+        view.addSubview(filterButton)
 
         configureNavigationBar()
         setupConstraints()
@@ -277,7 +297,12 @@ private extension TrackersViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filterButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.widthAnchor.constraint(equalToConstant: 115)
         ])
     }
 }
@@ -301,6 +326,10 @@ private extension TrackersViewController {
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
         viewModel?.didTapCancelSearchButton()
+    }
+
+    @objc func didTapFiltersButton() {
+        viewModel?.didTapFiltersButton()
     }
 }
 

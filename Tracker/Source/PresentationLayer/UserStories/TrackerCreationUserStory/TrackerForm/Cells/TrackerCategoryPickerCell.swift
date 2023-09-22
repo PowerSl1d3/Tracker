@@ -33,7 +33,7 @@ final class TrackerCategoryPickerCell: TrackerBaseCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "cellShevron")
+        imageView.image = Asset.cellShevron.image
 
         return imageView
     }()

@@ -15,9 +15,12 @@ final class TrackersModel {
 
     weak var output: TrackersModelOutput?
 
-    var currentDate: Date = Date()
     var router: TrackersRouter?
     var dataProvider: TrackersDataProvider?
+
+    var currentDate: Date = Date()
+
+    private var filter: TrackerFilter = .currentDay
 
     var currentDateCategories: [TrackerCategory] {
         let filteredCategories = dataProvider?.sections(enablePinSection: true)?.compactMap { (category: TrackerCategory) -> TrackerCategory? in
@@ -57,6 +60,10 @@ final class TrackersModel {
 
     func presentTrackerTypePicker() {
         router?.presentTrackerTypePicker()
+    }
+
+    func presentFilterPicker() {
+        router?.presentFilterPicker(selectedFilter: filter, delegate: self)
     }
 
     func pinTracker(_ tracker: Tracker) {
@@ -103,5 +110,12 @@ extension TrackersModel: TrackersDataProviderDelegate {
 extension TrackersModel: TrackerFormDelegate {
     func didTapCancelButton() {
         router?.dismissAllViewControllers()
+    }
+}
+
+extension TrackersModel: FilterPickerDelegate {
+    func didSelectFilter(_ filter: TrackerFilter) {
+        self.filter = filter
+        print(#function, filter)
     }
 }

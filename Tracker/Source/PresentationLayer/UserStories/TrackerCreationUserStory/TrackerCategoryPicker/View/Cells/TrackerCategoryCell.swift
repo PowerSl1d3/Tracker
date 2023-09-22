@@ -30,7 +30,7 @@ final class TrackerCategoryCell: UITableViewCell {
             guard let self else { return }
 
             accessoryType = isSelected ? .checkmark : .none
-            tableView?.reloadRows(at: [IndexPath(row: cellModel.index, section: 0)], with: .fade)
+            tableView?.reloadRows(at: [cellModel.indexPath], with: .fade)
         }
     }
 }

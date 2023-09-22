@@ -19,6 +19,7 @@
 
 // Tracker List
 
+"trackers.filter.button" = "Фильтры";
 "trackers.searchTextField.placeholder" = "Поиск";
 "trackers.cancelSearchButton.cancel" = "Отменить";
 "trackers.placeholder" = "Что будем отслеживать?";
@@ -30,6 +31,10 @@
 "trackers.router.deleteAlert.delete" = "Удалить";
 "trackers.router.deleteAlert.cancel" = "Отменить";
 "trackers.navItem" = "Трекеры";
+
+// Filter Type Picker
+
+"filterPicker.navItem" = "Фильтры";
 
 // Tracker Type Picker
 
@@ -73,6 +78,13 @@
 
 "weekDayPicker.button.title" = "Готово";
 "weekDayPicker.navItem" = "Расписание";
+
+// Tracker Filter Formatted
+
+"filter.all" = "Все трекеры";
+"filter.currentDay" = "Трекеры на сегодня";
+"filter.completed" = "Завершенные";
+"filter.notCompleted" = "Не завершенные";
 
 // Week Day Formatted
 

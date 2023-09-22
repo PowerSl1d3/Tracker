@@ -19,6 +19,7 @@
 
 // Tracker List
 
+"trackers.filter.button" = "Filters";
 "trackers.searchTextField.placeholder" = "Search";
 "trackers.cancelSearchButton.cancel" = "Cancel";
 "trackers.placeholder" = "What will we track?";
@@ -30,6 +31,10 @@
 "trackers.router.deleteAlert.delete" = "Delete";
 "trackers.router.deleteAlert.cancel" = "Cancel";
 "trackers.navItem" = "Trackers";
+
+// Filter Type Picker
+
+"filterPicker.navItem" = "Фильтры";
 
 // Tracker Type Picker
 
@@ -73,6 +78,13 @@
 
 "weekDayPicker.button.title" = "Done";
 "weekDayPicker.navItem" = "Schedule";
+
+// Tracker Filter Formatted
+
+"filter.all" = "All trackers";
+"filter.currentDay" = "Trackers for today";
+"filter.completed" = "Completed";
+"filter.notCompleted" = "Incomplete";
 
 // Week Day Formatted
 

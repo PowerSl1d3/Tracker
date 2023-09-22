@@ -9,14 +9,14 @@ import Foundation
 
 final class TrackerCategoryCellModel {
     let category: TrackerCategory
-    let index: Int
+    let indexPath: IndexPath
 
     @Observable
     var isSelected: Bool
 
-    init(category: TrackerCategory, index: Int, isSelected: Bool) {
+    init(category: TrackerCategory, indexPath: IndexPath, isSelected: Bool) {
         self.category = category
-        self.index = index
+        self.indexPath = indexPath
         self.isSelected = isSelected
     }
 }

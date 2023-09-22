@@ -9,6 +9,7 @@ import UIKit
 
 protocol TrackersRouter {
     func presentTrackerTypePicker()
+    func presentFilterPicker(selectedFilter: TrackerFilter, delegate: FilterPickerDelegate)
 
     func presentEditForm(
         for tracker: Tracker,
@@ -34,6 +35,14 @@ extension TrackersRouterImpl: TrackersRouter {
         navigationController.modalPresentationStyle = .pageSheet
 
         trackerTypePickerVC = trackerTypePickerViewController
+
+        rootViewController?.present(navigationController, animated: true)
+    }
+
+    func presentFilterPicker(selectedFilter: TrackerFilter, delegate: FilterPickerDelegate) {
+        let filterPickerViewController = FilterPickerAssembly.assemble(selectedFilter: selectedFilter, delegate: delegate)
+        let navigationController = UINavigationController(rootViewController: filterPickerViewController)
+        navigationController.modalPresentationStyle = .pageSheet
 
         rootViewController?.present(navigationController, animated: true)
     }

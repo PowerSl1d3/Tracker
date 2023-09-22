@@ -43,6 +43,10 @@ final class TrackersViewModel {
         visibleCategories = model?.currentDateCategories ?? []
     }
 
+    func didTapFiltersButton() {
+        model?.presentFilterPicker()
+    }
+
     func didSelectPinContextMenu(_ tracker: Tracker) {
         model?.pinTracker(tracker)
     }
