@@ -18,6 +18,7 @@ final class TrackerListModel {
     var router: TrackerListRouter?
     var dataProvider: TrackersDataProvider?
     var dateFormatter: TrackerDateFormatter?
+    var analyticsService: TrackerListAnalyticsService?
 
     private(set) var currentDate: Date = Calendar.current.startOfDay(for: Date())
 

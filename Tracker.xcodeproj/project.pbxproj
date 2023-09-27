@@ -115,6 +115,7 @@
 		90FA24292AC46705004E7ECF /* StatisticsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA24282AC46705004E7ECF /* StatisticsAssembly.swift */; };
 		90FA242D2AC467ED004E7ECF /* StatisticCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA242C2AC467ED004E7ECF /* StatisticCellModel.swift */; };
 		90FA242F2AC467F6004E7ECF /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA242E2AC467F6004E7ECF /* StatisticCell.swift */; };
+		90FA24312AC48660004E7ECF /* TrackerListAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA24302AC48660004E7ECF /* TrackerListAnalyticsService.swift */; };
 		90FBD9ED2AB1EB0F000A3D3F /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FBD9EC2AB1EB0F000A3D3F /* Assets.swift */; };
 		90FFBB002A6A414B009C3D8A /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FFBAFF2A6A414B009C3D8A /* EmojiCell.swift */; };
 		ED17C120EAE5212B08A7BA6E /* libPods-Tracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D48CC247AA187E97750E21B0 /* libPods-Tracker.a */; };
@@ -246,6 +247,7 @@
 		90FA24282AC46705004E7ECF /* StatisticsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAssembly.swift; sourceTree = "<group>"; };
 		90FA242C2AC467ED004E7ECF /* StatisticCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCellModel.swift; sourceTree = "<group>"; };
 		90FA242E2AC467F6004E7ECF /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
+		90FA24302AC48660004E7ECF /* TrackerListAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerListAnalyticsService.swift; sourceTree = "<group>"; };
 		90FBD9EC2AB1EB0F000A3D3F /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		90FFBAFF2A6A414B009C3D8A /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
 		BB22B90C54B6074AC504C001 /* Pods-Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				90347EB32AA81C3A00AF9288 /* TrackerListModel.swift */,
+				90FA24302AC48660004E7ECF /* TrackerListAnalyticsService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1214,6 +1217,7 @@
 				90F182B12A4EFE3B007F99CD /* TrackerCategoryCell.swift in Sources */,
 				90166C252A76ABE300E8D6EE /* CoreData+Tracker.swift in Sources */,
 				9020CD6F2A79E08F0002B957 /* TrackerCategoryStore.swift in Sources */,
+				90FA24312AC48660004E7ECF /* TrackerListAnalyticsService.swift in Sources */,
 				90F182AF2A4EFDDD007F99CD /* TrackerCategoryCellModel.swift in Sources */,
 				905876092A4E960C0035E50A /* WeekDayPickerDelegate.swift in Sources */,
 				90954FF52A4FEFC100D4CB9A /* Tracker+UIEdgeInsets.swift in Sources */,

@@ -128,6 +128,18 @@ final class TrackerListViewController: UIViewController {
         configureNavigationBar()
         setupConstraints()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewModel?.viewWillAppear()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        viewModel?.viewDidDissapear()
+    }
 }
 
 extension TrackerListViewController: UISearchTextFieldDelegate {

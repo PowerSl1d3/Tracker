@@ -63,6 +63,7 @@ extension TrackerListDataSource: UICollectionViewDataSource {
                 try? viewModel.dataProvider?.addRecord(TrackerRecord(id: cellModel.id, date: viewModel.currentDate))
             }
 
+            viewModel.didTapCompleteTrackerButton()
             collectionView.reloadItems(at: [indexPath])
         }
 
