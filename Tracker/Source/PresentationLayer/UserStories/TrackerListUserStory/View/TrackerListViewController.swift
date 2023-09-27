@@ -51,15 +51,16 @@ final class TrackerListViewController: UIViewController {
         return collectionView
     }()
 
-    private let placeholderView: TrackersPlaceholderStarView = {
-        let placeholderView = TrackersPlaceholderStarView()
+    private let placeholderView: TrackersPlaceholderView = {
+        let placeholderView = TrackersPlaceholderView()
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
-        placeholderView.titleLabel.text = LocalizedString("trackers.placeholder")
+        placeholderView.title = LocalizedString("trackers.placeholder")
         placeholderView.isHidden = true
 
         return placeholderView
     }()
 
+    // TODO: сделать скрытие фильтра когда трекеров нет
     private let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false

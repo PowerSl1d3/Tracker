@@ -122,6 +122,8 @@ final class TrackersDataProviderImpl: NSObject {
             configure()
             preferences.preferencesDidConfigure = true
         }
+
+        computeStatistics()
     }
 }
 
@@ -148,6 +150,10 @@ extension TrackersDataProviderImpl: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let currentUpdate else { return }
+
+        if case .record = currentUpdate.type {
+            computeStatistics()
+        }
 
         delegate?.didUpdate(currentUpdate)
         self.currentUpdate = nil
@@ -321,5 +327,15 @@ private extension TrackersDataProviderImpl {
                 isPinned: false
             )
         ].forEach { try? addRecord($0, toCategory: holidayCategory) }
+    }
+
+    func computeStatistics() {
+        guard let completedTrackerIds = fetchedResultsTrackerRecordController
+            .fetchedObjects?
+            .compactMap({ TrackerRecordStore(from: $0)?.trackerRecord.id }) else {
+            return
+        }
+
+        preferences.completedTrackersCount = Set(completedTrackerIds).count
     }
 }

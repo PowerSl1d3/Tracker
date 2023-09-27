@@ -40,7 +40,7 @@ private extension TabBarController {
         let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
         trackersNavigationController.navigationBar.prefersLargeTitles = true
 
-        let statisticsViewController = StatisticsViewController()
+        let statisticsViewController = StatisticsAssembly.assemble()
         let statisticsTabBarItem = UITabBarItem(
             title: LocalizedString("tabBarItem.statistics"),
             image: UIImage(named: "stats"),
@@ -48,6 +48,9 @@ private extension TabBarController {
         )
         statisticsViewController.tabBarItem = statisticsTabBarItem
 
-        viewControllers = [trackersNavigationController, statisticsViewController]
+        let statisticsNavigationController = UINavigationController(rootViewController: statisticsViewController)
+        statisticsNavigationController.navigationBar.prefersLargeTitles = true
+
+        viewControllers = [trackersNavigationController, statisticsNavigationController]
     }
 }

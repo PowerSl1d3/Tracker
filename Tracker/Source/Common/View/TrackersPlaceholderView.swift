@@ -1,5 +1,5 @@
 //
-//  TrackersPlaceholderStarView.swift
+//  TrackersPlaceholderView.swift
 //  Tracker
 //
 //  Created by Олег Аксененко on 04.07.2023.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-final class TrackersPlaceholderStarView: UIView {
-    let starImageView: UIImageView = {
+final class TrackersPlaceholderView: UIView {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "emptyScreenStar")
+        imageView.image = Asset.emptyScreenStar.image
         imageView.contentMode = .scaleAspectFit
 
         return imageView
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypMediumFont(ofSize: 12)
@@ -28,10 +28,28 @@ final class TrackersPlaceholderStarView: UIView {
         return label
     }()
 
+    var placeholderImage: UIImage? {
+        get {
+            imageView.image
+        }
+        set {
+            imageView.image = newValue
+        }
+    }
+
+    var title: String? {
+        get {
+            titleLabel.text
+        }
+        set {
+            titleLabel.text = newValue
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        addSubview(starImageView)
+        addSubview(imageView)
         addSubview(titleLabel)
 
         setupConstraints()
@@ -42,13 +60,13 @@ final class TrackersPlaceholderStarView: UIView {
     }
 }
 
-extension TrackersPlaceholderStarView {
+extension TrackersPlaceholderView {
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            starImageView.topAnchor.constraint(equalTo: topAnchor),
-            starImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            titleLabel.topAnchor.constraint(equalTo: starImageView.bottomAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)

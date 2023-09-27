@@ -35,10 +35,10 @@ final class TrackerCategoryPickerViewController: UIViewController {
         return button
     }()
 
-    let placeholderView: TrackersPlaceholderStarView = {
-        let placeholderView = TrackersPlaceholderStarView()
+    let placeholderView: TrackersPlaceholderView = {
+        let placeholderView = TrackersPlaceholderView()
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
-        placeholderView.titleLabel.text = LocalizedString("trackersCategoryCreation.placeholder.title")
+        placeholderView.title = LocalizedString("trackersCategoryCreation.placeholder.title")
         placeholderView.isHidden = true
 
         return placeholderView

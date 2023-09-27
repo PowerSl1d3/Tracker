@@ -32,6 +32,12 @@
 "trackers.router.deleteAlert.cancel" = "Cancel";
 "trackers.navItem" = "Trackers";
 
+// Statistics
+
+"statistics.placeholder" = "There is nothing to analyze yet";
+"statistics.navItem" = "Statistics";
+"statistics.completedTrackersCount" = "Trackers completed";
+
 // Filter Type Picker
 
 "filterPicker.navItem" = "Фильтры";

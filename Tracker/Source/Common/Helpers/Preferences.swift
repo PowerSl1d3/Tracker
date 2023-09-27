@@ -34,4 +34,7 @@ final class Preferences {
 
     @Preference(valuePath: "preferencesDidConfigure", defaultValue: false)
     var preferencesDidConfigure: Bool
+
+    @Preference(valuePath: "completedTrackersCount", defaultValue: .zero)
+    var completedTrackersCount: Int
 }
