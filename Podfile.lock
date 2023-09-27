@@ -1,20 +1,31 @@
 PODS:
   - SnapshotTesting (1.9.0)
   - SwiftGen (6.6.2)
+  - YandexMobileMetrica (4.5.0):
+    - YandexMobileMetrica/Static (= 4.5.0)
+  - YandexMobileMetrica/Static (4.5.0):
+    - YandexMobileMetrica/Static/Core (= 4.5.0)
+    - YandexMobileMetrica/Static/Crashes (= 4.5.0)
+  - YandexMobileMetrica/Static/Core (4.5.0)
+  - YandexMobileMetrica/Static/Crashes (4.5.0):
+    - YandexMobileMetrica/Static/Core
 
 DEPENDENCIES:
   - SnapshotTesting (= 1.9.0)
   - SwiftGen (= 6.6.2)
+  - YandexMobileMetrica (= 4.5.0)
 
 SPEC REPOS:
   trunk:
     - SnapshotTesting
     - SwiftGen
+    - YandexMobileMetrica
 
 SPEC CHECKSUMS:
   SnapshotTesting: 6141c48b6aa76ead61431ca665c14ab9a066c53b
   SwiftGen: 1366a7f71aeef49954ca5a63ba4bef6b0f24138c
+  YandexMobileMetrica: 7dafc7d224077d4443ab3a587b82b24e9b6cc9c7
 
-PODFILE CHECKSUM: 89b93a9b20eed94a22ec82959f73c7839937334a
+PODFILE CHECKSUM: 631d958edc87d242b25c1bd3bd09766ae3f094fb
 
 COCOAPODS: 1.12.1

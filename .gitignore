@@ -105,3 +105,6 @@ iOSInjectionProject/
 
 # Swiftgen generated files
 Tracker/Resources/Assets.swift
+
+# Screenshot Test
+TrackerTests/__Snapshots__/
