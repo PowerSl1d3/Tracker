@@ -60,7 +60,6 @@ final class TrackerListViewController: UIViewController {
         return placeholderView
     }()
 
-    // TODO: сделать скрытие фильтра когда трекеров нет
     private let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -92,6 +91,10 @@ final class TrackerListViewController: UIViewController {
 
             placeholderView.isHidden = !visibleCategories.isEmpty
             collectionView.reloadData()
+        }
+
+        viewModel?.$showFilterButton.bindAndCall { [weak self] showButton in
+            self?.filterButton.isHidden = !showButton
         }
     }
 

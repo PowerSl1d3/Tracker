@@ -10,6 +10,7 @@ import Foundation
 final class TrackerListViewModel {
 
     @Observable private(set) var visibleCategories: [TrackerCategory] = []
+    @Observable private(set) var showFilterButton: Bool = false
 
     var currentDate: Date { model.currentDate }
     var dataProvider: TrackersDataProvider? { model.dataProvider }
@@ -82,5 +83,6 @@ extension TrackerListViewModel: TrackerListModuleOutput {
 private extension TrackerListViewModel {
     func reloadVisibleCategories() {
         visibleCategories = model.categoriesByFilter()
+        showFilterButton = model.showFilterButton
     }
 }

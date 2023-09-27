@@ -9,6 +9,7 @@ import Foundation.NSIndexPath
 
 final class NullDataProvider: TrackersDataProvider {
     var numberOfCategories: Int { .zero }
+    var numberOfTrackers: Int { .zero }
     func numberOfTrackersInCategory(_ section: Int) -> Int { .zero }
     func category(at index: Int) -> TrackerCategory? { nil }
     func category(for tracker: Tracker) -> TrackerCategory? { nil }

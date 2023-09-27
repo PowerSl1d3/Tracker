@@ -26,6 +26,7 @@ protocol TrackersDataProviderDelegate: AnyObject {
 // TODO: большой протокол, разбить на несколько и использовать только те методы в местах, которые нужны
 protocol TrackersDataProvider {
     var numberOfCategories: Int { get }
+    var numberOfTrackers: Int { get }
     func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int
     func category(at index: Int) -> TrackerCategory?
     func category(for tracker: Tracker) -> TrackerCategory?
@@ -180,6 +181,10 @@ extension TrackersDataProviderImpl: NSFetchedResultsControllerDelegate {
 extension TrackersDataProviderImpl: TrackersDataProvider {
     var numberOfCategories: Int {
         fetchedResultsCategoryController.sections?.count ?? .zero
+    }
+
+    var numberOfTrackers: Int {
+        fetchedResultsTrackerController.sections?.count ?? .zero
     }
 
     func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int {

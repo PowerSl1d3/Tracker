@@ -24,6 +24,12 @@ final class TrackerListModel {
 
     private var filter: TrackerFilter = .currentDay
 
+    var showFilterButton: Bool {
+        get {
+            dataProvider?.numberOfTrackers != .zero
+        }
+    }
+
     func setCurrentDate(_ date: Date) {
         guard let startOfDate = dateFormatter?.startOfDay(date) else {
             currentDate = date
