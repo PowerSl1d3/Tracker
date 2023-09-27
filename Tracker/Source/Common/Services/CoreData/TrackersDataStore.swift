@@ -89,7 +89,10 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 trackerCoreData.color = record.color
                 trackerCoreData.emoji = record.emoji
                 trackerCoreData.schedule = record.schedule
+                trackerCoreData.isPinned = record.isPinned
                 trackerCoreData.category = categoryCoreData
+
+                categoryCoreData.addToTrackers(trackerCoreData)
 
                 try context.save()
             }
