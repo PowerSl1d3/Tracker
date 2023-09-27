@@ -55,6 +55,10 @@ final class OnboardPageViewController: UIPageViewController {
 
         setupConstraints()
     }
+
+    func skipOnboarding() {
+        didTapInviteButton()
+    }
 }
 
 extension OnboardPageViewController: UIPageViewControllerDataSource {

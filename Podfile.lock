@@ -1,16 +1,20 @@
 PODS:
+  - SnapshotTesting (1.9.0)
   - SwiftGen (6.6.2)
 
 DEPENDENCIES:
-  - SwiftGen
+  - SnapshotTesting (= 1.9.0)
+  - SwiftGen (= 6.6.2)
 
 SPEC REPOS:
   trunk:
+    - SnapshotTesting
     - SwiftGen
 
 SPEC CHECKSUMS:
+  SnapshotTesting: 6141c48b6aa76ead61431ca665c14ab9a066c53b
   SwiftGen: 1366a7f71aeef49954ca5a63ba4bef6b0f24138c
 
-PODFILE CHECKSUM: 347491a10d49c65f64f8ee60eeb8c6d72bb2ac02
+PODFILE CHECKSUM: 89b93a9b20eed94a22ec82959f73c7839937334a
 
 COCOAPODS: 1.12.1
