@@ -17,10 +17,21 @@ final class TrackerListModel {
 
     var router: TrackerListRouter?
     var dataProvider: TrackersDataProvider?
+    var dateFormatter: TrackerDateFormatter?
 
-    var currentDate: Date = Date()
+    private(set) var currentDate: Date = Calendar.current.startOfDay(for: Date())
 
     private var filter: TrackerFilter = .currentDay
+
+    func setCurrentDate(_ date: Date) {
+        guard let startOfDate = dateFormatter?.startOfDay(date) else {
+            currentDate = date
+
+            return
+        }
+
+        currentDate = startOfDate
+    }
 
     var currentDateCategories: [TrackerCategory] {
         let filteredCategories = dataProvider?.sections(enablePinSection: true)?.compactMap { (category: TrackerCategory) -> TrackerCategory? in
@@ -67,7 +78,7 @@ final class TrackerListModel {
     }
 
     func pinTracker(_ tracker: Tracker) {
-        guard let category = dataProvider?.section(for: tracker) else { return }
+        guard let category = dataProvider?.category(for: tracker) else { return }
 
         let tracker = Tracker(
             id: tracker.id,
@@ -82,7 +93,7 @@ final class TrackerListModel {
     }
 
     func editTracker(_ tracker: Tracker) {
-        guard let category = dataProvider?.section(for: tracker),
+        guard let category = dataProvider?.category(for: tracker),
               let completedDaysCount = dataProvider?.numberOfTrackerRecord(for: tracker) else { return }
 
         router?.presentEditForm(for: tracker, from: category, delegate: self, completedDaysCount: completedDaysCount)

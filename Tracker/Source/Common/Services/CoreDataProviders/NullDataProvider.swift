@@ -8,11 +8,11 @@
 import Foundation.NSIndexPath
 
 final class NullDataProvider: TrackersDataProvider {
-    var numberOfSections: Int { .zero }
-    func numberOfRowsInSection(_ section: Int) -> Int { .zero }
+    var numberOfCategories: Int { .zero }
+    func numberOfTrackersInCategory(_ section: Int) -> Int { .zero }
     func numberOfTrackerRecord(for tracker: Tracker) -> Int { .zero }
-    func section(at index: Int) -> TrackerCategory? { nil }
-    func section(for tracker: Tracker) -> TrackerCategory? { nil }
+    func category(at index: Int) -> TrackerCategory? { nil }
+    func category(for tracker: Tracker) -> TrackerCategory? { nil }
     func sections(enablePinSection: Bool) -> [TrackerCategory]? { nil }
     func object(at indexPath: IndexPath) -> Tracker? { nil }
     func addRecord(_ tracker: Tracker, toCategory category: TrackerCategory) throws {}

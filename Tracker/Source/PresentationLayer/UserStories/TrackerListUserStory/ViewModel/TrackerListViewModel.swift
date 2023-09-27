@@ -29,8 +29,7 @@ final class TrackerListViewModel {
     }
 
     func didChangeDate(_ date: Date) {
-        // TODO: Убрать из даты время и оставить только год, месяц и день
-        model.currentDate = date
+        model.setCurrentDate(date)
         visibleCategories = model.currentDateCategories
     }
 

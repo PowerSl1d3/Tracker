@@ -25,11 +25,11 @@ protocol TrackersDataProviderDelegate: AnyObject {
 
 // TODO: большой протокол, разбить на несколько и использовать только те методы в местах, которые нужны
 protocol TrackersDataProvider {
-    var numberOfSections: Int { get }
-    func numberOfRowsInSection(_ section: Int) -> Int
+    var numberOfCategories: Int { get }
+    func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int
     func numberOfTrackerRecord(for tracker: Tracker) -> Int
-    func section(at index: Int) -> TrackerCategory?
-    func section(for tracker: Tracker) -> TrackerCategory?
+    func category(at index: Int) -> TrackerCategory?
+    func category(for tracker: Tracker) -> TrackerCategory?
     func sections(enablePinSection: Bool) -> [TrackerCategory]?
     func object(at indexPath: IndexPath) -> Tracker?
 
@@ -57,6 +57,7 @@ final class TrackersDataProviderImpl: NSObject {
     private let context: NSManagedObjectContext
     private let dataStore: TrackersDataStore
     private var currentUpdate: TrackersStoreUpdate?
+    private let preferences: Preferences = .shared
 
     private lazy var fetchedResultsCategoryController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
@@ -117,6 +118,11 @@ final class TrackersDataProviderImpl: NSObject {
         super.init()
 
         _ = fetchedResultsTrackerController
+
+        if !preferences.preferencesDidConfigure {
+            configure()
+            preferences.preferencesDidConfigure = true
+        }
     }
 }
 
@@ -167,12 +173,12 @@ extension TrackersDataProviderImpl: NSFetchedResultsControllerDelegate {
 }
 
 extension TrackersDataProviderImpl: TrackersDataProvider {
-    var numberOfSections: Int {
+    var numberOfCategories: Int {
         fetchedResultsCategoryController.sections?.count ?? .zero
     }
 
-    func numberOfRowsInSection(_ section: Int) -> Int {
-        fetchedResultsCategoryController.sections?[safe: section]?.numberOfObjects ?? .zero
+    func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int {
+        fetchedResultsCategoryController.sections?[safe: categoryIndex]?.numberOfObjects ?? .zero
     }
 
     func numberOfTrackerRecord(for tracker: Tracker) -> Int {
@@ -181,7 +187,7 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         return records.filter { $0.id == tracker.id }.count
     }
 
-    func section(at index: Int) -> TrackerCategory? {
+    func category(at index: Int) -> TrackerCategory? {
         guard let trackerCategoryCoreData = fetchedResultsCategoryController.fetchedObjects?[safe: index] else {
             return nil
         }
@@ -189,7 +195,7 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         return TrackerCategoryStore(from: trackerCategoryCoreData)?.trackerCategory
     }
 
-    func section(for tracker: Tracker) -> TrackerCategory? {
+    func category(for tracker: Tracker) -> TrackerCategory? {
         let trackerCoreData = fetchedResultsTrackerController.fetchedObjects?.first { $0.trackerId == tracker.id }
         guard let trackerCategoryCoreData = trackerCoreData?.category else {
             return nil
@@ -264,5 +270,61 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
 
     func records() -> [TrackerRecord]? {
         fetchedResultsTrackerRecordController.fetchedObjects?.compactMap { TrackerRecordStore(from: $0)?.trackerRecord }
+    }
+}
+
+private extension TrackersDataProviderImpl {
+    func configure() {
+        let workCategory = TrackerCategory(trackers: [], title: "Работа")
+        let holidayCategory = TrackerCategory(trackers: [], title: "Отдых")
+
+        try? addRecord(workCategory)
+        try? addRecord(holidayCategory)
+
+        [
+            Tracker(
+                id: UUID(),
+                title: "Доделать задание на Yandex.Pracricum",
+                color: Asset.colorSelection0.color,
+                emoji: Character("🙌"),
+                schedule: .eventSchedule,
+                isPinned: false
+            ),
+            Tracker(
+                id: UUID(),
+                title: "Сходить на работу",
+                color: Asset.colorSelection1.color,
+                emoji: Character("🏓"),
+                schedule: [.monday, .tuesday, .wednesday, .thursday, .friday],
+                isPinned: false
+            ),
+            Tracker(
+                id: UUID(),
+                title: "Поревьюить одногруппников",
+                color: Asset.colorSelection2.color,
+                emoji: Character("🎸"),
+                schedule: [.monday, .tuesday, .wednesday, .thursday, .friday],
+                isPinned: false
+            ),
+        ].forEach { try? addRecord($0, toCategory: workCategory) }
+
+        [
+            Tracker(
+                id: UUID(),
+                title: "Попить смузи",
+                color: Asset.colorSelection3.color,
+                emoji: Character("🏝"),
+                schedule: [.saturday, .sanday],
+                isPinned: false
+            ),
+            Tracker(
+                id: UUID(),
+                title: "Погулять с друзьями",
+                color: Asset.colorSelection4.color,
+                emoji: Character("🙂"),
+                schedule: [.saturday, .sanday],
+                isPinned: false
+            )
+        ].forEach { try? addRecord($0, toCategory: holidayCategory) }
     }
 }
