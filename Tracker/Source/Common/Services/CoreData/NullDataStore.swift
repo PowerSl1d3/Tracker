@@ -18,4 +18,5 @@ extension NullDataStore: TrackersDataStore {
     func edit(_ record: TrackerStore) throws {}
     func delete(_ record: TrackerStore) throws {}
     func delete(_ record: TrackerRecordStore) throws {}
+    func read(_ trackerId: UUID) -> [TrackerRecordStore] { [] }
 }

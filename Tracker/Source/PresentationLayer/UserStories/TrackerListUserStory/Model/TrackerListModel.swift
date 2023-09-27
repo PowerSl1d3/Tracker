@@ -94,7 +94,7 @@ final class TrackerListModel {
 
     func editTracker(_ tracker: Tracker) {
         guard let category = dataProvider?.category(for: tracker),
-              let completedDaysCount = dataProvider?.numberOfTrackerRecord(for: tracker) else { return }
+              let completedDaysCount = dataProvider?.trackerRecords(for: tracker).count else { return }
 
         router?.presentEditForm(for: tracker, from: category, delegate: self, completedDaysCount: completedDaysCount)
     }

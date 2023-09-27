@@ -42,19 +42,18 @@ extension TrackerListDataSource: UICollectionViewDataSource {
 
         cell.prepareForReuse()
 
-        // TODO: когда нибудь заменить на фильрацию при помощи CoreData
         guard let currentDate = viewModel?.currentDate,
-              let completedDays = viewModel?.completedTrackerRecords.filter({ $0.id == cellModel.id }) else {
+              let completedDays = viewModel?.dataProvider?.trackerRecords(for: cellModel) else {
             return UICollectionViewCell()
         }
 
-        let currentDateTrackerRecord = completedDays.first(where: { $0.date == viewModel?.currentDate })
+        let currentDateTrackerRecord = completedDays.first(where: { $0.date == currentDate })
 
         let cellConfiguration = TrackerCardCellConfiguration(
             tracker: cellModel,
             completedDays: completedDays.count,
             isCurrentDateCompleted: currentDateTrackerRecord != nil,
-            isFutureDate: currentDate > Date()
+            isFutureDate: currentDate > Calendar.current.startOfDay(for: Date())
         ) { [weak self] cellModel in
             guard let self, let cellModel, let viewModel else { return }
 

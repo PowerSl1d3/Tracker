@@ -18,6 +18,7 @@ protocol TrackersDataStore {
     func edit(_ record: TrackerStore) throws
     func delete(_ record: TrackerStore) throws
     func delete(_ record: TrackerRecordStore) throws
+    func read(_ trackerId: UUID) -> [TrackerRecordStore]
 }
 
 // MARK: - Data Store Implementation
@@ -200,9 +201,11 @@ extension TrackersDataStoreImpl: TrackersDataStore {
     func delete(_ record: TrackerRecordStore) throws {
         let fetchRequest = TrackerRecordCoreData.fetchRequest()
         fetchRequest.predicate = NSPredicate(
-            format: "%K == %@",
+            format: "%K == %@ AND %K == %@",
             #keyPath(TrackerRecordCoreData.idRecord),
-            record.id as CVarArg
+            record.id as CVarArg,
+            #keyPath(TrackerRecordCoreData.date),
+            record.date as CVarArg
         )
         fetchRequest.fetchLimit = 1
 
@@ -217,6 +220,23 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 try context.save()
             }
         }
+    }
+
+    func read(_ trackerId: UUID) -> [TrackerRecordStore] {
+        let fetchRequest = TrackerRecordCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerRecordCoreData.idRecord),
+            trackerId as CVarArg
+        )
+
+        let records = try? performSync { context in
+            Result {
+                try context.fetch(fetchRequest).compactMap { TrackerRecordStore(from: $0) }
+            }
+        }
+
+        return records ?? []
     }
 }
 

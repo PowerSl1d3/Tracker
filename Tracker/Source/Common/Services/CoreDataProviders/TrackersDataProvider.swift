@@ -27,7 +27,6 @@ protocol TrackersDataProviderDelegate: AnyObject {
 protocol TrackersDataProvider {
     var numberOfCategories: Int { get }
     func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int
-    func numberOfTrackerRecord(for tracker: Tracker) -> Int
     func category(at index: Int) -> TrackerCategory?
     func category(for tracker: Tracker) -> TrackerCategory?
     func sections(enablePinSection: Bool) -> [TrackerCategory]?
@@ -42,7 +41,7 @@ protocol TrackersDataProvider {
     func deleteRecord(_ record: Tracker) throws
     func deleteRecord(_ record: TrackerRecord) throws
 
-    func records() -> [TrackerRecord]?
+    func trackerRecords(for tracker: Tracker) -> [TrackerRecord]
 }
 
 final class TrackersDataProviderImpl: NSObject {
@@ -181,12 +180,6 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         fetchedResultsCategoryController.sections?[safe: categoryIndex]?.numberOfObjects ?? .zero
     }
 
-    func numberOfTrackerRecord(for tracker: Tracker) -> Int {
-        guard let records = records() else { return .zero }
-
-        return records.filter { $0.id == tracker.id }.count
-    }
-
     func category(at index: Int) -> TrackerCategory? {
         guard let trackerCategoryCoreData = fetchedResultsCategoryController.fetchedObjects?[safe: index] else {
             return nil
@@ -268,8 +261,8 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         try dataStore.delete(TrackerRecordStore(from: record))
     }
 
-    func records() -> [TrackerRecord]? {
-        fetchedResultsTrackerRecordController.fetchedObjects?.compactMap { TrackerRecordStore(from: $0)?.trackerRecord }
+    func trackerRecords(for tracker: Tracker) -> [TrackerRecord] {
+        dataStore.read(tracker.id).map { $0.trackerRecord }
     }
 }
 

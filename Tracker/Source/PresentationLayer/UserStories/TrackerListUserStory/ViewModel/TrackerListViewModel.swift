@@ -13,7 +13,6 @@ final class TrackerListViewModel {
 
     var currentDate: Date { model.currentDate }
     var dataProvider: TrackersDataProvider? { model.dataProvider }
-    var completedTrackerRecords: [TrackerRecord] { dataProvider?.records() ?? [] }
 
     var model: TrackerListModel
     var dataSource: TrackerListDataSource?

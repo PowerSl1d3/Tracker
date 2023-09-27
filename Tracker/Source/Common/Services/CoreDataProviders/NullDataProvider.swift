@@ -10,7 +10,6 @@ import Foundation.NSIndexPath
 final class NullDataProvider: TrackersDataProvider {
     var numberOfCategories: Int { .zero }
     func numberOfTrackersInCategory(_ section: Int) -> Int { .zero }
-    func numberOfTrackerRecord(for tracker: Tracker) -> Int { .zero }
     func category(at index: Int) -> TrackerCategory? { nil }
     func category(for tracker: Tracker) -> TrackerCategory? { nil }
     func sections(enablePinSection: Bool) -> [TrackerCategory]? { nil }
@@ -21,5 +20,5 @@ final class NullDataProvider: TrackersDataProvider {
     func editRecord(_ record: Tracker, from category: TrackerCategory) throws {}
     func deleteRecord(_ record: Tracker) throws {}
     func deleteRecord(_ record: TrackerRecord) throws {}
-    func records() -> [TrackerRecord]? { nil }
+    func trackerRecords(for tracker: Tracker) -> [TrackerRecord] { [] }
 }
