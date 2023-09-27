@@ -20,7 +20,7 @@ final class TrackerCategoryPickerModel {
     private(set) var categories: [TrackerCategory] = []
 
     func reloadCategoies() {
-        categories = dataProvider?.sections(enablePinSection: false) ?? []
+        categories = dataProvider?.trackerCategories(enablePinSection: false) ?? []
     }
 
     func presentCategoryCreation() {

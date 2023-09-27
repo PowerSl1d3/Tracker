@@ -29,7 +29,7 @@ protocol TrackersDataProvider {
     func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int
     func category(at index: Int) -> TrackerCategory?
     func category(for tracker: Tracker) -> TrackerCategory?
-    func sections(enablePinSection: Bool) -> [TrackerCategory]?
+    func trackerCategories(enablePinSection: Bool) -> [TrackerCategory]?
     func object(at indexPath: IndexPath) -> Tracker?
 
     func addRecord(_ trackerRecord: Tracker, toCategory category: TrackerCategory) throws
@@ -197,7 +197,7 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
         return TrackerCategoryStore(from: trackerCategoryCoreData)?.trackerCategory
     }
 
-    func sections(enablePinSection: Bool) -> [TrackerCategory]? {
+    func trackerCategories(enablePinSection: Bool) -> [TrackerCategory]? {
         guard enablePinSection else {
             return fetchedResultsCategoryController.fetchedObjects?.compactMap {
                 TrackerCategoryStore(from: $0)?.trackerCategory
@@ -215,7 +215,9 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
             .compactMap { TrackerCategoryStore(from: $0)?.trackerCategory }
             .map { TrackerCategory(trackers: $0.trackers.filter { !$0.isPinned }, title: $0.title) } ?? []
 
-        otherCategories.insert(pinnedCategory, at: 0)
+        if !pinnedTrackers.isEmpty {
+            otherCategories.insert(pinnedCategory, at: 0)
+        }
 
         return otherCategories
     }

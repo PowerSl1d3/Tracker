@@ -20,7 +20,7 @@ final class TrackerListViewModel {
     init(for model: TrackerListModel) {
         self.model = model
         model.output = self
-        visibleCategories = model.currentDateCategories
+        reloadVisibleCategories()
     }
 
     func didTapAddTrackerButton() {
@@ -29,15 +29,15 @@ final class TrackerListViewModel {
 
     func didChangeDate(_ date: Date) {
         model.setCurrentDate(date)
-        visibleCategories = model.currentDateCategories
+        reloadVisibleCategories()
     }
 
     func didEnterTrackerTitleSearchField(_ title: String?) {
-        visibleCategories = model.filterCategories(byTitle: title)
+        visibleCategories = model.filter(categories: visibleCategories, byTitle: title)
     }
 
     func didTapCancelSearchButton() {
-        visibleCategories = model.currentDateCategories
+        reloadVisibleCategories()
     }
 
     func didTapFiltersButton() {
@@ -57,8 +57,14 @@ final class TrackerListViewModel {
     }
 }
 
-extension TrackerListViewModel: TrackerListModelModelOutput {
+extension TrackerListViewModel: TrackerListModuleOutput {
     func didUpdateTrackers() {
-        visibleCategories = model.currentDateCategories
+        reloadVisibleCategories()
+    }
+}
+
+private extension TrackerListViewModel {
+    func reloadVisibleCategories() {
+        visibleCategories = model.categoriesByFilter()
     }
 }
