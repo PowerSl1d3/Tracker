@@ -223,7 +223,7 @@ extension TrackersDataProviderImpl: TrackersDataProvider {
 
 
         var otherCategories = fetchedResultsCategoryController.fetchedObjects?
-            .compactMap { TrackerCategoryStore(from: $0)?.trackerCategory }
+            .compactMap { $0.trackers?.count == .zero ? nil : TrackerCategoryStore(from: $0)?.trackerCategory }
             .map { TrackerCategory(trackers: $0.trackers.filter { !$0.isPinned }, title: $0.title) } ?? []
 
         if !pinnedTrackers.isEmpty {
