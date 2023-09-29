@@ -8,7 +8,7 @@
 import UIKit
 
 final class FilterPickerViewController: UIViewController {
-    let filtersTableView: UITableView = {
+    private let filtersTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = Asset.ypWhite.color
@@ -68,7 +68,7 @@ extension FilterPickerViewController: UITableViewDelegate {
         }
 
         cell.state = .selected
-        viewModel?.delegate?.didSelectFilter(cellModel.filter)
+        viewModel?.didSelectFilter(cellModel.filter)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

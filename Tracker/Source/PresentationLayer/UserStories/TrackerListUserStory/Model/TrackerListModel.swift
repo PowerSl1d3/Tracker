@@ -15,10 +15,10 @@ final class TrackerListModel {
 
     weak var output: TrackerListModuleOutput?
 
-    var router: TrackerListRouter?
-    var dataProvider: TrackersDataProvider?
-    var dateFormatter: TrackerDateFormatter?
-    var analyticsService: TrackerListAnalyticsService?
+    let router: TrackerListRouter
+    let dataProvider: TrackersDataProvider
+    let dateFormatter: TrackerDateFormatter
+    let analyticsService: TrackerListAnalyticsService
 
     private(set) var currentDate: Date = Calendar.current.startOfDay(for: Date())
 
@@ -26,12 +26,24 @@ final class TrackerListModel {
 
     var showFilterButton: Bool {
         get {
-            dataProvider?.numberOfTrackers != .zero
+            dataProvider.numberOfTrackers != .zero
         }
     }
 
+    init(
+        router: TrackerListRouter,
+        dataProvider: TrackersDataProvider,
+        dateFormatter: TrackerDateFormatter,
+        analyticsService: TrackerListAnalyticsService
+    ) {
+        self.router = router
+        self.dataProvider = dataProvider
+        self.dateFormatter = dateFormatter
+        self.analyticsService = analyticsService
+    }
+
     func setCurrentDate(_ date: Date) {
-        guard let startOfDate = dateFormatter?.startOfDay(date) else {
+        guard let startOfDate = dateFormatter.startOfDay(date) else {
             currentDate = date
 
             return
@@ -49,7 +61,7 @@ final class TrackerListModel {
     }
 
     func categoriesByFilter() -> [TrackerCategory] {
-        let categories = dataProvider?.trackerCategories(enablePinSection: true) ?? []
+        let categories = dataProvider.trackerCategories(enablePinSection: true) ?? []
 
         switch filter {
         case .all:
@@ -64,29 +76,25 @@ final class TrackerListModel {
             }
         case .completed:
             return filter(categories: categories, withInfo: dataProvider) { tracker, dataProvider in
-                guard let dataProvider else { return false }
-
-                return !dataProvider.trackerRecords(for: tracker).isEmpty
+                !dataProvider.trackerRecords(for: tracker).isEmpty
             }
         case .notCompleted:
             return filter(categories: categories, withInfo: dataProvider) { tracker, dataProvider in
-                guard let dataProvider else { return false }
-
-                return dataProvider.trackerRecords(for: tracker).isEmpty
+                dataProvider.trackerRecords(for: tracker).isEmpty
             }
         }
     }
 
     func presentTrackerTypePicker() {
-        router?.presentTrackerTypePicker()
+        router.presentTrackerTypePicker()
     }
 
     func presentFilterPicker() {
-        router?.presentFilterPicker(selectedFilter: filter, delegate: self)
+        router.presentFilterPicker(selectedFilter: filter, delegate: self)
     }
 
     func pinTracker(_ tracker: Tracker) {
-        guard let category = dataProvider?.category(for: tracker) else { return }
+        guard let category = dataProvider.category(for: tracker) else { return }
 
         let tracker = Tracker(
             id: tracker.id,
@@ -97,19 +105,19 @@ final class TrackerListModel {
             isPinned: !tracker.isPinned
         )
 
-        try? dataProvider?.editRecord(tracker, from: category)
+        try? dataProvider.editRecord(tracker, from: category)
     }
 
     func editTracker(_ tracker: Tracker) {
-        guard let category = dataProvider?.category(for: tracker),
-              let completedDaysCount = dataProvider?.trackerRecords(for: tracker).count else { return }
+        guard let category = dataProvider.category(for: tracker) else { return }
 
-        router?.presentEditForm(for: tracker, from: category, delegate: self, completedDaysCount: completedDaysCount)
+        let completedDaysCount = dataProvider.trackerRecords(for: tracker).count
+        router.presentEditForm(for: tracker, from: category, delegate: self, completedDaysCount: completedDaysCount)
     }
 
     func deleteTracker(_ tracker: Tracker) {
-        router?.presentDeleteTrackerAlert { [weak self] in
-            try? self?.dataProvider?.deleteRecord(tracker)
+        router.presentDeleteTrackerAlert { [weak self] in
+            try? self?.dataProvider.deleteRecord(tracker)
         }
     }
 }
@@ -119,7 +127,7 @@ extension TrackerListModel: TrackersDataProviderDelegate {
         switch update.type {
         case .tracker:
             output?.didUpdateTrackers()
-            router?.dismissAllViewControllers()
+            router.dismissAllViewControllers()
         default:
             break
         }
@@ -128,7 +136,7 @@ extension TrackerListModel: TrackersDataProviderDelegate {
 
 extension TrackerListModel: TrackerFormDelegate {
     func didTapCancelButton() {
-        router?.dismissAllViewControllers()
+        router.dismissAllViewControllers()
     }
 }
 

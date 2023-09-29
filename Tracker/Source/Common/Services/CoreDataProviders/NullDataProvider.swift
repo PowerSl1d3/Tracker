@@ -8,6 +8,7 @@
 import Foundation.NSIndexPath
 
 final class NullDataProvider: TrackersDataProvider {
+    var delegate: TrackersDataProviderDelegate?
     var numberOfCategories: Int { .zero }
     var numberOfTrackers: Int { .zero }
     func numberOfTrackersInCategory(_ section: Int) -> Int { .zero }

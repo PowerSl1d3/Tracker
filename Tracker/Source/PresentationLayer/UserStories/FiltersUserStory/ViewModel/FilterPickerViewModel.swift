@@ -20,6 +20,10 @@ final class FilterPickerViewModel {
 
         reloadCellModels()
     }
+
+    func didSelectFilter(_ filter: TrackerFilter) {
+        delegate?.didSelectFilter(filter)
+    }
 }
 
 private extension FilterPickerViewModel {

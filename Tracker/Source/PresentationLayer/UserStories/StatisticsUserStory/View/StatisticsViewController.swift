@@ -89,15 +89,15 @@ extension StatisticsViewController: UITableViewDelegate {
 private extension StatisticsViewController {
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            placeholderView.centerXAnchor.constraint(equalTo: statisticsTableView.centerXAnchor),
-            placeholderView.centerYAnchor.constraint(equalTo: statisticsTableView.centerYAnchor),
-            placeholderView.leadingAnchor.constraint(equalTo: statisticsTableView.leadingAnchor),
-            placeholderView.trailingAnchor.constraint(equalTo: statisticsTableView.trailingAnchor),
-
             statisticsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             statisticsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             statisticsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            statisticsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            statisticsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            placeholderView.centerXAnchor.constraint(equalTo: statisticsTableView.centerXAnchor),
+            placeholderView.centerYAnchor.constraint(equalTo: statisticsTableView.centerYAnchor),
+            placeholderView.leadingAnchor.constraint(equalTo: statisticsTableView.leadingAnchor),
+            placeholderView.trailingAnchor.constraint(equalTo: statisticsTableView.trailingAnchor)
         ])
     }
 }

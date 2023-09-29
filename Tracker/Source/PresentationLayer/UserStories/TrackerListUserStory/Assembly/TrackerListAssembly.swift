@@ -12,13 +12,18 @@ final class TrackerListAssembly {
 
     static func assemble() -> UIViewController {
         let router = TrackerListRouterImpl()
+        var dataProvider = TrackersDataProviderAssembly.assemble()
         let dateFormatter = TrackerDateFormatter()
         let analyticsService = TrackerListAnalyticsServiceImpl()
-        let model = TrackerListModel()
-        model.dataProvider = TrackersDataProviderAssembly.assemble(delegate: model)
-        model.router = router
-        model.dateFormatter = dateFormatter
-        model.analyticsService = analyticsService
+
+        let model = TrackerListModel(
+            router: router,
+            dataProvider: dataProvider,
+            dateFormatter: dateFormatter,
+            analyticsService: analyticsService
+        )
+
+        dataProvider.delegate = model
 
         let viewModel = TrackerListViewModel(for: model)
         viewModel.dataSource = TrackerListDataSource(viewModel: viewModel)

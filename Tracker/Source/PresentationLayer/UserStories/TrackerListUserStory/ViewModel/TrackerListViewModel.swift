@@ -25,20 +25,20 @@ final class TrackerListViewModel {
     }
 
     func viewWillAppear() {
-        model.analyticsService?.didOpenTrackerList()
+        model.analyticsService.didOpenTrackerList()
     }
 
     func viewDidDissapear() {
-        model.analyticsService?.didCloseTrackerList()
+        model.analyticsService.didCloseTrackerList()
     }
 
     func didTapAddTrackerButton() {
-        model.analyticsService?.didTapAddTrackerButton()
+        model.analyticsService.didTapAddTrackerButton()
         model.presentTrackerTypePicker()
     }
 
     func didTapCompleteTrackerButton() {
-        model.analyticsService?.didTapCompleteTrackerButton()
+        model.analyticsService.didTapCompleteTrackerButton()
     }
 
     func didChangeDate(_ date: Date) {
@@ -55,7 +55,7 @@ final class TrackerListViewModel {
     }
 
     func didTapFiltersButton() {
-        model.analyticsService?.didTapFilterButton()
+        model.analyticsService.didTapFilterButton()
         model.presentFilterPicker()
     }
 
@@ -64,12 +64,12 @@ final class TrackerListViewModel {
     }
 
     func didSelectEditContextMenu(_ tracker: Tracker) {
-        model.analyticsService?.didSelectEditTrackerAction()
+        model.analyticsService.didSelectEditTrackerAction()
         model.editTracker(tracker)
     }
 
     func didSelectDeleteContextMenu(_ tracker: Tracker) {
-        model.analyticsService?.didSelectDeleteTrackerAction()
+        model.analyticsService.didSelectDeleteTrackerAction()
         model.deleteTracker(tracker)
     }
 }

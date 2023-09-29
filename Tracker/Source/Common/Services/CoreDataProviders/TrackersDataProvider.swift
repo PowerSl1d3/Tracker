@@ -25,6 +25,8 @@ protocol TrackersDataProviderDelegate: AnyObject {
 
 // TODO: большой протокол, разбить на несколько и использовать только те методы в местах, которые нужны
 protocol TrackersDataProvider {
+    var delegate: TrackersDataProviderDelegate? { get set }
+
     var numberOfCategories: Int { get }
     var numberOfTrackers: Int { get }
     func numberOfTrackersInCategory(_ categoryIndex: Int) -> Int
