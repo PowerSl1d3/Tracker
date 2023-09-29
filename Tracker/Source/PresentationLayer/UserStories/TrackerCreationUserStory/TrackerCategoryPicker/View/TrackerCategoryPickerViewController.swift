@@ -11,8 +11,8 @@ final class TrackerCategoryPickerViewController: UIViewController {
     let categoriesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .ypWhite
-        tableView.separatorColor = .ypGray
+        tableView.backgroundColor = Asset.ypWhite.color
+        tableView.separatorColor = Asset.ypGray.color
         tableView.allowsMultipleSelection = false
 
         return tableView
@@ -21,8 +21,8 @@ final class TrackerCategoryPickerViewController: UIViewController {
     let addCategoryButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.backgroundColor = Asset.ypBlack.color
+        button.setTitleColor(Asset.ypWhite.color, for: .normal)
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
@@ -30,15 +30,15 @@ final class TrackerCategoryPickerViewController: UIViewController {
             .font: UIFont.ypMediumFont(ofSize: 16)
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Добавить категорию", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("trackersCategoryCreation.button.title"), attributes: attributes), for: .normal)
 
         return button
     }()
 
-    let placeholderView: TrackersPlaceholderStarView = {
-        let placeholderView = TrackersPlaceholderStarView()
+    let placeholderView: TrackersPlaceholderView = {
+        let placeholderView = TrackersPlaceholderView()
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
-        placeholderView.titleLabel.text = "Привычки и события можно объединить по смыслу"
+        placeholderView.title = LocalizedString("trackersCategoryCreation.placeholder.title")
         placeholderView.isHidden = true
 
         return placeholderView
@@ -73,8 +73,8 @@ final class TrackerCategoryPickerViewController: UIViewController {
             forCellReuseIdentifier: TrackerCategoryCell.reuseIdentifier
         )
 
-        view.backgroundColor = .ypWhite
-        navigationItem.title = "Категория"
+        view.backgroundColor = Asset.ypWhite.color
+        navigationItem.title = LocalizedString("trackersCategoryCreation.navItem")
         navigationItem.hidesBackButton = true
 
         categoriesTableView.addSubview(placeholderView)

@@ -10,7 +10,7 @@ import UIKit
 final class StateButton: UIButton {
     override var isEnabled: Bool {
         didSet {
-            backgroundColor = isEnabled ? .ypBlack : .ypGray
+            backgroundColor = isEnabled ? Asset.ypBlack.color : Asset.ypGray.color
         }
     }
 
@@ -18,7 +18,7 @@ final class StateButton: UIButton {
         super.init(frame: frame)
 
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .ypBlack
+        backgroundColor = Asset.ypBlack.color
         layer.cornerRadius = 16
         clipsToBounds = true
     }
@@ -32,7 +32,7 @@ final class StateButton: UIButton {
 
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.ypMediumFont(ofSize: 16),
-            .foregroundColor: state == .disabled ? UIColor.ypBlack : UIColor.ypWhite
+            .foregroundColor: state == .disabled ? Asset.ypBlack.color : Asset.ypWhite.color
         ]
 
         setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: state)

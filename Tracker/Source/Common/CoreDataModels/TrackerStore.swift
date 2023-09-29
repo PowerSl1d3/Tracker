@@ -13,6 +13,7 @@ struct TrackerStore {
     let color: String
     let emoji: String
     let schedule: Data
+    let isPinned: Bool
     let category: TrackerCategoryStore?
 
     static let colorConverter = UIColorMarshalling()
@@ -24,10 +25,10 @@ struct TrackerStore {
             return nil
         }
 
-        return Tracker(id: id, title: title, color: color, emoji: Character(emoji), schedule: schedule)
+        return Tracker(id: id, title: title, color: color, emoji: Character(emoji), schedule: schedule, isPinned: isPinned)
     }
 
-    init?(from tracker: Tracker, category: TrackerCategoryStore) {
+    init?(from tracker: Tracker, category: TrackerCategoryStore?) {
         id = tracker.id
         title = tracker.title
         color = Self.colorConverter.hexString(from: tracker.color)
@@ -38,11 +39,12 @@ struct TrackerStore {
         }
 
         schedule = scheduleData
+        isPinned = tracker.isPinned
         self.category = category
     }
 
     init?(from trackerCoreData: TrackerCoreData) {
-        guard let id = trackerCoreData.id,
+        guard let id = trackerCoreData.trackerId,
               let title = trackerCoreData.title,
               let color = trackerCoreData.color,
               let emoji = trackerCoreData.emoji,
@@ -56,5 +58,6 @@ struct TrackerStore {
         self.emoji = emoji
         self.schedule = schedule
         self.category = nil
+        self.isPinned = trackerCoreData.isPinned
     }
 }

@@ -16,7 +16,7 @@ final class TrackerCategoryCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        backgroundColor = .ypBackground
+        backgroundColor = Asset.ypBackground.color
     }
 
     required init?(coder: NSCoder) {
@@ -30,7 +30,7 @@ final class TrackerCategoryCell: UITableViewCell {
             guard let self else { return }
 
             accessoryType = isSelected ? .checkmark : .none
-            tableView?.reloadRows(at: [IndexPath(row: cellModel.index, section: 0)], with: .fade)
+            tableView?.reloadRows(at: [cellModel.indexPath], with: .fade)
         }
     }
 }

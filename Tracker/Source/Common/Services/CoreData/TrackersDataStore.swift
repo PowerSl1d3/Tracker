@@ -15,7 +15,10 @@ protocol TrackersDataStore {
     func add(_ record: TrackerStore) throws
     func add(_ record: TrackerCategoryStore) throws
     func add(_ record: TrackerRecordStore) throws
+    func edit(_ record: TrackerStore) throws
+    func delete(_ record: TrackerStore) throws
     func delete(_ record: TrackerRecordStore) throws
+    func read(_ trackerId: UUID) -> [TrackerRecordStore]
 }
 
 // MARK: - Data Store Implementation
@@ -35,6 +38,7 @@ final class TrackersDataStoreImpl {
         case failedToFetchCategory
         case failedToFetchRecord
         case failedToCreateCategory
+        case failedToEditTracker
     }
 
     init() throws {
@@ -81,12 +85,15 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 }
 
                 let trackerCoreData = TrackerCoreData(context: context)
-                trackerCoreData.id = record.id
+                trackerCoreData.trackerId = record.id
                 trackerCoreData.title = record.title
                 trackerCoreData.color = record.color
                 trackerCoreData.emoji = record.emoji
                 trackerCoreData.schedule = record.schedule
+                trackerCoreData.isPinned = record.isPinned
                 trackerCoreData.category = categoryCoreData
+
+                categoryCoreData.addToTrackers(trackerCoreData)
 
                 try context.save()
             }
@@ -129,12 +136,76 @@ extension TrackersDataStoreImpl: TrackersDataStore {
         }
     }
 
+    func edit(_ record: TrackerStore) throws {
+        guard let categoryTitle = record.category?.title else {
+            throw TrackersDataStoreError.failedToEditTracker
+        }
+
+        let trackerFetchRequest = TrackerCoreData.fetchRequest()
+        trackerFetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerCoreData.trackerId),
+            record.id as CVarArg
+        )
+        trackerFetchRequest.fetchLimit = 1
+
+        let categoryFetchRequest = TrackerCategoryCoreData.fetchRequest()
+        categoryFetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerCategoryCoreData.title),
+            categoryTitle
+        )
+        categoryFetchRequest.fetchLimit = 1
+
+        try performSync { context in
+            Result {
+                guard let trackerCoreData = try context.fetch(trackerFetchRequest).first,
+                      let categoryCoreData = try context.fetch(categoryFetchRequest).first else {
+                    throw TrackersDataStoreError.failedToFetchRecord
+                }
+
+                trackerCoreData.title = record.title
+                trackerCoreData.category = categoryCoreData
+                trackerCoreData.schedule = record.schedule
+                trackerCoreData.isPinned = record.isPinned
+                trackerCoreData.color = record.color
+                trackerCoreData.emoji = record.emoji
+
+                try context.save()
+            }
+        }
+    }
+
+    func delete(_ record: TrackerStore) throws {
+        let fetchRequest = TrackerCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerCoreData.trackerId),
+            record.id as CVarArg
+        )
+        fetchRequest.fetchLimit = 1
+
+        try performSync { context in
+            Result {
+                guard let trackerCoreData = try context.fetch(fetchRequest).first else {
+                    throw TrackersDataStoreError.failedToFetchRecord
+                }
+
+                context.delete(trackerCoreData)
+
+                try context.save()
+            }
+        }
+    }
+
     func delete(_ record: TrackerRecordStore) throws {
         let fetchRequest = TrackerRecordCoreData.fetchRequest()
         fetchRequest.predicate = NSPredicate(
-            format: "%K == %@",
+            format: "%K == %@ AND %K == %@",
             #keyPath(TrackerRecordCoreData.idRecord),
-            record.id as CVarArg
+            record.id as CVarArg,
+            #keyPath(TrackerRecordCoreData.date),
+            record.date as CVarArg
         )
         fetchRequest.fetchLimit = 1
 
@@ -149,6 +220,23 @@ extension TrackersDataStoreImpl: TrackersDataStore {
                 try context.save()
             }
         }
+    }
+
+    func read(_ trackerId: UUID) -> [TrackerRecordStore] {
+        let fetchRequest = TrackerRecordCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            #keyPath(TrackerRecordCoreData.idRecord),
+            trackerId as CVarArg
+        )
+
+        let records = try? performSync { context in
+            Result {
+                try context.fetch(fetchRequest).compactMap { TrackerRecordStore(from: $0) }
+            }
+        }
+
+        return records ?? []
     }
 }
 

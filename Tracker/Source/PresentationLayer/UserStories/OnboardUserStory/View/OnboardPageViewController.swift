@@ -9,13 +9,13 @@ import UIKit
 
 final class OnboardPageViewController: UIPageViewController {
     lazy var pages: [UIViewController] = [
-        OnboardViewController(imageName: "onboarding0", inviteText: "Отслеживайте только то, что хотите"),
-        OnboardViewController(imageName: "onboarding1", inviteText: "Даже если это не литры воды и йога")
+        OnboardViewController(imageName: "onboarding0", inviteText: LocalizedString("onboard.inviteText.first")),
+        OnboardViewController(imageName: "onboarding1", inviteText: LocalizedString("onboard.inviteText.second"))
     ]
 
     private let inviteButton: UIButton = {
         let button = StateButton()
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(LocalizedString("onboard.inviteButton"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
@@ -28,9 +28,9 @@ final class OnboardPageViewController: UIPageViewController {
         pageControl.currentPage = 0
         pageControl.numberOfPages = pages.count
 
-        pageControl.currentPageIndicatorTintColor = .ypBlack
+        pageControl.currentPageIndicatorTintColor = Asset.ypBlack.color
             .resolvedColor(with: UITraitCollection(userInterfaceStyle: .light))
-        pageControl.pageIndicatorTintColor = .ypBlack
+        pageControl.pageIndicatorTintColor = Asset.ypBlack.color
             .resolvedColor(with: UITraitCollection(userInterfaceStyle: .light))
             .withAlphaComponent(0.3)
 
@@ -39,6 +39,8 @@ final class OnboardPageViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        overrideUserInterfaceStyle = .light
 
         inviteButton.addTarget(self, action: #selector(didTapInviteButton), for: .touchUpInside)
 
@@ -52,6 +54,10 @@ final class OnboardPageViewController: UIPageViewController {
         setViewControllers([initialVC], direction: .forward, animated: true)
 
         setupConstraints()
+    }
+
+    func skipOnboarding() {
+        didTapInviteButton()
     }
 }
 

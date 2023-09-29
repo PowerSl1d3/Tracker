@@ -14,7 +14,7 @@ final class TrackerCategoryPickerCell: TrackerBaseCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypRegularFont(ofSize: 17)
-        label.text = "Категория"
+        label.text = LocalizedString("trackersForm.categoryPickerCell.title")
 
         return label
     }()
@@ -23,7 +23,7 @@ final class TrackerCategoryPickerCell: TrackerBaseCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypRegularFont(ofSize: 17)
-        label.textColor = .ypGray
+        label.textColor = Asset.ypGray.color
         label.isHidden = true
 
         return label
@@ -33,7 +33,7 @@ final class TrackerCategoryPickerCell: TrackerBaseCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "cellShevron")
+        imageView.image = Asset.cellShevron.image
 
         return imageView
     }()

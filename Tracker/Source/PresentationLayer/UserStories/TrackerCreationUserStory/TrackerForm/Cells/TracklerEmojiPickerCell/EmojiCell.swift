@@ -10,13 +10,33 @@ import UIKit
 final class EmojiCell: UICollectionViewCell {
     static let reuserIdentifier: String = { String(describing: EmojiCell.self) }()
 
-    let emojiLabel: UILabel = {
+    private let emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypBoldFont(ofSize: 32)
 
         return label
     }()
+
+    enum State {
+        case selected
+        case deselected
+    }
+
+    var state = State.deselected {
+        didSet {
+            contentView.backgroundColor = state == .selected ? Asset.ypLightGray.color : Asset.ypWhite.color
+        }
+    }
+
+    var emoji: Character {
+        get {
+            Character(emojiLabel.text ?? "")
+        }
+        set {
+            emojiLabel.text = String(newValue)
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

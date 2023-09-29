@@ -14,7 +14,7 @@ final class TrackerErrorCell: TrackerBaseCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypRegularFont(ofSize: 17)
-        label.textColor = .ypRed
+        label.textColor = Asset.ypRed.color
         label.textAlignment = .center
 
         return label

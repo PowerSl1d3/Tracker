@@ -8,21 +8,23 @@
 import UIKit
 
 final class TrackerEmojiPickerCellModel: TrackerBaseCellModel {
-    var selectionHandler: ((String) -> Void)?
-    var selectedEmojiIndex: Int?
+    var selectedEmoji: Character?
 
-    let emojies = [
+    let emojies: [Character] = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
         "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
     ]
 
-    init() {
+    init(emoji: Character? = nil, selectionHandler: @escaping (TrackerBaseCellModelProtocol) -> Void) {
+        selectedEmoji = emoji
+
         super.init(
             cellClass: TrackerEmojiPickerCell.self,
             height: 156,
-            contentViewBackgroundColor: .ypWhite,
-            separatorInset: .invisibleSeparator
+            contentViewBackgroundColor: Asset.ypWhite.color,
+            separatorInset: .invisibleSeparator,
+            selectionHandler: selectionHandler
         )
     }
 }

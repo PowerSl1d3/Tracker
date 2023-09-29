@@ -11,8 +11,8 @@ final class CategoryCreationViewController: UIViewController {
     private let categoryTextFieldTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .ypWhite
-        tableView.separatorColor = .ypGray
+        tableView.backgroundColor = Asset.ypWhite.color
+        tableView.separatorColor = Asset.ypGray.color
         tableView.allowsMultipleSelection = false
 
         return tableView
@@ -20,8 +20,8 @@ final class CategoryCreationViewController: UIViewController {
 
     private let doneButton: UIButton = {
         let button = StateButton(type: .system)
-        button.setTitle("Готово", for: .normal)
-        button.setTitle("Готово", for: .disabled)
+        button.setTitle(LocalizedString("categoryCreation.button.title"), for: .normal)
+        button.setTitle(LocalizedString("categoryCreation.button.title"), for: .disabled)
         button.isEnabled = false
 
         return button
@@ -38,14 +38,14 @@ final class CategoryCreationViewController: UIViewController {
         doneButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
 
         section = [
-            TrackerTitleTextFieldCellModel(title: nil, placeholder: "Введите название категории") { [weak self] cellModel, didShowError in
+            TrackerTitleTextFieldCellModel(title: nil, placeholder: LocalizedString("categoryCreation.titleTextFiels.placeholder")) { [weak self] cellModel, didShowError in
                 guard let self else { return }
 
                 categoryTitle = cellModel.title
                 doneButton.isEnabled = cellModel.title?.count ?? 0 > 0
 
                 if didShowError && section.count == 1 {
-                    section.append(TrackerErrorCellModel(errorText: "Ограничение 38 символов"))
+                    section.append(TrackerErrorCellModel(errorText: LocalizedString("categoryCreation.titleTextFiels.error")))
                     categoryTextFieldTableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
                 } else if !didShowError && section.count == 2 {
                     _ = section.popLast()
@@ -66,8 +66,8 @@ final class CategoryCreationViewController: UIViewController {
             forCellReuseIdentifier: String(describing: TrackerErrorCell.self)
         )
 
-        view.backgroundColor = .ypWhite
-        navigationItem.title = "Категория"
+        view.backgroundColor = Asset.ypWhite.color
+        navigationItem.title = LocalizedString("categoryCreation.navItem")
         navigationItem.hidesBackButton = true
 
         view.addSubview(categoryTextFieldTableView)

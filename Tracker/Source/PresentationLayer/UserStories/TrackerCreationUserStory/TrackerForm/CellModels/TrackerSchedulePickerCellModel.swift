@@ -7,20 +7,19 @@
 
 final class TrackerSchedulePickerCellModel: TrackerBaseCellModel {
     var schedule: [WeekDay]?
-    var selectionHandler: ((TrackerSchedulePickerCellModel) -> Void)?
 
     init(
         schedule: [WeekDay]? = nil,
-        selectionHandler: @escaping (TrackerSchedulePickerCellModel) -> Void
+        selectionHandler: @escaping (TrackerBaseCellModelProtocol) -> Void
     ) {
         self.schedule = schedule
-        self.selectionHandler = selectionHandler
 
         super.init(
             cellClass: TrackerSchedulePickerCell.self,
             height: 75,
-            contentViewBackgroundColor: .ypBackground,
-            separatorInset: .invisibleSeparator
+            contentViewBackgroundColor: Asset.ypBackground.color,
+            separatorInset: .invisibleSeparator,
+            selectionHandler: selectionHandler
         )
     }
 }

@@ -7,16 +7,6 @@
 
 import UIKit
 
-extension UIColor {
-    static let ypBlack = UIColor(named: "YP Black") ?? .white
-    static let ypWhite = UIColor(named: "YP White") ?? .white
-    static let ypBackground = UIColor(named: "YP Background") ?? .white
-    static let ypRed = UIColor(named: "YP Red") ?? .white
-    static let ypBlue = UIColor(named: "YP Blue") ?? .white
-    static let ypGray = UIColor(named: "YP Gray") ?? .white
-    static let ypLightGray = UIColor(named: "YP Light Gray") ?? .white
-}
-
 // MARK: - Tracker Colors
 
 extension UIColor {

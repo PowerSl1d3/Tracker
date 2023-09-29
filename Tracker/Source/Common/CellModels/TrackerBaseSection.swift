@@ -37,4 +37,12 @@ final class TrackerBaseSection {
     subscript(safe index: Int) -> TrackerBaseCellModelProtocol? {
         cellModels[safe: index]
     }
+
+    func enumerated() -> EnumeratedSequence<[TrackerBaseCellModelProtocol]> {
+        cellModels.enumerated()
+    }
+
+    func first(where predicate: (TrackerBaseCellModelProtocol) -> Bool) -> TrackerBaseCellModelProtocol? {
+        cellModels.first(where: predicate)
+    }
 }

@@ -42,7 +42,7 @@ private extension TrackerCategoryPickerViewModel {
         categories.enumerated().map { index, category in
             TrackerCategoryCellModel(
                 category: category,
-                index: index,
+                indexPath: IndexPath(row: index, section: 0),
                 isSelected: category.title == model?.selectedCategory?.title
             )
         }

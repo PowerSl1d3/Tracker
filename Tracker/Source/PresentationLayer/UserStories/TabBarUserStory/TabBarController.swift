@@ -21,7 +21,7 @@ final class TabBarController: UITabBarController {
 
 private extension TabBarController {
     func configureAppearance() {
-        tabBar.backgroundColor = .ypWhite
+        tabBar.backgroundColor = Asset.ypWhite.color
         tabBar.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         tabBar.layer.shadowOffset = CGSize(width: 0, height: -0.5)
         tabBar.layer.shadowOpacity = 1
@@ -29,9 +29,9 @@ private extension TabBarController {
     }
 
     func configureTabBarControllers() {
-        let trackersViewController = TrackersAssembly.assemble()
+        let trackersViewController = TrackerListAssembly.assemble()
         let trackersTabBarItem = UITabBarItem(
-            title: "Трекеры",
+            title: LocalizedString("tabBarItem.trackers"),
             image: UIImage(named: "trackers"),
             tag: 0
         )
@@ -40,14 +40,17 @@ private extension TabBarController {
         let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
         trackersNavigationController.navigationBar.prefersLargeTitles = true
 
-        let statisticsViewController = StatisticsViewController()
+        let statisticsViewController = StatisticsAssembly.assemble()
         let statisticsTabBarItem = UITabBarItem(
-            title: "Статистика",
+            title: LocalizedString("tabBarItem.statistics"),
             image: UIImage(named: "stats"),
             tag: 1
         )
         statisticsViewController.tabBarItem = statisticsTabBarItem
 
-        viewControllers = [trackersNavigationController, statisticsViewController]
+        let statisticsNavigationController = UINavigationController(rootViewController: statisticsViewController)
+        statisticsNavigationController.navigationBar.prefersLargeTitles = true
+
+        viewControllers = [trackersNavigationController, statisticsNavigationController]
     }
 }

@@ -14,7 +14,7 @@ final class TrackerSchedulePickerCell: TrackerBaseCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypRegularFont(ofSize: 17)
-        label.text = "Расписание"
+        label.text = LocalizedString("trackersForm.schedulePickerCell.title")
 
         return label
     }()
@@ -23,7 +23,7 @@ final class TrackerSchedulePickerCell: TrackerBaseCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypRegularFont(ofSize: 17)
-        label.textColor = .ypGray
+        label.textColor = Asset.ypGray.color
         label.isHidden = true
 
         return label

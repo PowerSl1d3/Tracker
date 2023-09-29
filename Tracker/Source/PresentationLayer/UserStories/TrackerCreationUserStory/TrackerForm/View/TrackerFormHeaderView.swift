@@ -14,7 +14,7 @@ final class TrackerFormHeaderView: UITableViewHeaderFooterView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .ypBoldFont(ofSize: 19)
-        label.textColor = .ypBlack
+        label.textColor = Asset.ypBlack.color
 
         return label
     }()
@@ -23,7 +23,7 @@ final class TrackerFormHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(titleLabel)
-        contentView.backgroundColor = .ypWhite
+        contentView.backgroundColor = Asset.ypWhite.color
 
         setupConstraints()
     }

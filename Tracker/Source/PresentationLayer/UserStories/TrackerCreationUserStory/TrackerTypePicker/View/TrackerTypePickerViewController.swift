@@ -18,8 +18,8 @@ final class TrackerTypePickerViewController: UIViewController {
     let habitButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.backgroundColor = Asset.ypBlack.color
+        button.setTitleColor(Asset.ypWhite.color, for: .normal)
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
@@ -27,7 +27,7 @@ final class TrackerTypePickerViewController: UIViewController {
             .font: UIFont.ypMediumFont(ofSize: 16)
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Привычка", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("typePicker.habit"), attributes: attributes), for: .normal)
 
         return button
     }()
@@ -35,8 +35,8 @@ final class TrackerTypePickerViewController: UIViewController {
     let eventButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.backgroundColor = Asset.ypBlack.color
+        button.setTitleColor(Asset.ypWhite.color, for: .normal)
         button.layer.cornerRadius = 16
         button.clipsToBounds = true
 
@@ -44,7 +44,7 @@ final class TrackerTypePickerViewController: UIViewController {
             .font: UIFont.ypMediumFont(ofSize: 16)
         ]
 
-        button.setAttributedTitle(NSAttributedString(string: "Нерегулярные события", attributes: attributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: LocalizedString("typePicker.event"), attributes: attributes), for: .normal)
 
         return button
     }()
@@ -55,14 +55,20 @@ final class TrackerTypePickerViewController: UIViewController {
         habitButton.addTarget(self, action: #selector(didTapCreateTrackerButton(_:)), for: .touchUpInside)
         eventButton.addTarget(self, action: #selector(didTapCreateTrackerButton(_:)), for: .touchUpInside)
 
-        view.backgroundColor = .ypWhite
-        navigationItem.title = "Создание трекера"
+        view.backgroundColor = Asset.ypWhite.color
+        navigationItem.title = LocalizedString("typePicker.navItem")
 
         containerView.addSubview(habitButton)
         containerView.addSubview(eventButton)
         view.addSubview(containerView)
 
         setupConstraints()
+    }
+}
+
+extension TrackerTypePickerViewController: TrackerFormDelegate {
+    func didTapCancelButton() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -87,7 +93,12 @@ private extension TrackerTypePickerViewController {
     }
 
     @objc func didTapCreateTrackerButton(_ sender: UIControl) {
-        let viewController = TrackerFormViewController(trackerType: sender === habitButton ? .habit : .event)
+        let configuration = TrackerFormConfiguration.create(
+            type: sender === habitButton ? .habit : .event,
+            delegate: self
+        )
+
+        let viewController = TrackerFormAssembly.assemble(with: configuration)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

@@ -13,7 +13,7 @@ final class WeekDaySwitchCell: UITableViewCell {
     let switchControl: UISwitch = {
         let switchControl = UISwitch()
         switchControl.translatesAutoresizingMaskIntoConstraints = false
-        switchControl.onTintColor = .ypBlue
+        switchControl.onTintColor = Asset.ypBlue.color
 
         return switchControl
     }()
@@ -27,7 +27,7 @@ final class WeekDaySwitchCell: UITableViewCell {
 
         switchControl.addTarget(self, action: #selector(didChangeSwitchValue(_:)), for: .valueChanged)
 
-        backgroundColor = .ypBackground
+        backgroundColor = Asset.ypBackground.color
         separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         accessoryView = switchControl
         textLabel?.font = .ypRegularFont(ofSize: 17)
