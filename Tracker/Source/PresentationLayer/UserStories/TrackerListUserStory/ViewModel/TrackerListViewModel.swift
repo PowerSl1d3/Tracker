@@ -20,7 +20,6 @@ final class TrackerListViewModel {
 
     init(for model: TrackerListModel) {
         self.model = model
-        model.output = self
         reloadVisibleCategories()
     }
 
@@ -47,7 +46,7 @@ final class TrackerListViewModel {
     }
 
     func didEnterTrackerTitleSearchField(_ title: String?) {
-        visibleCategories = model.filter(categories: visibleCategories, byTitle: title)
+        visibleCategories = model.filter(categories: model.categoriesByFilter(), byTitle: title)
     }
 
     func didTapCancelSearchButton() {

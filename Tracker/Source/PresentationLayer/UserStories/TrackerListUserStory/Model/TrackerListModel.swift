@@ -11,7 +11,27 @@ protocol TrackerListModuleOutput: AnyObject {
     func didUpdateTrackers()
 }
 
-final class TrackerListModel {
+protocol TrackerListModel {
+    var output: TrackerListModuleOutput? { get }
+    var router: TrackerListRouter { get }
+    var dataProvider: TrackersDataProvider { get }
+    var dateFormatter: TrackerDateFormatter { get }
+    var analyticsService: TrackerListAnalyticsService { get }
+
+    var currentDate: Date { get }
+    var showFilterButton: Bool { get }
+
+    func setCurrentDate(_ date: Date)
+    func filter(categories: [TrackerCategory], byTitle title: String?) -> [TrackerCategory]
+    func categoriesByFilter() -> [TrackerCategory]
+    func presentTrackerTypePicker()
+    func presentFilterPicker()
+    func pinTracker(_ tracker: Tracker)
+    func editTracker(_ tracker: Tracker)
+    func deleteTracker(_ tracker: Tracker)
+}
+
+final class TrackerListModelImpl: TrackerListModel {
 
     weak var output: TrackerListModuleOutput?
 
@@ -120,9 +140,10 @@ final class TrackerListModel {
             try? self?.dataProvider.deleteRecord(tracker)
         }
     }
+
 }
 
-extension TrackerListModel: TrackersDataProviderDelegate {
+extension TrackerListModelImpl: TrackersDataProviderDelegate {
     func didUpdate(_ update: TrackersStoreUpdate) {
         switch update.type {
         case .tracker:
@@ -134,20 +155,20 @@ extension TrackerListModel: TrackersDataProviderDelegate {
     }
 }
 
-extension TrackerListModel: TrackerFormDelegate {
+extension TrackerListModelImpl: TrackerFormDelegate {
     func didTapCancelButton() {
         router.dismissAllViewControllers()
     }
 }
 
-extension TrackerListModel: FilterPickerDelegate {
+extension TrackerListModelImpl: FilterPickerDelegate {
     func didSelectFilter(_ filter: TrackerFilter) {
         self.filter = filter
         output?.didUpdateTrackers()
     }
 }
 
-private extension TrackerListModel {
+private extension TrackerListModelImpl {
     func filter<T>(categories: [TrackerCategory], withInfo info: T, byPredicate predicate: (Tracker, T) -> Bool) -> [TrackerCategory] {
         let filteredCategories: [TrackerCategory] = categories.compactMap { category in
             let filteredTrackers = category.trackers.filter { predicate($0, info) }

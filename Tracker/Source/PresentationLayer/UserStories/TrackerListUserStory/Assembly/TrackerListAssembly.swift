@@ -15,8 +15,7 @@ final class TrackerListAssembly {
         var dataProvider = TrackersDataProviderAssembly.assemble()
         let dateFormatter = TrackerDateFormatter()
         let analyticsService = TrackerListAnalyticsServiceImpl()
-
-        let model = TrackerListModel(
+        let model = TrackerListModelImpl(
             router: router,
             dataProvider: dataProvider,
             dateFormatter: dateFormatter,
@@ -26,9 +25,12 @@ final class TrackerListAssembly {
         dataProvider.delegate = model
 
         let viewModel = TrackerListViewModel(for: model)
+
         viewModel.dataSource = TrackerListDataSource(viewModel: viewModel)
+        model.output = viewModel
 
         let viewController = TrackerListViewController()
+
         viewController.initialize(viewModel: viewModel)
         router.rootViewController = viewController
 
