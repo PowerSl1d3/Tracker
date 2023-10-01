@@ -1,0 +1,101 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Олег Аксененко on 11.09.2023.
+  
+*/
+
+// Onboard
+
+"onboard.inviteText.first" = "Track only what you want";
+"onboard.inviteText.second" = "Even if it's not liters of water and yoga";
+"onboard.inviteButton" = "These are technologies!";
+
+// TabBar
+
+"tabBarItem.trackers" = "Trackers";
+"tabBarItem.statistics" = "Statistics";
+
+// Tracker List
+
+"trackers.filter.button" = "Filters";
+"trackers.searchTextField.placeholder" = "Search";
+"trackers.cancelSearchButton.cancel" = "Cancel";
+"trackers.placeholder" = "What will we track?";
+"trackers.actions.pin" = "Pin";
+"trackers.actions.unpin" = "Unpin";
+"trackers.actions.edit" = "Edit";
+"trackers.actions.delete" = "Delete";
+"trackers.router.deleteAlert.text" = "Are you sure you want to delete the tracker?";
+"trackers.router.deleteAlert.delete" = "Delete";
+"trackers.router.deleteAlert.cancel" = "Cancel";
+"trackers.navItem" = "Trackers";
+
+// Statistics
+
+"statistics.placeholder" = "There is nothing to analyze yet";
+"statistics.navItem" = "Statistics";
+"statistics.completedTrackersCount" = "Trackers completed";
+
+// Filter Type Picker
+
+"filterPicker.navItem" = "Фильтры";
+
+// Tracker Type Picker
+
+"typePicker.habit" = "Habit";
+"typePicker.event" = "Irregular event";
+"typePicker.navItem" = "Creating a tracker";
+
+// Trackers Form
+
+"trackersForm.cancel" = "Cancel";
+"trackersForm.create" = "Create";
+"trackersForm.save" = "Save";
+"trackersForm.titleTextField.placeholder" = "Enter the name of the tracker";
+"trackersForm.titleTextField.error" = "Limit of 38 characters";
+"trackersForm.section.emoji" = "Emoji";
+"trackersForm.section.color" = "Color";
+"trackersForm.navItem.habit" = "New habit";
+"trackersForm.navItem.event" = "New irregular event";
+"trackersForm.navItem.editHabit" = "Editing habit";
+"trackersForm.navItem.editEvent" = "Editing an irregular event";
+
+// Trackers Form Cells
+
+"trackersForm.categoryPickerCell.title" = "Category";
+"trackersForm.schedulePickerCell.title" = "Schedule";
+
+// Trackers Category Creation
+
+"trackersCategoryCreation.button.title" = "Add a category";
+"trackersCategoryCreation.placeholder.title" = "Habits and events can be combined in meaning";
+"trackersCategoryCreation.navItem" = "Category";
+
+// Category Creation
+
+"categoryCreation.button.title" = "Done";
+"categoryCreation.titleTextFiels.placeholder" = "Enter the category name";
+"categoryCreation.titleTextFiels.error" = "Limit of 38 characters";
+"categoryCreation.navItem" = "Category";
+
+// Week Day Picker
+
+"weekDayPicker.button.title" = "Done";
+"weekDayPicker.navItem" = "Schedule";
+
+// Tracker Filter Formatted
+
+"filter.all" = "All trackers";
+"filter.currentDay" = "Trackers for today";
+"filter.completed" = "Completed";
+"filter.notCompleted" = "Incomplete";
+
+// Week Day Formatted
+
+"weekDayFormatter.everyDay" = "Every day";
+
+// Trackers Data Provider
+
+"dataProvider.pinned" = "Pinned";

@@ -1,0 +1,9 @@
+xcassets:
+  inputs:
+    - ../Tracker/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift5
+      params:
+        publicAccess: true
+        noAllValues: true
+      output: ../Tracker/Resources/Assets.swift
